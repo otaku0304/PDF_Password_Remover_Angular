@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./removaal-password.component.scss']
 })
 export class RemovaalPasswordComponent {
- 
+
 }
