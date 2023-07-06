@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { RemovaalPasswordComponent } from './removaal-password/removaal-password.component';
+import { PdfPasswordRemoverComponent } from './pdf-password-remover/pdf-password-remover.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RemovaalPasswordComponent
+    PdfPasswordRemoverComponent
   ],
   imports: [
     BrowserModule
