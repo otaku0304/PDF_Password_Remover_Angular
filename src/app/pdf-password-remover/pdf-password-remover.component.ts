@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Component, HostListener } from '@angular/core';
+import { SnackbarService } from '../core/service/snackbar/snackbar.service';
 @Component({
   selector: 'app-pdf-password-remover',
   templateUrl: './pdf-password-remover.component.html',
@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class PdfPasswordRemoverComponent {
   selectedFileNames: string[] = [];
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private snackBarService: SnackbarService,) {}
 
   openFileExplorer() {
     const fileInput = document.createElement('input');
@@ -32,11 +32,11 @@ export class PdfPasswordRemoverComponent {
           if (this.selectedFileNames.length < allowedFileCount) {
             this.selectedFileNames.push(file.name);
           } else {
-            this.snackBar.open('You can select a maximum of 5 PDF files.');
+            this.snackBarService.openSnackBar('You can select a maximum of 5 PDF files.', 'Ok');
             break;
           }
         } else {
-          this.snackBar.open('Please select a valid PDF file.');
+          this.snackBarService.openSnackBar('Please select a valid PDF file.', 'Ok');
         }
       }
     }
@@ -57,13 +57,24 @@ export class PdfPasswordRemoverComponent {
           if (this.selectedFileNames.length < allowedFileCount) {
             this.selectedFileNames.push(file.name);
           } else {
-            this.snackBar.open('You can select a maximum of 5 PDF files.');
+            this.snackBarService.openSnackBar('You can select a maximum of 5 PDF files.', 'Ok');
             break;
           }
         } else {
-          this.snackBar.open('Please select a valid PDF file.');
+          this.snackBarService.openSnackBar('Please select a valid PDF file.', 'Ok');
         }
       }
     }
+  }
+
+  removeSelectedFile(fileName: string): void {
+    const index = this.selectedFileNames.indexOf(fileName);
+    if (index !== -1) {
+      this.selectedFileNames.splice(index, 1);
+    }
+  }
+
+  submitFiles() {
+    this.snackBarService.openSnackBar('Submitting files...', 'Ok');
   }
 }
