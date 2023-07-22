@@ -8,13 +8,11 @@ import { Component } from '@angular/core';
 export class PdfPasswordRemoverComponent {
   selectedFileNames: string[] = [];
 
-  constructor() { }
-
   openFileExplorer() {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = '.pdf';
-    fileInput.multiple = true; // Allow multiple file selection
+    fileInput.multiple = true;
     fileInput.onchange = (event) => {
       this.onFilesSelected(event);
     };
@@ -25,12 +23,10 @@ export class PdfPasswordRemoverComponent {
     const fileInput = event.target as HTMLInputElement;
     const selectedFiles = fileInput.files;
     const allowedFileCount = 5;
-
     if (selectedFiles) {
       for (let i = 0; i < selectedFiles.length; i++) {
         const file = selectedFiles[i];
         const fileExtension = file.name.split('.').pop()?.toLowerCase();
-        // Validate if the selected file is a PDF
         if (fileExtension === 'pdf') {
           if (this.selectedFileNames.length < allowedFileCount) {
             this.selectedFileNames.push(file.name);
