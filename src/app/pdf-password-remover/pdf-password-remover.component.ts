@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-pdf-password-remover',
   templateUrl: './pdf-password-remover.component.html',
@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
 })
 export class PdfPasswordRemoverComponent {
   selectedFileNames: string[] = [];
+
+  constructor(private snackBar: MatSnackBar) {}
 
   openFileExplorer() {
     const fileInput = document.createElement('input');
@@ -24,18 +26,17 @@ export class PdfPasswordRemoverComponent {
     const selectedFiles = fileInput.files;
     const allowedFileCount = 5;
     if (selectedFiles) {
-      for (let i = 0; i < selectedFiles.length; i++) {
-        const file = selectedFiles[i];
+      for (const file of Array.from(selectedFiles)) {
         const fileExtension = file.name.split('.').pop()?.toLowerCase();
         if (fileExtension === 'pdf') {
           if (this.selectedFileNames.length < allowedFileCount) {
             this.selectedFileNames.push(file.name);
           } else {
-            alert('You can select a maximum of 5 PDF files.');
+            this.snackBar.open('You can select a maximum of 5 PDF files.');
             break;
           }
         } else {
-          alert('Please select a valid PDF file.');
+          this.snackBar.open('Please select a valid PDF file.');
         }
       }
     }
@@ -50,18 +51,17 @@ export class PdfPasswordRemoverComponent {
     const files = event.dataTransfer?.files;
     const allowedFileCount = 5;
     if (files) {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+      for (const file of Array.from(files)) {
         const fileExtension = file.name.split('.').pop()?.toLowerCase();
         if (fileExtension === 'pdf') {
           if (this.selectedFileNames.length < allowedFileCount) {
             this.selectedFileNames.push(file.name);
           } else {
-            alert('You can select a maximum of 5 PDF files.');
+            this.snackBar.open('You can select a maximum of 5 PDF files.');
             break;
           }
         } else {
-          alert('Please select a valid PDF file.');
+          this.snackBar.open('Please select a valid PDF file.');
         }
       }
     }
