@@ -66,4 +66,11 @@ export class PdfPasswordRemoverComponent {
       }
     }
   }
+
+  removeSelectedFile(fileName: string): void {
+    const index = this.selectedFileNames.indexOf(fileName);
+    if (index !== -1) {
+      this.selectedFileNames.splice(index, 1);
+    }
+  }
 }
