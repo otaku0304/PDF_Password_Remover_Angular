@@ -73,4 +73,10 @@ export class PdfPasswordRemoverComponent {
       this.selectedFileNames.splice(index, 1);
     }
   }
+
+  submitFiles() {
+    // Handle the logic to submit the selected files here
+    // For example, you can call an API to process the selected files
+    this.snackBar.open('Submitting files...');
+  }
 }
