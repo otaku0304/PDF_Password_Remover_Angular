@@ -1,14 +1,15 @@
-import { Component, HostListener } from '@angular/core';
-import { SnackbarService } from '../core/service/snackbar/snackbar.service';
+import { Component } from '@angular/core';
+import { SnackbarService } from 'src/app/core/service/snackbar/snackbar.service';
+
 @Component({
-  selector: 'app-pdf-password-remover',
-  templateUrl: './pdf-password-remover.component.html',
-  styleUrls: ['./pdf-password-remover.component.scss'],
+  selector: 'app-select-pdf-files',
+  templateUrl: './select-pdf-files.component.html',
+  styleUrls: ['./select-pdf-files.component.scss']
 })
-export class PdfPasswordRemoverComponent {
+export class SelectPdfFilesComponent {
   selectedFileNames: string[] = [];
 
-  constructor(private snackBarService: SnackbarService,) {}
+  constructor(private snackBarService: SnackbarService,) { }
 
   openFileExplorer() {
     const fileInput = document.createElement('input');
