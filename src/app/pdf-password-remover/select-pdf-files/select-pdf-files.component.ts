@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/core/service/snackbar/snackbar.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { SnackbarService } from 'src/app/core/service/snackbar/snackbar.service'
 export class SelectPdfFilesComponent {
   selectedFileNames: string[] = [];
 
-  constructor(private snackBarService: SnackbarService,) { }
+  constructor(private snackBarService: SnackbarService, private router: Router) { }
 
   openFileExplorer() {
     const fileInput = document.createElement('input');
@@ -76,6 +77,6 @@ export class SelectPdfFilesComponent {
   }
 
   submitFiles() {
-    this.snackBarService.openSnackBar('Submitting files...', 'Ok');
+    this.router.navigate(['/pdf/remove-password']);
   }
 }
