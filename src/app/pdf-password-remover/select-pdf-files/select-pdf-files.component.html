@@ -30,9 +30,9 @@
   </div>
   <div class="mt-3 text-center">
     <ul class="file-list">
-      <li *ngFor="let fileName of selectedFileNames">
+      <li *ngFor="let fileName of selectedFiles">
         <div class="file-item">
-          <span class="file-name">{{ fileName }}</span>
+          <span class="file-name">{{ fileName.name }}</span>
           <img
             src="../../assets/images/close.png"
             alt="Close"
@@ -44,7 +44,7 @@
     </ul>
     <div class="text-center">
       <button
-        *ngIf="selectedFileNames.length > 0"
+        *ngIf="selectedFiles.length > 0"
         type="button"
         class="btn btn-danger btn-lg"
         (click)="submitFiles()"
