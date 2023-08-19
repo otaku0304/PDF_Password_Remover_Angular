@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { SnackbarService } from 'src/app/core/snackbar/snackbar.service';
+import { SnackbarService } from 'src/app/core/service/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-select-pdf-files',
