@@ -12,11 +12,6 @@ export class RemovePasswordComponent {
   isHidePassword = true;
 
   unlockPDF() {
-    // Here, you need to add the logic to unlock the PDF using the entered password.
-    // You can use external libraries or tools to achieve this.
-    // For simplicity, we will assume that the password is correct and unlock the PDF.
-    // Replace the condition below with your actual password unlocking logic.
-
     if (this.password === 'your_actual_password') {
       this.unlockSuccess.emit(this.password);
     } else {
