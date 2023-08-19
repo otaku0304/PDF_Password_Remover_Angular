@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { SnackbarService } from 'src/app/core/service/snackbar/snackbar.service';
+import { SnackbarService } from './../../core/service/snackbar/snackbar.service';
+import { PdfService } from 'src/app/core/service/pdf/pdf.service';
 
 @Component({
   selector: 'app-select-pdf-files',
@@ -12,7 +13,8 @@ export class SelectPdfFilesComponent {
 
   constructor(
     private snackBarService: SnackbarService,
-    private router: Router
+    private router: Router,
+    private pdfService: PdfService
   ) {}
 
   openFileExplorer() {
@@ -107,6 +109,7 @@ export class SelectPdfFilesComponent {
         'Ok'
       );
     } else {
+      this.pdfService.setEncryptionStatus(true);
       this.router.navigate(['/pdf/remove-password']);
     }
   }
