@@ -13,10 +13,6 @@ const routes: Routes = [
       import('./feature/feature.module').then((m) => m.FeatureModule),
   },
   {
-    path: 'i18n',
-    loadChildren: () => import('./i18n/i18n.module').then((m) => m.I18nModule),
-  },
-  {
     path: 'image',
     loadChildren: () =>
       import('./image-compressor/image.module').then((m) => m.ImageModule),
