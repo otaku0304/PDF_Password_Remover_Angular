@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
 })
 export class LandingComponent {
   navigateToi18n() {
-    window.location.href = 'https://otaku0304.github.io/i18n-Angular-Built-In/';
+    window.location.href = 'https://i18n-6e819.web.app/en/#/home';
   }
 }
