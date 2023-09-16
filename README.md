@@ -1,27 +1,63 @@
-# PdfRemoval
+# PDF Password Remover
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
+This is a web-based tool for removing passwords from encrypted PDF files. It consists of two components: a frontend built with Angular and a backend built with Flask.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Remove passwords from encrypted PDF files.
+- User-friendly web interface.
+- Secure and efficient PDF password removal.
 
-## Code scaffolding
+## Demo
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+You can try out the application at [Demo Link](insert_link_here).
 
-## Build
+## Frontend (password-remover-for-pdf)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+The frontend is built using Angular.
 
-## Running unit tests
+### Installation
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Clone the repository:
+2. Install dependencies:
+3. Start the development server:
+4. Access the application at `http://localhost:4200` in your web browser.
 
-## Running end-to-end tests
+### Usage
+1. Visit the application in your web browser.
+2. Upload an encrypted PDF file.
+3. Click the "Remove Password" button.
+4. Download the PDF file without the password.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Backend (pdf-password_remover_backend)
 
-## Further help
+The backend is built using Flask.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Installation
+
+1. Clone the repository:
+2. Install dependencies:
+3. Start the Flask server:
+
+   
+### API Endpoints
+
+#### `/remove_password` - POST request to remove the password from a PDF file.
+
+This endpoint allows you to remove the password from an encrypted PDF file. To use this endpoint, follow these steps:
+
+- **HTTP Method:** POST
+
+- **Request Headers:** None required.
+
+- **Request Body:** The request body should be of type `multipart/form-data` and should include the following fields:
+
+  - `password` (string): The password required to decrypt the PDF file.
+  - `pdfFile` (file): The encrypted PDF file you want to remove the password from.
+
+  To send the request using tools like `curl` or Postman, ensure that you select the `multipart/form-data` option and include the `password` and `pdffile` keys accordingly.
+
+## Contact
+
+If you have any questions or suggestions, please feel free to [contact me]([https://linktr.ee/MR_ASK_Chay]).
+
