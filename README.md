@@ -8,10 +8,6 @@ This is a web-based tool for removing passwords from encrypted PDF files. It con
 - User-friendly web interface.
 - Secure and efficient PDF password removal.
 
-## Demo
-
-You can try out the application at [Demo Link](insert_link_here).
-
 ## Frontend (password-remover-for-pdf)
 
 The frontend is built using Angular.
@@ -31,7 +27,7 @@ The frontend is built using Angular.
 
 ## Backend (pdf-password_remover_backend)
 
-The backend is built using Flask.
+The backend is built using Flask.  https://github.com/otaku0304/pdf-password_remover_backend
 
 ### Installation
 
