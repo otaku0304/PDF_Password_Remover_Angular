@@ -55,5 +55,8 @@ This endpoint allows you to remove the password from an encrypted PDF file. To u
 
 ## Contact
 
-If you have any questions or suggestions, please feel free to [contact me]([https://linktr.ee/MR_ASK_Chay]).
+## Contact
+
+If you have any questions or suggestions, please feel free to [contact me](https://linktr.ee/MR_ASK_Chay).
+
 
