@@ -105,10 +105,11 @@ export class SelectPdfFilesComponent {
     if (unencryptedFileNames.length > 0) {
       const unencryptedFileNamesString = unencryptedFileNames.join(', ');
       this.snackBarService.openSnackBar(
-        `${unencryptedFileNamesString}  is not encrypted`,
+        `${unencryptedFileNamesString} has no password`,
         'Ok'
       );
     } else {
+      this.pdfService.setSelectedPdfFile(this.selectedFiles[0]);
       this.pdfService.setEncryptionStatus(true);
       this.router.navigate(['/pdf/remove-password']);
     }

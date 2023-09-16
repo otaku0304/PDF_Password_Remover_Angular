@@ -1,0 +1,9 @@
+.bg-container {
+  display: flex;
+  flex-direction: column;
+  background-image: url("../assets/images/pdf_background_image.jpg");
+  background-size: cover;
+  width: 100%;
+  overflow: hidden;
+  min-height: 100vh;
+}
