@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Build Angular App
-        run: ng build --configuration production --base-href "https://otaku0304.github.io/password-remover-for-pdf/"
+        run:  npm run build -- --prod
 
       - name: Deploy to GitHub Pages
         run: |
