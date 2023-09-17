@@ -34,7 +34,7 @@ The backend is built using Flask.  https://github.com/otaku0304/pdf-password_rem
 1. Clone the repository:
 2. Install dependencies:
 3. Start the Flask server:
-
+4. Access the flask application at http://127.0.0.1:5000 in your web browser.
    
 ### API Endpoints
 
@@ -52,8 +52,6 @@ This endpoint allows you to remove the password from an encrypted PDF file. To u
   - `pdfFile` (file): The encrypted PDF file you want to remove the password from.
 
   To send the request using tools like `curl` or Postman, ensure that you select the `multipart/form-data` option and include the `password` and `pdffile` keys accordingly.
-
-## Contact
 
 ## Contact
 
