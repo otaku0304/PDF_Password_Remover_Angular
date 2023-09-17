@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Build Angular App
-        run: ng build --configuration production
+        run: ng build
 
       - name: Deploy to GitHub Pages
         run: |
