@@ -3,7 +3,7 @@ name: Deploy Angular App #pipeline
 on:
   push:
     branches:
-      - main  # Adjust this branch name to your main branch
+      - master  # Adjust this branch name to your main branch
 
 jobs:
   deploy:
