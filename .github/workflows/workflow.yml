@@ -1,4 +1,4 @@
-name: Deploy Angular App
+name: Deploy Angular App #pipeline
 
 on:
   push:
