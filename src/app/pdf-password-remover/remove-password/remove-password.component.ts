@@ -22,6 +22,7 @@ export class RemovePasswordComponent {
   toggleShowPassword() {
     this.isHidePassword = !this.isHidePassword;
   }
+  
   unlockPDF() {
     this.pdfFile = this.pdfService.getSelectedPdfFile();
     this.pdfBackendService.unlockPdf(this.password, this.pdfFile).subscribe(

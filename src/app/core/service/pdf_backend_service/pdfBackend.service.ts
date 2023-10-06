@@ -5,15 +5,23 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class PdfBackendService {
+
   private apiUrl = 'http://localhost:5000';
+
   constructor(private http: HttpClient) {}
+
   unlockPdf(password: string, pdfFile: File) {
     const formData = new FormData();
     formData.append('password', password);
     formData.append('pdfFile', pdfFile);
-    const observable = this.http.post(`${this.apiUrl}/unlock-pdf`, formData, {
-      responseType: 'blob',
-    });
+    const observable = this.http.post(
+      `${this.apiUrl}/remove_password`,
+      formData,
+      {
+        responseType: 'blob',
+      }
+    );
     return observable;
   }
+
 }
