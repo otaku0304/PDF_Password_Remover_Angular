@@ -22,7 +22,7 @@ export class RemovePasswordComponent {
   toggleShowPassword() {
     this.isHidePassword = !this.isHidePassword;
   }
-  
+
   unlockPDF() {
     this.pdfFile = this.pdfService.getSelectedPdfFile();
     this.pdfBackendService.unlockPdf(this.password, this.pdfFile).subscribe(
@@ -37,7 +37,14 @@ export class RemovePasswordComponent {
         this.unlockSuccess.emit('PDF unlocked successfully');
       },
       (error) => {
-        this.error = 'An error occurred while unlocking the PDF.';
+        if (error.status === 400) {
+          this.error = 'Incorrect password. Please check and try again.';
+        } else if (error.status === 500) {
+          this.error =
+            'An error occurred on the server while unlocking the PDF.';
+        } else {
+          this.error = 'An error occurred while unlocking the PDF.';
+        }
       }
     );
   }
