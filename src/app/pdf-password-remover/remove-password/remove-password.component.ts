@@ -11,7 +11,7 @@ export class RemovePasswordComponent {
   @Output() unlockSuccess = new EventEmitter<string>();
   password: string = '';
   error: string = '';
-  isHidePassword = true;
+  isHidePassword = false;
   pdfFile: any;
   constructor(
     public pdfBackendService: PdfBackendService,
