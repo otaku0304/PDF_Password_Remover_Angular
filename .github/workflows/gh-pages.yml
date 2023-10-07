@@ -24,7 +24,7 @@ jobs:
         run: npm install
 
       - name: Build Angular app
-        run: ng build --configuration production --base-href "https://otaku0304.github.io/password-remover-for-pdf/"
+        run: npm run build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
