@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkpdf_removal=self.webpackChunkpdf_removal||[]).push([[54],{9054:(s,a,u)=>{u.r(a),u.d(a,{FeatureModule:()=>t});var r=u(9909),l=u(5879);let t=(()=>{var e;class o{}return(e=o).\u0275fac=function(n){return new(n||e)},e.\u0275mod=l.oAB({type:e}),e.\u0275inj=l.cJS({imports:[r.U]}),o})()}}]);
