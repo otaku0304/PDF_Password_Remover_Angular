@@ -4,8 +4,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DownloadComponent } from './pdf-password-remover/download/download.component';
+import { CorsInterceptor } from './core/service/pdf_backend_service/corsInterceptor';
 
 @NgModule({
   declarations: [AppComponent, DownloadComponent],
@@ -14,9 +15,15 @@ import { DownloadComponent } from './pdf-password-remover/download/download.comp
     BrowserAnimationsModule,
     MatSnackBarModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CorsInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
