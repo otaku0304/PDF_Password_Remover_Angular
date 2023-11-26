@@ -5,8 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class PdfBackendService {
-
-  private apiUrl = 'http://localhost:5000';
+  private apiUrl = 'https://pdf-password-remover.onrender.com';
 
   constructor(private http: HttpClient) {}
 
@@ -23,5 +22,4 @@ export class PdfBackendService {
     );
     return observable;
   }
-
 }
