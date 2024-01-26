@@ -2,6 +2,9 @@
 
 This is a web-based tool for removing passwords from encrypted PDF files. It consists of two components: a frontend built with Angular and a backend built with Flask.
 
+## Live Application
+https://angular-pdf-password-remover-dev.onrender.com/ you can test the application by visiting to this link.  
+
 ## Features
 
 - Remove passwords from encrypted PDF files.
