@@ -8,9 +8,10 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DownloadComponent } from './pdf-password-remover/download/download.component';
 import { CorsInterceptor } from './core/service/pdf_backend_service/corsInterceptor';
 import { CursorComponent } from './cursor/cursor.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
-  declarations: [AppComponent, DownloadComponent, CursorComponent],
+  declarations: [AppComponent, DownloadComponent, CursorComponent, FooterComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
