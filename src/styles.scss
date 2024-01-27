@@ -3,7 +3,7 @@
 
 
 .button-color {
-  background-color: #424447;
+  background-color: #252627;
   color: #fff;
 }
 
@@ -21,4 +21,15 @@ h1{
 
 h3 {
   font-size: 20px!important;
+}
+
+.smaller-image {
+  max-width: 80px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.btn {
+  margin-top: 10px;
+  font-size: 20px;
 }
