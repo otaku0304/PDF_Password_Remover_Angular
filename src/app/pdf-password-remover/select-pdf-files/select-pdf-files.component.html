@@ -11,13 +11,21 @@
     (dragover)="onDragOver($event)"
     (drop)="onDrop($event)"
   >
-    <button
-      type="button"
-      class="btn button-color btn-lg mt-5"
-      (click)="openFileExplorer()"
-    >
-      Select PDF files
-    </button>
+    <img
+      src="assets/images/pdf_icon.png"
+      alt="password-remover"
+      class="img-fluid smaller-image"
+    />
+    <div>
+      <button
+        type="button"
+        class="btn button-color btn-lg mt-3"
+        (click)="openFileExplorer()"
+      >
+        Select PDF files
+      </button>
+    </div>
+
     <input
       type="file"
       #fileInput
