@@ -1,3 +1,6 @@
 export const environment = {
-  apiUrl: 'https://pdf-password-remover-dev.onrender.com',
+  production: false,
+  development: false,
+  local: true,
+  apiUrl: 'http://localhost:8080/',
 };
