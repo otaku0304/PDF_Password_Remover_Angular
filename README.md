@@ -26,7 +26,8 @@ The frontend is built using Angular.
 1. Visit the application in your web browser.
 2. Upload an encrypted PDF file.
 3. Click the "Remove Password" button.
-4. Download the PDF file without the password.
+4. Enter the password of the pdf.
+5. Download the PDF file without the password.
 
 ## Backend (pdf-password_remover_backend)
 
