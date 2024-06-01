@@ -9,9 +9,16 @@ import { DownloadComponent } from './pdf-password-remover/download/download.comp
 import { CorsInterceptor } from './core/service/pdf_backend_service/corsInterceptor';
 import { CursorComponent } from './cursor/cursor.component';
 import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
-  declarations: [AppComponent, DownloadComponent, CursorComponent, FooterComponent],
+  declarations: [
+    AppComponent,
+    DownloadComponent,
+    CursorComponent,
+    FooterComponent,
+    HeaderComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
