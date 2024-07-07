@@ -31,7 +31,7 @@ The frontend is built using Angular.
 
 ## Backend (pdf-password_remover_backend)
 
-The backend is built using Flask.  https://github.com/otaku0304/pdf-password_remover_backend
+The backend is built using Flask.  https://github.com/otaku0304/PDF_Password_Remover_Flask
 
 ### Installation
 
