@@ -1,6 +1,16 @@
 version: 2
 updates:
-  - package-ecosystem: "npm" 
+  - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "monthly"
+    versioning-strategy: increase
+    groups:
+      angular-packages:
+        patterns:
+          - "angular/cli"
+          - "angular/forms"
+          - "angular/material"
+          - "angular-devkit/build-angular"
+          - "angular/platform-browser"
+        group-name: "angular-updates"
