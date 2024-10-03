@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "daily"
     versioning-strategy: increase
     target-branch: "dev"
     groups:
@@ -15,3 +15,4 @@ updates:
           - "angular-devkit/build-angular"
           - "angular/platform-browser"
         group-name: "angular-updates"
+
