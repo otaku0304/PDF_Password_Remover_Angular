@@ -9,9 +9,14 @@ updates:
     groups:
       angular-packages:
         patterns:
+          - "angular/animations"
+          - "angular/cdk"
           - "angular/cli"
-          - "angular/forms"
+          - "angular/compiler"
+          - "angular/compiler-cli"
+          - "angular/core"
           - "angular/material"
-          - "angular-devkit/build-angular"
           - "angular/platform-browser"
-# You can continue to add other groups here if needed
+          - "angular/platform-browser-dynamic"
+          - "angular/router"
+          - "angular-devkit/build-angular"
