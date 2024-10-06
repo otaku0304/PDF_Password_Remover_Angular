@@ -7,16 +7,19 @@ updates:
     versioning-strategy: increase
     target-branch: "dev"
     groups:
-      angular-packages:
+      angular:
         patterns:
-          - "angular/animations"
-          - "angular/cdk"
-          - "angular/cli"
-          - "angular/compiler"
-          - "angular/compiler-cli"
-          - "angular/core"
-          - "angular/material"
-          - "angular/platform-browser"
-          - "angular/platform-browser-dynamic"
-          - "angular/router"
-          - "angular-devkit/build-angular"
+          - "@angular*"
+        update-types:
+          - "minor"
+          - "patch"
+      minor-and-patch:
+        patterns:
+          - "@angular*"
+        update-types:
+          - "patch"
+          - "minor"
+    ignore:
+      - dependency-name: "@angular*"
+        update-types:
+          - "version-update:semver-major"
