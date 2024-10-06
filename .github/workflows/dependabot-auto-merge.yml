@@ -57,7 +57,7 @@ jobs:
           PR_TITLE="${{ env.PR_TITLE }}"
 
           # Extract package name (second word from title)
-          package_name=$(echo "$PR_TITLE" | awk '{print $2}')
+          package_name=$(echo "$PR_TITLE" | awk '{print $3}')
 
           # Extract package manager if it exists, otherwise use a default (npm_and_yarn)
           package_manager=$(echo "$PR_TITLE" | grep -oP '(?<=package-manager: )\S+' || echo "npm_and_yarn")
