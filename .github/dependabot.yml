@@ -13,12 +13,6 @@ updates:
         update-types:
           - "minor"
           - "patch"
-      minor-and-patch:
-        patterns:
-          - "@angular*"
-        update-types:
-          - "patch"
-          - "minor"
     ignore:
       - dependency-name: "@angular*"
         update-types:
