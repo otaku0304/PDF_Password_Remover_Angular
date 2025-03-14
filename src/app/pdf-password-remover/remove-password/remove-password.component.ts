@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { PdfService } from 'src/app/core/service/pdf/pdf.service';
 import { PdfBackendService } from 'src/app/core/service/pdf_backend_service/pdfBackend.service';
 @Component({
-  selector: 'app-remove-password',
-  templateUrl: './remove-password.component.html',
-  styleUrls: ['./remove-password.component.scss'],
+    selector: 'app-remove-password',
+    templateUrl: './remove-password.component.html',
+    styleUrls: ['./remove-password.component.scss'],
+    standalone: false
 })
 export class RemovePasswordComponent {
   @Output() unlockSuccess = new EventEmitter<string>();
