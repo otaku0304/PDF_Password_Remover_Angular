@@ -18,8 +18,8 @@ export class RemovePasswordComponent {
   pdfFile: any;
   constructor(
     public pdfBackendService: PdfBackendService,
-    private pdfService: PdfService,
-    private router: Router,
+    private readonly pdfService: PdfService,
+    private readonly router: Router,
     public loaderService: LoaderService,
   ) { }
 
@@ -31,8 +31,8 @@ export class RemovePasswordComponent {
     this.error = '';
     this.loaderService.show();
     this.pdfFile = this.pdfService.getSelectedPdfFile();
-    this.pdfBackendService.unlockPdf(this.password, this.pdfFile).subscribe(
-      (response: Blob) => {
+    this.pdfBackendService.unlockPdf(this.password, this.pdfFile).subscribe({
+      next: (response: Blob) => {
         this.loaderService.hide();
         this.router.navigate(['/pdf/download']);
         const blob = new Blob([response], { type: 'application/pdf' });
@@ -43,7 +43,7 @@ export class RemovePasswordComponent {
         a.click();
         this.unlockSuccess.emit('PDF unlocked successfully');
       },
-      (error) => {
+      error: (error) => {
         this.loaderService.hide();
         if (error.status === 400) {
           this.error = 'Incorrect password. Please check and try again.';
@@ -54,7 +54,7 @@ export class RemovePasswordComponent {
           this.error = 'An error occurred while unlocking the PDF.';
         }
       }
-    );
+    });
   }
 
 }
