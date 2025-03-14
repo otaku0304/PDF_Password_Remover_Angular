@@ -14,18 +14,18 @@ jobs:
   auto-merge:
     runs-on: ubuntu-latest
     steps:
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y jq
+
       - name: Check for existing open PRs
         id: check_open_prs
         run: |
           pr_count=$(curl -s "https://api.github.com/repos/${{ github.repository }}/pulls?state=open&base=dev" | jq '. | length')
-          echo "Open PR count targeting dev branch: $pr_count"
-          echo "pr_count=$pr_count" >> "$GITHUB_OUTPUT"
+          echo "pr_count=$pr_count" >> "$GITHUB_ENV"
 
       - name: Exit if no open PRs
-        if: steps.check_open_prs.outputs.pr_count == '0'
-        run: |
-          echo "No open PRs targeting dev branch. Exiting workflow."
-          exit 0
+        if: env.pr_count == '0'
+        run: exit 0
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -33,11 +33,9 @@ jobs:
       - name: Check if PR is created by Dependabot and targets dev branch
         id: check_dependabot
         run: |
-          if [[ "${{ env.PR_USER }}" == "dependabot[bot]" ]] && [[ "${{ github.event.pull_request.base.ref }}" == "dev" ]]; then
-            echo "This PR is created by Dependabot and targets the dev branch."
+          if [[ "${{ github.actor }}" == "dependabot[bot]" && "${{ github.event.pull_request.base.ref }}" == "dev" ]]; then
             echo "is_dependabot=true" >> $GITHUB_ENV
           else
-            echo "This PR is not created by Dependabot or does not target the dev branch."
             echo "is_dependabot=false" >> $GITHUB_ENV
           fi
 
@@ -45,73 +43,32 @@ jobs:
         id: get_pr_details
         run: |
           pr_url="https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}"
-
-          # Extract title from PR details
           pr_title=$(curl -s "$pr_url" | jq -r '.title')
-          echo "Pull request title: $pr_title"
-          echo "PR_TITLE=$pr_title" >> $GITHUB_ENV  # Save PR title to environment variable
+          echo "PR_TITLE=$pr_title" >> $GITHUB_ENV
 
-      - name: Extract package name, package manager, previous version, and new version from PR title
+      - name: Extract package details
         id: extract_details
         run: |
-          # Load PR title from environment
           PR_TITLE="${{ env.PR_TITLE }}"
-
-          # Extract package name (second word from title)
-          package_name=$(echo "$PR_TITLE" | awk '{print $3}')
-
-          # Extract package manager if it exists, otherwise use a default (npm_and_yarn)
-          package_manager=$(echo "$PR_TITLE" | grep -oP '(?<=package-manager: )\S+' || echo "npm_and_yarn")
-
-          # Extract previous and new versions from the title
-          previous_version=$(echo "$PR_TITLE" | grep -oP '\d+\.\d+\.\d+' | head -n 1)
-          new_version=$(echo "$PR_TITLE" | grep -oP '\d+\.\d+\.\d+' | tail -n 1)
-
-          echo "Extracted parameters:"
-          echo "Package Name: $package_name"
-          echo "Package Manager: $package_manager"
-          echo "Previous Version: $previous_version"
-          echo "New Version: $new_version"
-
-          # Set extracted values as output variables
+          package_name=$(echo "$PR_TITLE" | sed -E 's/Bump ([^ ]+) from.*/\1/')
+          previous_version=$(echo "$PR_TITLE" | grep -oP '(?<=from )\d+\.\d+\.\d+')
+          new_version=$(echo "$PR_TITLE" | grep -oP '(?<=to )\d+\.\d+\.\d+')
           echo "PACKAGE_NAME=$package_name" >> $GITHUB_ENV
-          echo "PACKAGE_MANAGER=$package_manager" >> $GITHUB_ENV
           echo "PREVIOUS_VERSION=$previous_version" >> $GITHUB_ENV
           echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
 
-      - name: Generate compatibility score URL and request the score
+      - name: Fetch compatibility score
         id: request_compatibility_score
         run: |
-          # Generate the URL using extracted values
-          compatibility_url="https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=${{ env.PACKAGE_NAME }}&package-manager=${{ env.PACKAGE_MANAGER }}&previous-version=${{ env.PREVIOUS_VERSION }}&new-version=${{ env.NEW_VERSION }}"
-          
-          echo "Generated URL: $compatibility_url"
-
-          # Fetch the SVG response
-          svg_response=$(curl -s "$compatibility_url")
-          echo "SVG Response: $svg_response"
-
-          # Extract the percentage from the <title> tag in the SVG response
-          compatibility_score=$(echo "$svg_response" | grep -oP '(?<=<title>compatibility: )\d+(?=%</title>)')
-
-          # If the compatibility score is not found, set a default or handle error
-          if [[ -z "$compatibility_score" ]]; then
-            echo "Unable to extract compatibility score. Defaulting to 0."
-            compatibility_score=0
-          fi
-
-          echo "Extracted Compatibility Score: $compatibility_score"
-
-          # Save the score to environment
+          compatibility_url="https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=${{ env.PACKAGE_NAME }}&package-manager=npm_and_yarn&previous-version=${{ env.PREVIOUS_VERSION }}&new-version=${{ env.NEW_VERSION }}"
+          compatibility_score=$(curl -s "$compatibility_url" | grep -oP '(?<=<title>compatibility: )\d+(?=%</title>)' || echo "0")
           echo "COMPATIBILITY_SCORE=$compatibility_score" >> $GITHUB_ENV
 
-      - name: Check compatibility score and auto-merge
+      - name: Auto-merge if compatibility score is 100%
+        if: env.COMPATIBILITY_SCORE == '100'
         run: |
-          if [[ "$COMPATIBILITY_SCORE" == "100" ]]; then
-            echo "Compatibility score is 100%, auto-merging..."
-            gh pr merge ${{ github.event.pull_request.number }} --auto --squash --delete-branch
-          else
-            echo "Compatibility score is not 100%, skipping auto-merge."
-          fi
+          echo "Merging PR..."
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+          gh pr merge ${{ github.event.pull_request.number }} --auto --squash --delete-branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
