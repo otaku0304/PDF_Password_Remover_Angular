@@ -4,9 +4,10 @@ import { SnackbarService } from './../../core/service/snackbar/snackbar.service'
 import { PdfService } from 'src/app/core/service/pdf/pdf.service';
 
 @Component({
-  selector: 'app-select-pdf-files',
-  templateUrl: './select-pdf-files.component.html',
-  styleUrls: ['./select-pdf-files.component.scss'],
+    selector: 'app-select-pdf-files',
+    templateUrl: './select-pdf-files.component.html',
+    styleUrls: ['./select-pdf-files.component.scss'],
+    standalone: false
 })
 export class SelectPdfFilesComponent {
   selectedFiles: File[] = [];
