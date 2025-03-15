@@ -99,8 +99,7 @@
             "development": {
               "buildTarget": "pdf-removal:build:development"
             }
-          },
-          "defaultConfiguration": "local"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
