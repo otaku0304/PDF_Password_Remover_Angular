@@ -93,11 +93,11 @@
             "local": {
               "buildTarget": "pdf-removal:build:local"
             },
-            "production": {
-              "buildTarget": "pdf-removal:build:production"
-            },
             "development": {
               "buildTarget": "pdf-removal:build:development"
+            },
+            "production": {
+              "buildTarget": "pdf-removal:build:production"
             }
           }
         },
