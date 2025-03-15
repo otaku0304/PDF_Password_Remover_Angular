@@ -40,6 +40,18 @@
             "browser": "src/main.ts"
           },
           "configurations": {
+            "local": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.dev.ts",
+                  "with": "src/environments/environment.ts"
+                }
+              ]
+            },
             "production": {
               "budgets": [
                 {
@@ -72,21 +84,9 @@
                   "with": "src/environments/environment.dev.ts"
                 }
               ]
-            },
-            "local": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.dev.ts",
-                  "with": "src/environments/environment.ts"
-                }
-              ]
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "local"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
