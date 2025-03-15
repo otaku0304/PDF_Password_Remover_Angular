@@ -40,18 +40,6 @@
             "browser": "src/main.ts"
           },
           "configurations": {
-            "local": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.dev.ts",
-                  "with": "src/environments/environment.ts"
-                }
-              ]
-            },
             "production": {
               "budgets": [
                 {
@@ -84,8 +72,21 @@
                   "with": "src/environments/environment.dev.ts"
                 }
               ]
+            },
+            "local": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.dev.ts",
+                  "with": "src/environments/environment.ts"
+                }
+              ]
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -93,13 +94,14 @@
             "local": {
               "buildTarget": "pdf-removal:build:local"
             },
-            "development": {
-              "buildTarget": "pdf-removal:build:development"
-            },
             "production": {
               "buildTarget": "pdf-removal:build:production"
+            },
+            "development": {
+              "buildTarget": "pdf-removal:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "local"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
