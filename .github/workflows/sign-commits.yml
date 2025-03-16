@@ -1,0 +1,28 @@
+name: Auto-Signed Commits
+
+on:
+  push:
+    branches:
+        - '**'  # Runs on every branch
+
+jobs:
+  sign-commit:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history
+
+      - name: Set up Git User
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and Sign Changes
+        env:
+          GH_TOKEN: ${{ secrets.VERIFIED_COMMIT_TOKEN }}
+        run: |
+          git commit --allow-empty -m "Automated Signed Commit"
+          git push origin main
