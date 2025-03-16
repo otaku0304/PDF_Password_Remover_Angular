@@ -1,15 +1,22 @@
 # Security Policy
 
 ## Supported Versions
+The following versions (or compatible versions) are currently used and supported with security updates:
 
-versions are currently being supported with security updates.
+| Component  | Version Used | Supported |
+|------------|-------------|-----------|
+| **Node.js** | 22.12.0       | ✅ |
+| **npm**     | 11.0 .0       | ✅ |
+| **Angular** | 19.2.3        | ✅ |
 
-| Version             | Supported          |
-| --------------------| ------------------ |
-| Node Js 22.2.0      | :white_check_mark: |
-| Npm  10.7.0         | :white_check_mark: |
-| Angular 18.0.1      | :white_check_mark: |
+> **Note:** The application is designed to work with these versions or later minor updates. Compatibility with older versions is not guaranteed.
 
 ## Reporting a Vulnerability
+To report a security vulnerability, please contact **Sai Annam** via **[https://linktr.ee/MR_ASK_Chay]**.
 
-You can report a vulnerability by contacting Sai Annam
+### When reporting a vulnerability, please include:
+- A clear description of the issue  
+- Steps to reproduce (if applicable)  
+- Potential impact  
+
+We will assess and address reported vulnerabilities promptly.
