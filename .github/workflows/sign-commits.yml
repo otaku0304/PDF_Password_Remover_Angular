@@ -25,13 +25,14 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Authenticate GitHub CLI
+        run: |
+          echo "${{ secrets.VERIFIED_COMMIT_TOKEN }}" | gh auth login --with-token
         env:
           GH_TOKEN: ${{ secrets.VERIFIED_COMMIT_TOKEN }}
-        run: gh auth login --with-token <<< "$GH_TOKEN"
 
       - name: Commit and Push Changes
-        env:
-          GH_TOKEN: ${{ secrets.VERIFIED_COMMIT_TOKEN }}
         run: |
           git commit --allow-empty -m "Automated Signed Commit"
           git push https://x-access-token:${{ secrets.VERIFIED_COMMIT_TOKEN }}@github.com/otaku0304/PDF_Password_Remover_Angular.git HEAD:$BRANCH_NAME
+        env:
+          GH_TOKEN: ${{ secrets.VERIFIED_COMMIT_TOKEN }}
