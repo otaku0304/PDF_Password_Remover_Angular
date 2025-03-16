@@ -1,19 +1,23 @@
 name: Auto-Signed Commits
 
 on:
-  push:
+  push:  
     branches:
-        - '**'  # Runs on every branch
+      - '**'  # Runs on all branches
 
 jobs:
   sign-commit:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Fetch full history
+
+      - name: Get Current Branch
+        id: get_branch
+        run: echo "BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
 
       - name: Set up Git User
         run: |
@@ -25,4 +29,4 @@ jobs:
           GH_TOKEN: ${{ secrets.VERIFIED_COMMIT_TOKEN }}
         run: |
           git commit --allow-empty -m "Automated Signed Commit"
-          git push origin main
+          git push origin $BRANCH_NAME  # Push to the detected branch
