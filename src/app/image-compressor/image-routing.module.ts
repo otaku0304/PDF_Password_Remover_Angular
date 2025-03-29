@@ -6,6 +6,10 @@ export const routes: Routes = [
   {
     path: 'select-image',
     component: SelectImageComponent,
+    data: {
+      title: 'Select Images',
+      description: 'Upload and select Images to compress.',
+    },
   },
 ];
 @NgModule({
