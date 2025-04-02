@@ -30,7 +30,8 @@
               "src/favicon.png",
               "src/assets",
               "src/web.config",
-              "src/googlef71993b736a91d1d.html"
+              "src/googlef71993b736a91d1d.html",
+              "src/assets/sitemap.xml"
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
