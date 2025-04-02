@@ -29,7 +29,8 @@
             "assets": [
               "src/favicon.png",
               "src/assets",
-              "src/web.config"
+              "src/web.config",
+              "src/assets/googlef71993b736a91d1d.html"
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
