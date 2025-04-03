@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SnackbarService } from './../../core/service/snackbar/snackbar.service';
-import { PdfService } from 'src/app/core/service/pdf/pdf.service';
+import { PdfService } from '../../core/service/pdf/pdf.service';
 
 @Component({
-    selector: 'app-select-pdf-files',
-    templateUrl: './select-pdf-files.component.html',
-    styleUrls: ['./select-pdf-files.component.scss'],
-    standalone: false
+  selector: 'app-select-pdf-files',
+  templateUrl: './select-pdf-files.component.html',
+  styleUrls: ['./select-pdf-files.component.scss'],
+  standalone: false,
 })
 export class SelectPdfFilesComponent {
   selectedFiles: File[] = [];
 
   constructor(
-    private snackBarService: SnackbarService,
-    private router: Router,
-    private pdfService: PdfService
+    private readonly snackBarService: SnackbarService,
+    private readonly router: Router,
+    private readonly pdfService: PdfService
   ) {}
 
   openFileExplorer() {

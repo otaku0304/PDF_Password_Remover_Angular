@@ -1,7 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700;900&display=swap");
-
-
-
 .button-color {
   background-color: #252627;
   color: #fff;
@@ -11,16 +7,22 @@
   color: rgb(255, 255, 255);
 }
 
-h1,h2,h3,h4,p,footer,.btn{
-   font-family: 'Titillium Web', sans-serif!important;
+h1,
+h2,
+h3,
+h4,
+p,
+footer,
+.btn {
+  font-family: "Titillium Web", sans-serif !important;
 }
 
-h1{
-  font-size: 46px!important;
+h1 {
+  font-size: 46px !important;
 }
 
 h3 {
-  font-size: 20px!important;
+  font-size: 20px !important;
 }
 
 .smaller-image {
