@@ -13,7 +13,10 @@ import { PdfService } from '../../service/pdf/pdf.service';
   providedIn: 'root',
 })
 export class RemovePasswordGuard implements CanActivate {
-  constructor(private pdfService: PdfService, private router: Router) {}
+  constructor(
+    private readonly pdfService: PdfService,
+    private readonly router: Router
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
