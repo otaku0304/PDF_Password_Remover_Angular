@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
+import { AppConfig } from './core/config/app.config';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class AppComponent implements OnInit {
+  private readonly siteUrl = AppConfig.getSiteURL();
   constructor(
     private readonly meta: Meta,
     private readonly title: Title,
@@ -30,12 +32,15 @@ export class AppComponent implements OnInit {
         })
       )
       .subscribe((routeData) => {
+        const currentUrl = `${this.siteUrl}${this.router.url}`;
         if (routeData) {
           this.title.setTitle(routeData['title'] || 'Default Title');
           this.meta.updateTag({
             name: 'description',
             content: routeData['description'] || 'Default Description',
           });
+          this.meta.updateTag({ name: 'canonical', content: currentUrl });
+          this.meta.updateTag({ property: 'og:url', content: currentUrl });
         }
       });
   }
