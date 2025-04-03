@@ -6,7 +6,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class PdfService {
   private selectedPdfFile: File | undefined;
-  private encryptionStatusSubject = new BehaviorSubject<boolean>(false);
+  private readonly encryptionStatusSubject = new BehaviorSubject<boolean>(
+    false
+  );
 
   getEncryptionStatusObservable() {
     return this.encryptionStatusSubject.asObservable();

@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { PdfService } from 'src/app/core/service/pdf/pdf.service';
-import { PdfBackendService } from 'src/app/core/service/pdf_backend_service/pdfBackend.service';
+import { PdfService } from '../../core/service/pdf/pdf.service';
+import { PdfBackendService } from '../../core/service/pdf_backend_service/pdfBackend.service';
+
 @Component({
-    selector: 'app-remove-password',
-    templateUrl: './remove-password.component.html',
-    styleUrls: ['./remove-password.component.scss'],
-    standalone: false
+  selector: 'app-remove-password',
+  templateUrl: './remove-password.component.html',
+  styleUrls: [],
+  standalone: false,
 })
 export class RemovePasswordComponent {
   @Output() unlockSuccess = new EventEmitter<string>();
@@ -16,8 +17,8 @@ export class RemovePasswordComponent {
   pdfFile: any;
   constructor(
     public pdfBackendService: PdfBackendService,
-    private pdfService: PdfService,
-    private router: Router
+    private readonly pdfService: PdfService,
+    private readonly router: Router
   ) {}
 
   toggleShowPassword() {

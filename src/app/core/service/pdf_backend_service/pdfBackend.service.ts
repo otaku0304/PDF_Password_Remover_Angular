@@ -6,9 +6,9 @@ import { AppConfig } from '../../config/app.config';
   providedIn: 'root',
 })
 export class PdfBackendService {
-  private api = AppConfig.getAPIURI();
+  private readonly api = AppConfig.getAPIURI();
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   unlockPdf(password: string, pdfFile: File) {
     const formData = new FormData();
