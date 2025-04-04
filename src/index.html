@@ -6,25 +6,45 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.png" />
-   
+
+    <!-- Preconnect for fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+    <!-- Preload font styles -->
     <link
       rel="preload"
       as="style"
       href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700;900&display=swap"
     />
 
+    <!-- Load fonts non-blocking -->
     <link
       href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700;900&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700;900&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
+    <!-- Material Icons non-blocking -->
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <meta
       name="google-site-verification"
