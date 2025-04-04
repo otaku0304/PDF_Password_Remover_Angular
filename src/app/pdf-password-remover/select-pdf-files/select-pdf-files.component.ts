@@ -10,6 +10,8 @@ import { PdfService } from '../../core/service/pdf/pdf.service';
   standalone: false,
 })
 export class SelectPdfFilesComponent {
+  selectedFiles: File[] = [];
+
   constructor(
     private readonly snackBarService: SnackbarService,
     private readonly router: Router,
@@ -21,51 +23,14 @@ export class SelectPdfFilesComponent {
     fileInput.type = 'file';
     fileInput.accept = '.pdf';
     fileInput.multiple = true;
-    fileInput.onchange = (event) => {
-      this.onFilesSelected(event);
-    };
+    fileInput.onchange = (event) => this.onFilesSelected(event);
     fileInput.click();
   }
 
-  selectedFiles: File[] = [];
-
   onFilesSelected(event: Event) {
     const fileInput = event.target as HTMLInputElement;
-    const selectedFiles = fileInput.files;
-    const allowedFileCount = 5;
-    let invalidFileSelected = false;
-
-    if (selectedFiles) {
-      for (const file of Array.from(selectedFiles)) {
-        const fileExtension = file.name
-          .slice(file.name.lastIndexOf('.') + 1)
-          .toLowerCase();
-
-        if (fileExtension !== 'pdf') {
-          invalidFileSelected = true;
-          continue;
-        }
-
-        if (this.selectedFiles.length >= allowedFileCount) {
-          this.snackBarService.openSnackBar(
-            'You can select a maximum of 5 PDF files.',
-            'Ok'
-          );
-          break;
-        }
-
-        if (!this.selectedFiles.some((f) => f.name === file.name)) {
-          this.selectedFiles.push(file);
-        }
-      }
-
-      if (invalidFileSelected) {
-        this.snackBarService.openSnackBar(
-          'Please select a valid PDF file.',
-          'Ok'
-        );
-      }
-    }
+    const files = fileInput.files;
+    if (files) this.handleFileSelection(Array.from(files));
   }
 
   onDragOver(event: DragEvent) {
@@ -75,39 +40,39 @@ export class SelectPdfFilesComponent {
   onDrop(event: DragEvent) {
     event.preventDefault();
     const files = event.dataTransfer?.files;
+    if (files) this.handleFileSelection(Array.from(files));
+  }
+
+  private handleFileSelection(files: File[]) {
     const allowedFileCount = 5;
     let invalidFileSelected = false;
 
-    if (files) {
-      for (const file of Array.from(files)) {
-        const fileExtension = file.name
-          .slice(file.name.lastIndexOf('.') + 1)
-          .toLowerCase();
+    for (const file of files) {
+      const fileExtension = file.name.split('.').pop()?.toLowerCase();
 
-        if (fileExtension !== 'pdf') {
-          invalidFileSelected = true;
-          continue;
-        }
-
-        if (this.selectedFiles.length >= allowedFileCount) {
-          this.snackBarService.openSnackBar(
-            'You can select a maximum of 5 PDF files.',
-            'Ok'
-          );
-          break;
-        }
-
-        if (!this.selectedFiles.some((f) => f.name === file.name)) {
-          this.selectedFiles.push(file);
-        }
+      if (fileExtension !== 'pdf') {
+        invalidFileSelected = true;
+        continue;
       }
 
-      if (invalidFileSelected) {
+      if (this.selectedFiles.length >= allowedFileCount) {
         this.snackBarService.openSnackBar(
-          'Please select a valid PDF file.',
+          'You can select a maximum of 5 PDF files.',
           'Ok'
         );
+        break;
       }
+
+      if (!this.selectedFiles.some((f) => f.name === file.name)) {
+        this.selectedFiles.push(file);
+      }
+    }
+
+    if (invalidFileSelected) {
+      this.snackBarService.openSnackBar(
+        'Please select a valid PDF file.',
+        'Ok'
+      );
     }
   }
 
@@ -117,17 +82,15 @@ export class SelectPdfFilesComponent {
 
   async submitFiles() {
     const unencryptedFileNames: string[] = [];
+
     for (const file of this.selectedFiles) {
       const encrypted = await this.checkEncryptionStatus(file);
-      if (encrypted) {
-      } else {
-        unencryptedFileNames.push(file.name);
-      }
+      if (!encrypted) unencryptedFileNames.push(file.name);
     }
+
     if (unencryptedFileNames.length > 0) {
-      const unencryptedFileNamesString = unencryptedFileNames.join(', ');
       this.snackBarService.openSnackBar(
-        `${unencryptedFileNamesString} has no password`,
+        `${unencryptedFileNames.join(', ')} has no password`,
         'Ok'
       );
     } else {
@@ -142,11 +105,7 @@ export class SelectPdfFilesComponent {
       const reader = new FileReader();
       reader.onload = (event) => {
         const content = event.target?.result as string;
-        if (content?.indexOf('/Encrypt') !== -1) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
+        resolve(content?.includes('/Encrypt') ?? false);
       };
       reader.readAsText(file);
     });
