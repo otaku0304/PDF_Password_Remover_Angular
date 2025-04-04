@@ -2,12 +2,24 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { PdfService } from '../../core/service/pdf/pdf.service';
 import { PdfBackendService } from '../../core/service/pdf_backend_service/pdfBackend.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-remove-password',
   templateUrl: './remove-password.component.html',
   styleUrls: [],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
 export class RemovePasswordComponent {
   @Output() unlockSuccess = new EventEmitter<string>();
