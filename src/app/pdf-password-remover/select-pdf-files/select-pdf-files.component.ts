@@ -10,8 +10,6 @@ import { PdfService } from '../../core/service/pdf/pdf.service';
   standalone: false,
 })
 export class SelectPdfFilesComponent {
-  selectedFiles: File[] = [];
-
   constructor(
     private readonly snackBarService: SnackbarService,
     private readonly router: Router,
@@ -29,34 +27,48 @@ export class SelectPdfFilesComponent {
     fileInput.click();
   }
 
+  selectedFiles: File[] = [];
+
   onFilesSelected(event: Event) {
     const fileInput = event.target as HTMLInputElement;
     const selectedFiles = fileInput.files;
     const allowedFileCount = 5;
+    let invalidFileSelected = false;
+
     if (selectedFiles) {
       for (const file of Array.from(selectedFiles)) {
-        const fileExtension = file.name.split('.').pop()?.toLowerCase();
-        if (fileExtension === 'pdf') {
-          if (this.selectedFiles.length < allowedFileCount) {
-            this.selectedFiles.push(file);
-          } else {
-            this.snackBarService.openSnackBar(
-              'You can select a maximum of 5 PDF files.',
-              'Ok'
-            );
-            break;
-          }
-        } else {
+        const fileExtension = file.name
+          .slice(file.name.lastIndexOf('.') + 1)
+          .toLowerCase();
+
+        if (fileExtension !== 'pdf') {
+          invalidFileSelected = true;
+          continue;
+        }
+
+        if (this.selectedFiles.length >= allowedFileCount) {
           this.snackBarService.openSnackBar(
-            'Please select a valid PDF file.',
+            'You can select a maximum of 5 PDF files.',
             'Ok'
           );
+          break;
         }
+
+        if (!this.selectedFiles.some((f) => f.name === file.name)) {
+          this.selectedFiles.push(file);
+        }
+      }
+
+      if (invalidFileSelected) {
+        this.snackBarService.openSnackBar(
+          'Please select a valid PDF file.',
+          'Ok'
+        );
       }
     }
   }
 
-  onDragOver(event: Event) {
+  onDragOver(event: DragEvent) {
     event.preventDefault();
   }
 
@@ -64,34 +76,43 @@ export class SelectPdfFilesComponent {
     event.preventDefault();
     const files = event.dataTransfer?.files;
     const allowedFileCount = 5;
+    let invalidFileSelected = false;
+
     if (files) {
       for (const file of Array.from(files)) {
-        const fileExtension = file.name.split('.').pop()?.toLowerCase();
-        if (fileExtension === 'pdf') {
-          if (this.selectedFiles.length < allowedFileCount) {
-            this.selectedFiles.push(file);
-          } else {
-            this.snackBarService.openSnackBar(
-              'You can select a maximum of 5 PDF files.',
-              'Ok'
-            );
-            break;
-          }
-        } else {
+        const fileExtension = file.name
+          .slice(file.name.lastIndexOf('.') + 1)
+          .toLowerCase();
+
+        if (fileExtension !== 'pdf') {
+          invalidFileSelected = true;
+          continue;
+        }
+
+        if (this.selectedFiles.length >= allowedFileCount) {
           this.snackBarService.openSnackBar(
-            'Please select a valid PDF file.',
+            'You can select a maximum of 5 PDF files.',
             'Ok'
           );
+          break;
         }
+
+        if (!this.selectedFiles.some((f) => f.name === file.name)) {
+          this.selectedFiles.push(file);
+        }
+      }
+
+      if (invalidFileSelected) {
+        this.snackBarService.openSnackBar(
+          'Please select a valid PDF file.',
+          'Ok'
+        );
       }
     }
   }
 
   removeSelectedFile(file: File): void {
-    const index = this.selectedFiles.indexOf(file);
-    if (index !== -1) {
-      this.selectedFiles.splice(index, 1);
-    }
+    this.selectedFiles = this.selectedFiles.filter((f) => f !== file);
   }
 
   async submitFiles() {
