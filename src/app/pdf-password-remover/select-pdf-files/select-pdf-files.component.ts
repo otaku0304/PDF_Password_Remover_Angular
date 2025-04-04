@@ -2,12 +2,15 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SnackbarService } from './../../core/service/snackbar/snackbar.service';
 import { PdfService } from '../../core/service/pdf/pdf.service';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-select-pdf-files',
   templateUrl: './select-pdf-files.component.html',
   styleUrls: ['./select-pdf-files.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, MatButtonModule],
 })
 export class SelectPdfFilesComponent {
   selectedFiles: File[] = [];

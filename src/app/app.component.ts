@@ -1,14 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterOutlet,
+} from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { AppConfig } from './core/config/app.config';
+import { HeaderComponent } from './header/header.component';
+import { CursorComponent } from './cursor/cursor.component';
+import { FooterComponent } from './footer/footer.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [RouterOutlet, HeaderComponent, CursorComponent, FooterComponent],
 })
 export class AppComponent implements OnInit {
   private readonly siteUrl = AppConfig.getSiteURL();
