@@ -3,6 +3,6 @@ export const environment = {
   development: false,
   local: true,
   apiUrl: 'http://127.0.0.1:5000/',
-  navigateToi18n:'https://internationalization-d2aa6.web.app/en/#/home',
+  navigateToi18n:'http://localhost:4300/',
   siteUrl:'https://angular-pdf-pr-master.onrender.com'
 };
