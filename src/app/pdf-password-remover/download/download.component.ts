@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
     selector: 'app-download',
     templateUrl: './download.component.html',
     styleUrls: [],
-    standalone: false
+    standalone: true,
+    imports: [],
 })
 export class DownloadComponent {}

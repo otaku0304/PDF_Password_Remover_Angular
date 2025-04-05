@@ -4,7 +4,7 @@ import { Component, ElementRef, HostListener, Renderer2 } from '@angular/core';
   selector: 'app-cursor',
   templateUrl: './cursor.component.html',
   styleUrls: ['./cursor.component.scss'],
-  standalone: false,
+  standalone: true,
 })
 export class CursorComponent {
   private readonly colors = [
