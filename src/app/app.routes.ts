@@ -24,6 +24,17 @@ export const routes: Routes = [
     },
   },
   {
+    path: 'pdf/download',
+    loadComponent: () =>
+      import(
+        './pdf-password-remover/download/download.component'
+      ).then((m) => m.DownloadComponent),
+    title: 'Remove PDF Password - PDF Tools',
+    data: {
+      description: 'Download your PDF files after removing passwords.',
+    },
+  },
+  {
     path: '',
     loadComponent: () =>
       import('./feature/landing/landing.component').then(
