@@ -14,7 +14,6 @@ export class PdfBackendService {
     const formData = new FormData();
     formData.append('password', password);
     formData.append('pdfFile', pdfFile);
-    console.log(this.api);
     const observable = this.http.post(`${this.api}/remove_password`, formData, {
       responseType: 'blob',
     });

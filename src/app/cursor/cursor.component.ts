@@ -30,7 +30,6 @@ export class CursorComponent {
     '#60005f',
     '#48005f',
     '#3d005e',
-    // Additional colors
     '#FF0000',
     '#00FF00',
     '#0000FF',
