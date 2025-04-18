@@ -12,7 +12,6 @@ describe('AppComponent', () => {
 
   const setup = async (routeData: any, url = '/test') => {
     routerEvents$ = new Subject();
-    console.log();
     const mockTitle = jasmine.createSpyObj('Title', ['setTitle']);
     const mockMeta = jasmine.createSpyObj('Meta', ['updateTag']);
     const mockRouter = {
