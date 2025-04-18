@@ -68,9 +68,8 @@ describe('RemovePasswordComponent', () => {
       } as any;
     });
 
-    component.password = 'correct-password';
+    component.password = 'correct-password'; // NOSONAR
     component.unlockPDF();
-
     expect(pdfBackendService.unlockPdf).toHaveBeenCalledWith(
       'correct-password',
       file
@@ -88,8 +87,7 @@ describe('RemovePasswordComponent', () => {
     pdfBackendService.unlockPdf.and.returnValue(
       throwError(() => ({ status: 400 }))
     );
-
-    component.password = 'wrong-password';
+    component.password = 'wrong-password'; // NOSONAR
     component.unlockPDF();
 
     expect(component.error).toBe(

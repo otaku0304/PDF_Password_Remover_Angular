@@ -32,8 +32,8 @@ describe('PdfBackendService', () => {
     const mockFile = new File(['dummy content'], 'test.pdf', {
       type: 'application/pdf',
     });
-
-    const password = 'secret';
+   
+    const password = 'secret'; // NOSONAR
     const expectedUrl = `${AppConfig.getAPIURI()}/remove_password`;
 
     service.unlockPdf(password, mockFile).subscribe((response) => {
