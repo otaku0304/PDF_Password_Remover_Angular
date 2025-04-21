@@ -27,9 +27,8 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.png",
+              "src/favicon.ico",
               "src/assets",
-              "src/web.config",
               "src/googlef71993b736a91d1d.html",
               "src/robots.txt"
             ],
@@ -121,7 +120,7 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.png",
+              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
