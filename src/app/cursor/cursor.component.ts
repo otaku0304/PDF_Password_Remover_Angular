@@ -1,14 +1,13 @@
-// cursor.component.ts
 import { Component, ElementRef, HostListener, Renderer2 } from '@angular/core';
 
 @Component({
-    selector: 'app-cursor',
-    templateUrl: './cursor.component.html',
-    styleUrls: ['./cursor.component.scss'],
-    standalone: false
+  selector: 'app-cursor',
+  templateUrl: './cursor.component.html',
+  styleUrls: ['./cursor.component.scss'],
+  standalone: true,
 })
 export class CursorComponent {
-  private colors = [
+  private readonly colors = [
     '#ffb56b',
     '#fdaf69',
     '#f89d63',
@@ -31,7 +30,6 @@ export class CursorComponent {
     '#60005f',
     '#48005f',
     '#3d005e',
-    // Additional colors
     '#FF0000',
     '#00FF00',
     '#0000FF',
@@ -56,7 +54,10 @@ export class CursorComponent {
 
   private currentColorIndex = 0;
 
-  constructor(private renderer: Renderer2, private el: ElementRef) {}
+  constructor(
+    private readonly renderer: Renderer2,
+    private readonly el: ElementRef
+  ) {}
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: MouseEvent) {
@@ -68,13 +69,11 @@ export class CursorComponent {
       this.renderer.setStyle(cursor, 'left', x + 'px');
       this.renderer.setStyle(cursor, 'top', y + 'px');
 
-      // Change color dynamically
       this.currentColorIndex =
         (this.currentColorIndex + 1) % this.colors.length;
       const newColor = this.colors[this.currentColorIndex];
       this.renderer.setStyle(cursor, 'background-color', newColor);
 
-      // Check if the cursor is over text
       const elementMouseIsOver = document.elementFromPoint(x, y);
       if (
         elementMouseIsOver &&
