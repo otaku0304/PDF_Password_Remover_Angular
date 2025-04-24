@@ -8,7 +8,8 @@
     "deploy": "npx ngh --dir=dist/pdf-removal",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:pdf-removal": "node dist/pdf-removal/server/server.mjs"
+    "start:ssr": "node dist/pdf-removal/server/main.js",
+    "build:ssr": "ng build --configuration production && ng run pdf-removal:server:production"
   },
   "private": true,
   "dependencies": {
