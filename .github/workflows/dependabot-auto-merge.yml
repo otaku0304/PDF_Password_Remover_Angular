@@ -53,22 +53,23 @@ jobs:
         id: request_compatibility_score
         run: |
           compatibility_url="https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=${{ env.PACKAGE_NAME }}&package-manager=${{ env.PACKAGE_MANAGER }}&previous-version=${{ env.PREVIOUS_VERSION }}&new-version=${{ env.NEW_VERSION }}"
-          
+            
           echo "Generated URL: $compatibility_url"
-
+        
           # Fetch the SVG response
           svg_response=$(curl -s "$compatibility_url")
-          
+            
           # Extract compatibility score from SVG response
           compatibility_score=$(echo "$svg_response" | grep -oP '(?<=<title>compatibility: )\d+(?=%</title>)')
-
+        
           if [[ -z "$compatibility_score" ]]; then
-            echo "No compatibility score found. Exiting workflow."
-            exit 0
+            echo "No compatibility score found. Skipping auto-merge."
+            echo "COMPATIBILITY_SCORE=none" >> $GITHUB_ENV
+            exit 0  # Safe, early exit
           fi
-
+        
           echo "Extracted Compatibility Score: $compatibility_score"
-          echo "COMPATIBILITY_SCORE=$compatibility_score" >> $GITHUB_ENV
+          echo "COMPATIBILITY_SCORE=$compatibility_score" >> $GITHUB_ENV     
 
       - name: Check compatibility score and auto-merge
         run: |
