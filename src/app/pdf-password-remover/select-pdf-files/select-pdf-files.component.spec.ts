@@ -159,7 +159,7 @@ describe('SelectPdfFilesComponent', () => {
 
     expect(snackBarService.openSnackBar).toHaveBeenCalledWith(
       'test1.pdf has no password',
-      'Ok'
+      'error-snackbar'
     );
   });
 
@@ -178,7 +178,7 @@ describe('SelectPdfFilesComponent', () => {
     component.onFilesSelected(event);
     await component.submitFiles();
 
-    expect(pdfService.setSelectedPdfFile).toHaveBeenCalledWith(files[0]);
+    expect(pdfService.setSelectedPdfFile).toHaveBeenCalledWith(files);
     expect(pdfService.setEncryptionStatus).toHaveBeenCalledWith(true);
     expect(router.navigate).toHaveBeenCalledWith(['/pdf/remove-password']);
   });
@@ -200,8 +200,8 @@ describe('SelectPdfFilesComponent', () => {
     await component.submitFiles();
 
     expect(snackBarService.openSnackBar).toHaveBeenCalledWith(
-      'test1.pdf, test2.pdf has no password',
-      'Ok'
+      'test1.pdf, test2.pdf have no password',
+      'error-snackbar'
     );
   });
 
