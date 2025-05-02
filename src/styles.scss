@@ -35,3 +35,41 @@ h3 {
   margin-top: 10px;
   font-size: 20px;
 }
+
+.success-button-color {
+  background-color: #42aa5c;
+  color: #fff;
+}
+
+.mat-mdc-snack-bar-container {
+  &.success-snackbar {
+    --mdc-snackbar-container-color: #2b60af;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+    margin: 8px;
+    text-align: center;
+  }
+
+  &.error-snackbar {
+    --mdc-snackbar-container-color: #de0202;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+    margin: 8px;
+    text-align: center;
+  }
+  &.view-snackbar {
+    --mdc-snackbar-container-color: #2b60af;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+    --mat-snack-bar-button-color: #fff;
+  }
+}
+
+.text-error {
+  color: #f44336;
+  font-weight: 500;
+}
+
+.fs-20 {
+  font-size: 20px;
+}

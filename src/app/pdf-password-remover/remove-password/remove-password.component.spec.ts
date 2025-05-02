@@ -12,14 +12,11 @@ describe('RemovePasswordComponent', () => {
   let pdfService: jasmine.SpyObj<PdfService>;
   let pdfBackendService: jasmine.SpyObj<PdfBackendService>;
   let router: jasmine.SpyObj<Router>;
+  let mockFile: File;
 
   beforeEach(async () => {
-    const mockPdfService = jasmine.createSpyObj('PdfService', [
-      'getSelectedPdfFile',
-    ]);
-    const mockPdfBackendService = jasmine.createSpyObj('PdfBackendService', [
-      'unlockPdf',
-    ]);
+    const mockPdfService = jasmine.createSpyObj('PdfService', ['getSelectedPdfFile']);
+    const mockPdfBackendService = jasmine.createSpyObj('PdfBackendService', ['unlockPdf']);
     const mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
@@ -31,14 +28,16 @@ describe('RemovePasswordComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(RemovePasswordComponent);
-    component = fixture.componentInstance;
     pdfService = TestBed.inject(PdfService) as jasmine.SpyObj<PdfService>;
-    pdfBackendService = TestBed.inject(
-      PdfBackendService
-    ) as jasmine.SpyObj<PdfBackendService>;
+    pdfBackendService = TestBed.inject(PdfBackendService) as jasmine.SpyObj<PdfBackendService>;
     router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
 
+    // Create mock file once for all tests
+    mockFile = new File([''], 'test.pdf', { type: 'application/pdf' });
+    pdfService.getSelectedPdfFile.and.returnValue([mockFile]);
+
+    fixture = TestBed.createComponent(RemovePasswordComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
@@ -48,75 +47,67 @@ describe('RemovePasswordComponent', () => {
 
   it('should toggle password visibility', () => {
     expect(component.isHidePassword).toBe(false);
+
     component.toggleShowPassword();
     expect(component.isHidePassword).toBe(true);
+
+    component.toggleShowPassword();
+    expect(component.isHidePassword).toBe(false);
   });
 
   it('should unlock PDF successfully and emit event', () => {
     const mockBlob = new Blob(['dummy content'], { type: 'application/pdf' });
-    const file = new File([''], 'test.pdf', { type: 'application/pdf' });
 
-    pdfService.getSelectedPdfFile.and.returnValue(file);
     pdfBackendService.unlockPdf.and.returnValue(of(mockBlob));
 
     spyOn(component.unlockSuccess, 'emit');
-    spyOn(document, 'createElement').and.callFake(() => {
-      return {
-        href: '',
-        download: '',
-        click: jasmine.createSpy('click'),
-      } as any;
-    });
+    spyOn(document, 'createElement').and.callFake(() => ({
+      href: '',
+      download: '',
+      click: jasmine.createSpy('click'),
+    }) as any);
 
-    component.password = 'correct-password'; // NOSONAR
+    component.passwords = ['correct-password'];
+    component.currentFileIndex = 0;
+    component.selectedFiles = [mockFile];
+
     component.unlockPDF();
-    expect(pdfBackendService.unlockPdf).toHaveBeenCalledWith(
-      'correct-password',
-      file
-    );
+
+    expect(pdfBackendService.unlockPdf).toHaveBeenCalledWith('correct-password', mockFile);
     expect(router.navigate).toHaveBeenCalledWith(['/pdf/download']);
-    expect(component.unlockSuccess.emit).toHaveBeenCalledWith(
-      'PDF unlocked successfully'
-    );
+    expect(component.unlockSuccess.emit).toHaveBeenCalledWith('All PDFs unlocked successfully');
   });
 
   it('should show error for 400 - incorrect password', () => {
-    const file = new File([''], 'test.pdf', { type: 'application/pdf' });
+    pdfBackendService.unlockPdf.and.returnValue(throwError(() => ({ status: 400 })));
 
-    pdfService.getSelectedPdfFile.and.returnValue(file);
-    pdfBackendService.unlockPdf.and.returnValue(
-      throwError(() => ({ status: 400 }))
-    );
-    component.password = 'wrong-password'; // NOSONAR
+    component.passwords = ['wrong-password'];
+    component.currentFileIndex = 0;
+    component.selectedFiles = [mockFile];
+
     component.unlockPDF();
 
-    expect(component.error).toBe(
-      'Incorrect password. Please check and try again.'
-    );
+    expect(component.error).toBe('Incorrect password. Please check and try again.');
   });
 
   it('should show error for 500 - server error', () => {
-    const file = new File([''], 'test.pdf', { type: 'application/pdf' });
+    pdfBackendService.unlockPdf.and.returnValue(throwError(() => ({ status: 500 })));
 
-    pdfService.getSelectedPdfFile.and.returnValue(file);
-    pdfBackendService.unlockPdf.and.returnValue(
-      throwError(() => ({ status: 500 }))
-    );
+    component.passwords = ['any-password'];
+    component.currentFileIndex = 0;
+    component.selectedFiles = [mockFile];
 
     component.unlockPDF();
 
-    expect(component.error).toBe(
-      'An error occurred on the server while unlocking the PDF.'
-    );
+    expect(component.error).toBe('An error occurred on the server while unlocking the PDF.');
   });
 
   it('should show generic error for unknown error', () => {
-    const file = new File([''], 'test.pdf', { type: 'application/pdf' });
+    pdfBackendService.unlockPdf.and.returnValue(throwError(() => ({ status: 0, message: '' })));
 
-    pdfService.getSelectedPdfFile.and.returnValue(file);
-    pdfBackendService.unlockPdf.and.returnValue(
-      throwError(() => ({ status: 0 }))
-    );
+    component.passwords = ['any-password'];
+    component.currentFileIndex = 0;
+    component.selectedFiles = [mockFile];
 
     component.unlockPDF();
 

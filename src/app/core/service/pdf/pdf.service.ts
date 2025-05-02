@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class PdfService {
-  private selectedPdfFile: File | undefined;
+  private selectedPdfFile: File[] = [];
   private readonly encryptionStatusSubject = new BehaviorSubject<boolean>(
     false
   );
@@ -18,11 +18,11 @@ export class PdfService {
     this.encryptionStatusSubject.next(encryptionStatus);
   }
 
-  setSelectedPdfFile(file: File) {
+  setSelectedPdfFile(file: File[]) {
     this.selectedPdfFile = file;
   }
 
-  getSelectedPdfFile(): File | undefined {
+  getSelectedPdfFile(): File[] {
     return this.selectedPdfFile;
   }
 }

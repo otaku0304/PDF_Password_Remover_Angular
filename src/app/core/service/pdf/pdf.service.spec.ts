@@ -33,7 +33,7 @@ describe('PdfService', () => {
 
   describe('Selected PDF File', () => {
     it('should initially return undefined', () => {
-      expect(service.getSelectedPdfFile()).toBeUndefined();
+      expect(service.getSelectedPdfFile()).toEqual([]);
     });
 
     it('should set and get the selected PDF file', () => {
@@ -41,12 +41,13 @@ describe('PdfService', () => {
         type: 'application/pdf',
       });
 
-      service.setSelectedPdfFile(mockFile);
-      const file = service.getSelectedPdfFile();
+      service.setSelectedPdfFile([mockFile]);
+      const files = service.getSelectedPdfFile();
 
-      expect(file).toBeDefined();
-      expect(file?.name).toBe('test.pdf');
-      expect(file?.type).toBe('application/pdf');
+      expect(files).toBeDefined();
+      expect(files.length).toBe(1);
+      expect(files[0].name).toBe('test.pdf');
+      expect(files[0].type).toBe('application/pdf');
     });
   });
 });
