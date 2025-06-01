@@ -85,19 +85,29 @@ export class SelectPdfFilesComponent {
 
   async submitFiles() {
     const unencryptedFileNames: string[] = [];
+    const encryptedFiles: File[] = [];
 
     for (const file of this.selectedFiles) {
       const encrypted = await this.checkEncryptionStatus(file);
-      if (!encrypted) unencryptedFileNames.push(file.name);
+      if (!encrypted) {
+        unencryptedFileNames.push(file.name);
+      } else {
+        encryptedFiles.push(file);
+      }
     }
 
     if (unencryptedFileNames.length > 0) {
+      this.selectedFiles.length = 0;
       this.snackBarService.openSnackBar(
-        `${unencryptedFileNames.join(', ')} has no password`,
-        'Ok'
+        `${unencryptedFileNames.join(', ')} ${
+          unencryptedFileNames.length === 1 ? 'has' : 'have'
+        } no password`,
+        'error-snackbar'
       );
-    } else {
-      this.pdfService.setSelectedPdfFile(this.selectedFiles[0]);
+    }
+
+    if (encryptedFiles.length > 0) {
+      this.pdfService.setSelectedPdfFile(encryptedFiles);
       this.pdfService.setEncryptionStatus(true);
       this.router.navigate(['/pdf/remove-password']);
     }
