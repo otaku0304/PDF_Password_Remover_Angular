@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { RemovePasswordGuard } from './core/guard/remove-password-guard/removePasswordGuard';
 
 export const routes: Routes = [
   {
@@ -14,6 +15,7 @@ export const routes: Routes = [
   },
   {
     path: 'pdf/remove-password',
+    canActivate: [RemovePasswordGuard],
     loadComponent: () =>
       import(
         './pdf-password-remover/remove-password/remove-password.component'
