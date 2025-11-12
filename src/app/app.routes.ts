@@ -3,14 +3,14 @@ import { RemovePasswordGuard } from './core/guard/remove-password-guard/removePa
 
 export const routes: Routes = [
   {
-    path: 'pdf/select-pdf-files',
+    path: 'privacy',
     loadComponent: () =>
       import(
-        './pdf-password-remover/select-pdf-files/select-pdf-files.component'
-      ).then((m) => m.SelectPdfFilesComponent),
-    title: 'Select PDF Files - PDF Tools',
+        './pdf-password-remover/privacy/privacy.component'
+      ).then((m) => m.PrivacyComponent),
+    title: 'Privacy Policy - PDF Tools',
     data: {
-      description: 'Upload and select PDF files to remove passwords securely.',
+      description: 'Read our privacy policy to understand how we handle your data securely.',
     },
   },
   {
@@ -28,9 +28,9 @@ export const routes: Routes = [
   {
     path: 'pdf/download',
     loadComponent: () =>
-      import(
-        './pdf-password-remover/download/download.component'
-      ).then((m) => m.DownloadComponent),
+      import('./pdf-password-remover/download/download.component').then(
+        (m) => m.DownloadComponent
+      ),
     title: 'Remove PDF Password - PDF Tools',
     data: {
       description: 'Download your PDF files after removing passwords.',

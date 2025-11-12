@@ -1,24 +1,78 @@
-import { Component } from '@angular/core';
-import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
+type ThemePref = 'system' | 'dark' | 'light';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: [],
   standalone: true,
 })
 export class HeaderComponent {
-  constructor(
-    private readonly location: Location,
-    private readonly router: Router
-  ) {}
+  private readonly KEY = 'theme-pref';
+  private readonly isBrowser: boolean;
 
-  navigateToHome() {
-    this.router.navigate(['/']);
+  currentPref: ThemePref = 'system';
+  label = 'System';
+
+  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+    this.isBrowser = isPlatformBrowser(platformId);
+
+    if (this.isBrowser) {
+      const saved = (globalThis.localStorage.getItem(this.KEY) as ThemePref) || 'system';
+      this.setPref(saved);
+      this.applyTheme();
+
+     
+      globalThis
+        .matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', () => {
+          if (this.currentPref === 'system') this.applyTheme();
+        });
+    }
   }
 
-  navigateToBack() {
-    this.location.back();
+  /** Cycle System → Dark → Light */
+  toggleTheme(): void {
+    if (!this.isBrowser) return;
+    let next: ThemePref;
+    if (this.currentPref === 'system') {
+      next = 'dark';
+    } else if (this.currentPref === 'dark') {
+      next = 'light';
+    } else {
+      next = 'system';
+    }
+    this.setPref(next);
+    this.applyTheme();
+  }
+
+  /** Set pref + persist + update label */
+  private setPref(pref: ThemePref): void {
+    this.currentPref = pref;
+    if (this.isBrowser) globalThis.localStorage.setItem(this.KEY, pref);
+    
+    if (pref === 'system') {
+      this.label = 'System';
+    } else if (pref === 'dark') {
+      this.label = 'Dark';
+    } else {
+      this.label = 'Light';
+    }
+  }
+
+  /** Apply resolved theme (dark/light) to <html> for Bootstrap */
+  private applyTheme(): void {
+    if (!this.isBrowser) return;
+    const systemDark = globalThis.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
+    const theme =
+      this.currentPref === 'dark' ||
+      (this.currentPref === 'system' && systemDark)
+        ? 'dark'
+        : 'light';
+    document.documentElement.dataset['bsTheme'] = theme;
+    document.documentElement.style.colorScheme = theme;
   }
 }

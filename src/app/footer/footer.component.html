@@ -1,37 +1,89 @@
-<footer class="p-2 bg-dark text-white">
-  <div class="d-flex justify-content-center align-items-center flex-wrap">
-    <div class="d-flex align-items-center">
-      <span>&copy; {{ currentYear }} Developed by&nbsp;</span>
-      <a
-        href="https://linktr.ee/MR_ASK_Chay"
-        target="_blank"
-        class="fw-bold"
-        rel="noopener noreferrer"
-        style="color: #80eb7c;"
-      >
-        Sai Annam
-      </a>
-      <span>&nbsp;|</span>
+<section id="contact" class="container-lg py-5">
+  <div class="row g-4 align-items-start">
+    <div class="col-md-6" revealOnScroll>
+      <h2 class="display-6 fw-bold">Get in touch</h2>
+      <p class="text-body-secondary">
+        Have an idea or found a bug? Reach out anytime.
+      </p>
+      <div class="d-flex gap-2">
+        <a
+          href="mailto:saikrishnachaitanya61&#64;gmail.com"
+          class="btn btn-outline-secondary"
+          >saikrishnachaitanya61&#64;gmail.com</a
+        >
+        <a href="https://github.com/otaku0304" class="btn btn-dark">GitHub</a>
+      </div>
     </div>
 
-    <div class="ps-2 d-flex align-items-center">
-      <span class="pe-2">&#64;mr_ask_chay |</span>
-
-      <a
-        href="https://github.com/otaku0304"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="GitHub"
-        class="pe-2 d-flex align-items-center text-light"
+    <div class="col-md-6">
+      <form
+        action="https://formspree.io/f/YOUR-FORM-ID"
+        method="POST"
+        class="rounded-4 border glass p-4"
       >
-        <img
-          src="https://cdn.simpleicons.org/github/ffffff"
-          alt="GitHub icon"
-          width="20"
-          class="me-1"
-        />
-        GitHub
-      </a>
+        <div class="mb-3">
+          <label class="form-label small" for="name">Your Name</label>
+          <input
+            id="name"
+            type="text"
+            name="name"
+            required
+            class="form-control"
+            autocomplete="name"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label small" for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            required
+            class="form-control"
+            autocomplete="email"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label small" for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            required
+            class="form-control"
+          ></textarea>
+        </div>
+        <button class="btn btn-dark shadow-glow" type="submit">Send</button>
+      </form>
     </div>
+  </div>
+</section>
+
+<footer class="border-top py-4">
+  <div
+    class="container-lg d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 small text-body-secondary"
+  >
+    <p class="mb-0">
+      © {{ year }} Developed by
+      <a
+        class="link-secondary link-underline-opacity-25"
+        href="https://linktr.ee/mr_ask_chay"
+        >Sai Annam</a
+      >
+      | &#64;mr_ask_chay |
+      <a
+        class="link-secondary link-underline-opacity-25"
+        href="https://github.com/mr_ask_chay"
+        >GitHub</a
+      >
+    </p>
+    <nav class="d-flex gap-3">
+      <a class="link-secondary link-underline-opacity-25" href="/sitemap.xml"
+        >Sitemap</a
+      >
+      <a class="link-secondary link-underline-opacity-25" href="/privacy"
+        >Privacy</a
+      >
+    </nav>
   </div>
 </footer>

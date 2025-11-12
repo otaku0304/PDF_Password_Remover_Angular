@@ -1,0 +1,245 @@
+<div class="hero-ribbon"></div>
+
+<main>
+  <!-- Hero -->
+  <section class="container-lg py-5">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <p class="text-uppercase text-secondary small fw-semibold">
+          Privacy First
+        </p>
+        <h1 class="display-5 fw-bold gradient-text">
+          Privacy Policy — PDF Password Remover
+        </h1>
+        <p class="mt-2 fs-5 text-body-secondary">
+          Your PDFs are <strong>yours</strong>. We process only what’s required
+          to remove protection—nothing more.
+        </p>
+        <div class="mt-3 d-flex flex-wrap gap-2">
+          <span class="badge text-bg-success">No tracking</span>
+          <span class="badge text-bg-primary">No content collection</span>
+          <span class="badge text-bg-secondary">Short-lived processing</span>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="glass shadow-glow p-4 policy-card">
+          <ul class="list-unstyled mb-0 small text-body-secondary">
+            <li class="mb-2">
+              ✔ Files aren’t used for analytics or advertising.
+            </li>
+            <li class="mb-2">✔ No persistent storage of your PDF contents.</li>
+            <li class="mb-2">
+              ✔ Transport is HTTPS-only between browser and server.
+            </li>
+            <li class="mb-0">
+              ✔ Files are deleted after processing completes or on failure.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What we do / don’t do -->
+  <section class="container-lg pb-4 pb-md-5">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="p-4 border policy-card fade-in">
+          <h2 class="h4 fw-semibold mb-2">What happens to your file</h2>
+          <ol class="small text-body-secondary mb-0 ps-3">
+            <li class="mb-2">
+              <strong>Request</strong>: You select a PDF and provide its
+              password.
+            </li>
+            <li class="mb-2">
+              <strong>Processing</strong>: We attempt to remove the protection.
+              If the operation can run client-side, it stays in your browser. If
+              a server call is required, the file is streamed to an isolated
+              worker only for the unlock step.
+            </li>
+            <li class="mb-2">
+              <strong>Delivery</strong>: A processed PDF is streamed back for
+              download.
+            </li>
+            <li class="mb-0">
+              <strong>Deletion</strong>: Any temporary server copy is deleted
+              immediately after processing (success or error).
+            </li>
+          </ol>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-4 border policy-card fade-in">
+          <h2 class="h4 fw-semibold mb-2">What we <em>don’t</em> collect</h2>
+          <ul class="small text-body-secondary mb-0">
+            <li class="mb-1">
+              No PDF contents, text, or images for analytics.
+            </li>
+            <li class="mb-1">No passwords stored at rest.</li>
+            <li class="mb-1">No user accounts required.</li>
+            <li class="mb-1">No third-party trackers or ads.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security & retention -->
+  <section class="container-lg pb-4 pb-md-5">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="p-4 border policy-card fade-in">
+          <h3 class="h5 fw-semibold">Security</h3>
+          <p class="small text-body-secondary mb-0">
+            All communication uses HTTPS. Temporary files (when server
+            processing is required) are stored in isolated, private paths with
+            random names and are programmatically removed right after
+            processing. We log only minimal operational metadata (timestamp,
+            status code, file size bucket)—never file contents.
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="p-4 border policy-card fade-in">
+          <h3 class="h5 fw-semibold">Data Retention</h3>
+          <p class="small text-body-secondary mb-0">
+            No long-term retention of files or passwords. Temporary artifacts
+            created during processing are automatically deleted upon completion
+            (success or failure).
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="p-4 border policy-card fade-in">
+          <h3 class="h5 fw-semibold">Your Rights</h3>
+          <p class="small text-body-secondary mb-0">
+            Because we don’t persist your file contents, there’s typically
+            nothing to access or delete. For any questions, contact us and we’ll
+            help promptly.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Example: caption showcase (Monkey D. Luffy) -->
+  <section class="container-lg pb-4 pb-md-5">
+    <div class="row g-4 align-items-center">
+      <div class="col-md-6">
+        <h2 class="h4 fw-semibold mb-2">Example caption</h2>
+        <p class="small text-body-secondary">
+          If you attach an illustration to a PDF, you might add a short,
+          descriptive caption. Here’s a sample (using a well-known fictional
+          character for clarity):
+        </p>
+        <figure class="example-figure">
+          <div class="figure-ph">
+            <span class="fw-semibold">Placeholder Artwork</span>
+          </div>
+          <figcaption class="example-caption">
+            <strong>Caption:</strong>
+            “<em>Monkey D. Luffy</em> — the Straw Hat pirate captain — pictured
+            mid-adventure. (For demo purposes; no copyrighted media stored or
+            processed.)”
+          </figcaption>
+        </figure>
+        <p class="small text-body-secondary mt-2">
+          This is purely a text example. Our password remover does
+          <em>not</em> store images or captions from your PDFs.
+        </p>
+      </div>
+      <div class="col-md-6">
+        <div class="p-4 border policy-card fade-in">
+          <h3 class="h5 fw-semibold">Why this matters</h3>
+          <ul class="small text-body-secondary mb-0">
+            <li class="mb-1">Captions improve accessibility and context.</li>
+            <li class="mb-1">
+              Even with rich content, your PDF’s contents aren’t collected by
+              us.
+            </li>
+            <li class="mb-1">
+              We only run the minimal transformation needed to remove
+              protection.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="container-lg pb-5">
+    <h2 class="h5 fw-semibold mb-3">Privacy FAQ</h2>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="p-3 border policy-card">
+          <details>
+            <summary class="fw-semibold">Do you keep a copy of my PDF?</summary>
+            <p class="small text-body-secondary mt-2 mb-0">
+              No. If server processing is required, your file exists only
+              briefly during the unlock step and is deleted programmatically
+              right after.
+            </p>
+          </details>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3 border policy-card">
+          <details>
+            <summary class="fw-semibold">Do you store my password?</summary>
+            <p class="small text-body-secondary mt-2 mb-0">
+              No. The password exists in memory only while processing your
+              request and is never written to disk or logs.
+            </p>
+          </details>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3 border policy-card">
+          <details>
+            <summary class="fw-semibold">What analytics do you run?</summary>
+            <p class="small text-body-secondary mt-2 mb-0">
+              We avoid per-file analytics entirely. At most, we use anonymized,
+              aggregate operational metrics (e.g., success/error counts) to
+              maintain reliability.
+            </p>
+          </details>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3 border policy-card">
+          <details>
+            <summary class="fw-semibold">How can I contact you?</summary>
+            <p class="small text-body-secondary mt-2 mb-0">
+              Email us at
+              <a href="mailto:you@yourdomain">you&#64;yourdomain</a>. We usually
+              respond within a business day.
+            </p>
+          </details>
+        </div>
+      </div>
+    </div>
+    <p class="small text-body-secondary mt-3">
+      Last updated: {{ lastUpdated }}
+    </p>
+  </section>
+</main>
+
+<!-- Simple footer -->
+<footer class="border-top py-4">
+  <div
+    class="container-lg d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 small text-body-secondary"
+  >
+    <p class="mb-0">
+      © {{ year }} Developed by Sai Annam | &#64;mr_ask_chay | PDF & Image Tools
+    </p>
+    <nav class="d-flex gap-3">
+      <a class="link-secondary link-underline-opacity-25" routerLink="/"
+        >Home</a
+      >
+      <a class="link-secondary link-underline-opacity-25" routerLink="/privacy"
+        >Privacy</a
+      >
+    </nav>
+  </div>
+</footer>

@@ -1,60 +1,292 @@
-<div class="container text-center">
-  <h1 class="mt-5 text-color">Welcome......!</h1>
-  <h2 class="mt-3 text-color">Please select any of our services</h2>
-  <div class="row justify-content-center mt-5">
-    <div class="col-md-4 col-sm-12">
-      <div class="mb-3 pt-5">
-        <img
-          src="assets/images/pdf_icon.webp"
-          alt="password-remover"
-          class="img-fluid"
-          width="100"
-          height="100"
-        />
+<!-- Hero -->
+<section class="container-lg pt-4 pt-md-5 pb-4 pb-md-5">
+  <div class="row align-items-center g-4 g-lg-5">
+    <div class="col-md-6" revealOnScroll>
+      <p class="text-uppercase text-secondary small fw-semibold">
+        Fast • Private • Free
+      </p>
+      <h1 class="display-5 fw-bold lh-tight">
+        Handy tools for everyday files.
+      </h1>
+      <p class="mt-3 fs-5 text-body-secondary">
+        Remove PDF passwords, compress images without losing quality, and speed
+        up Angular localization — all right in your browser.
+      </p>
+      <div class="mt-4 d-flex flex-wrap gap-2">
+        <a href="#tools" class="btn btn-dark shadow-glow">Explore Tools</a>
+        <a href="https://github.com/otaku0304" class="btn btn-outline-secondary"
+          >GitHub</a
+        >
       </div>
-      <button
-        type="button"
-        class="btn button-color btn-lg btn-block"
-        [routerLink]="['/pdf/select-pdf-files']"
-      >
-        PDF Password Remover
-      </button>
     </div>
-    <div class="col-md-4 col-sm-12">
-      <div class="mb-3 pt-5">
-        <img
-          src="assets/images/image_icon.webp"
-          alt="image-compressor"
-          class="img-fluid"
-          width="100"
-          height="100"
-        />
+
+    <div class="col-md-6 position-relative" revealOnScroll>
+      <div
+        class="position-absolute top-0 start-0 translate-middle rounded-circle"
+        style="
+          width: 140px;
+          height: 140px;
+          background: linear-gradient(135deg, var(--brand-500), #d946ef);
+          opacity: 0.35;
+          filter: blur(30px);
+        "
+      ></div>
+      <div class="position-relative z-1 rounded-4 border glass p-4">
+        <ul class="list-unstyled small mb-0 text-body-secondary">
+          <li>✔ No login required</li>
+          <li>✔ Runs in your browser (privacy-first)</li>
+          <li>✔ Mobile-friendly, keyboard accessible</li>
+          <li>✔ Dark & light mode (system default)</li>
+        </ul>
       </div>
-      <button
-        type="button"
-        class="btn button-color btn-lg btn-block"
-        [routerLink]="['/image/select-image']"
-      >
-        Image Compressor
-      </button>
-    </div>
-    <div class="col-md-4 col-sm-12">
-      <div class="mb-3 pt-5">
-        <img
-          src="assets/images/internationalization.webp"
-          alt="internationalization"
-          class="img-fluid"
-          width="100"
-          height="100"
-        />
-      </div>
-      <button
-        type="button"
-        class="btn button-color btn-lg btn-block"
-        (click)="navigateToi18n()"
-      >
-        Angular Internationalization or i18n
-      </button>
     </div>
   </div>
-</div>
+</section>
+
+<!-- Tools -->
+<section id="tools" class="container-lg py-4 py-md-5">
+  <h2 class="display-6 fw-bold">Our Tools</h2>
+  <p class="text-body-secondary mt-2">Pick a tool to get started.</p>
+
+  <div class="row g-4 mt-1">
+    <!-- PDF Password Remover -->
+    <div class="col-sm-6 col-lg-3">
+      <article
+        class="h-100 d-flex flex-column rounded-4 border bg-body bg-opacity-75 p-4"
+        revealOnScroll
+      >
+        <img
+          src="/assets/images/pdf_icon.webp"
+          alt="PDF icon"
+          class="rounded-3 mb-3"
+          style="width: 64px; height: 64px; object-fit: contain"
+        />
+        <h3 class="h5 fw-semibold mb-1">PDF Password Remover</h3>
+        <p class="small text-body-secondary mb-3">
+          Remove passwords from PDFs you own or have the right to edit.
+          Processing happens locally when possible.
+        </p>
+        <div class="d-flex flex-wrap gap-2 mt-auto">
+          <a href="#demo-remover" class="btn btn-dark btn-sm">Try Demo</a>
+          <a href="/privacy" class="btn btn-outline-secondary btn-sm"
+            >Privacy</a
+          >
+        </div>
+      </article>
+    </div>
+
+    <!-- Image Compressor (Coming Soon) -->
+    <div class="col-sm-6 col-lg-3">
+      <article
+        class="h-100 d-flex flex-column rounded-4 border bg-body bg-opacity-75 p-4"
+        revealOnScroll
+      >
+        <img
+          src="/assets/images/image_icon.webp"
+          alt="Image icon"
+          class="rounded-3 mb-3"
+          style="width: 64px; height: 64px; object-fit: contain"
+        />
+        <div class="d-flex align-items-center justify-content-between">
+          <h3 class="h5 fw-semibold mb-0">Image Compressor</h3>
+          <span class="badge text-bg-warning">Coming soon</span>
+        </div>
+        <p class="small text-body-secondary mt-2 mb-3">
+          Shrink PNG/JPG/WebP while keeping crisp quality. Drag & drop and
+          you're done.
+        </p>
+        <div class="d-flex flex-wrap gap-2 mt-auto">
+          <button class="btn btn-secondary btn-sm" disabled>Open Tool</button>
+          <a
+            href="/help/image-compressor"
+            class="btn btn-outline-secondary btn-sm"
+            >How it works</a
+          >
+        </div>
+      </article>
+    </div>
+
+    <!-- Angular i18n Helper (Demo) -->
+    <div class="col-sm-6 col-lg-3">
+      <article
+        class="h-100 d-flex flex-column rounded-4 border bg-body bg-opacity-75 p-4"
+        revealOnScroll
+      >
+        <img
+          src="/assets/images/internationalization.webp"
+          alt="Internationalization icon"
+          class="rounded-3 mb-3"
+          style="width: 64px; height: 64px; object-fit: contain"
+        />
+        <h3 class="h5 fw-semibold mb-1">Angular i18n Helper</h3>
+        <p class="small text-body-secondary mb-1">
+          Personal demo exploring Angular localization workflows: extract,
+          manage, and preview translations.
+        </p>
+        <p class="small text-warning mb-3">Note: demo only for now.</p>
+        <div class="d-flex flex-wrap gap-2 mt-auto">
+          <a href="https://internationalization-d2aa6.web.app/en/" class="btn btn-dark btn-sm">View Demo</a>
+        </div>
+      </article>
+    </div>
+
+    <!-- StartMyDev -->
+    <div class="col-sm-6 col-lg-3">
+      <article
+        class="h-100 d-flex flex-column rounded-4 border bg-body bg-opacity-75 p-4"
+        revealOnScroll
+      >
+        <img
+          src="/assets/images/start_my_dev_logo.webp"
+          alt="StartMyDev icon"
+          class="rounded-3 mb-3"
+          style="width: 64px; height: 64px; object-fit: contain"
+        />
+        <h3 class="h5 fw-semibold mb-1">StartMyDev</h3>
+        <p class="small text-body-secondary mb-3">
+          Configure and download tailored PowerShell scripts to launch frontend,
+          backend, or full-stack apps across environments — no manual command
+          wrangling.
+        </p>
+        <div class="d-flex flex-wrap gap-2 mt-auto">
+          <a
+            href="https://start-my-dev-dashboard.vercel.app/"
+            class="btn btn-primary btn-sm"
+            >Open Tool</a
+          >
+          <a
+            href="https://start-my-dev-dashboard.vercel.app/docs"
+            class="btn btn-outline-secondary btn-sm"
+            >Docs</a
+          >
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Inline Demo: PDF Password Remover -->
+<section id="demo-remover" class="container-lg py-4 py-md-5">
+  <div class="row g-4 align-items-start">
+    <div class="col-md-6">
+      <h2 class="display-6 fw-bold">Try the Remover</h2>
+      <p class="text-body-secondary">
+        Select a PDF and enter its password. We’ll remove protection if you own
+        the file or have rights to edit it.
+      </p>
+      <ul class="small text-body-secondary">
+        <li>
+          Your file stays on your device when possible. If a server is required,
+          files are deleted after processing.
+        </li>
+        <li>
+          If your backend on Render is sleeping, it may take a few seconds to
+          wake up.
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-md-6">
+      <form
+        class="rounded-4 border glass p-4"
+        (submit)="onSubmit(fileEl, pwdEl)"
+      >
+        <div class="mb-3">
+          <label class="form-label small" for="file">PDF File</label>
+          <input
+            id="file"
+            #fileEl
+            type="file"
+            name="file"
+            accept="application/pdf"
+            required
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label small" for="password">Password</label>
+          <input
+            id="password"
+            #pwdEl
+            type="password"
+            name="password"
+            required
+            class="form-control"
+          />
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <button
+            class="btn btn-dark shadow-glow"
+            type="submit"
+            [disabled]="loading"
+          >
+            {{ loading ? "Processing…" : "Remove Password" }}
+          </button>
+          <span class="small text-body-secondary" aria-live="polite">{{
+            status
+          }}</span>
+        </div>
+
+        <a
+          *ngIf="downloadHref as href"
+          [href]="href"
+          class="link-underline link-underline-opacity-0 mt-2 d-inline-block"
+          download="unlocked.pdf"
+        >
+          Download processed PDF
+        </a>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="container-lg py-4 py-md-5">
+  <h2 class="display-6 fw-bold">FAQ</h2>
+  <div class="row g-3 g-md-4 mt-2">
+    <div class="col-md-6">
+      <div class="rounded-4 border bg-body bg-opacity-75 p-3" revealOnScroll>
+        <details>
+          <summary class="fw-semibold">Do you upload my files?</summary>
+          <p class="small text-body-secondary mt-2 mb-0">
+            Most processing happens in your browser. If a server is required,
+            files are deleted after processing.
+          </p>
+        </details>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="rounded-4 border bg-body bg-opacity-75 p-3" revealOnScroll>
+        <details>
+          <summary class="fw-semibold">Is it free?</summary>
+          <p class="small text-body-secondary mt-2 mb-0">
+            Yes. No login required.
+          </p>
+        </details>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="rounded-4 border bg-body bg-opacity-75 p-3" revealOnScroll>
+        <details>
+          <summary class="fw-semibold">Mobile support?</summary>
+          <p class="small text-body-secondary mt-2 mb-0">
+            Fully responsive and touch-friendly.
+          </p>
+        </details>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="rounded-4 border bg-body bg-opacity-75 p-3" revealOnScroll>
+        <details>
+          <summary class="fw-semibold">Accessibility?</summary>
+          <p class="small text-body-secondary mt-2 mb-0">
+            Keyboard accessible components and focus states.
+          </p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>

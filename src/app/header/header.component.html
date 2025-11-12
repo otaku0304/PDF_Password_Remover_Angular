@@ -1,17 +1,50 @@
-<div class="d-flex align-items-between justify-content-between">
-  <button
-    type="button"
-    class="btn button-color btn-lg btn-block m-0"
-    (click)="navigateToBack()"
-  >
-    Back
-  </button>
+<header class="sticky-top border-bottom border-opacity-25">
+  <nav class="navbar navbar-expand-md bg-body bg-opacity-75 backdrop-blur">
+    <div class="container-lg py-2">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <span class="brand-pill shadow-glow">P</span>
+        <span class="fw-semibold">PDF & Image Tools</span>
+      </a>
 
-  <button
-    type="button"
-    class="btn button-color btn-lg btn-block m-0"
-    (click)="navigateToHome()"
-  >
-    Home
-  </button>
-</div>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navMain"
+        aria-controls="navMain"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMain">
+        <ul class="navbar-nav ms-auto mb-2 mb-md-0 me-md-3 small">
+          <li class="nav-item"><a class="nav-link" href="#tools">Tools</a></li>
+          <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+        </ul>
+
+        <div class="d-none d-md-flex align-items-center gap-2">
+          <!-- Label updates live: Theme: System/Dark/Light -->
+          <button
+            class="btn btn-outline-secondary btn-sm"
+            (click)="toggleTheme()"
+            aria-live="polite"
+          >
+            Theme: {{ label }}
+          </button>
+
+          <a
+            href="https://linktr.ee/mr_ask_chay"
+            class="btn btn-dark btn-sm shadow"
+          >
+            Linktree
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

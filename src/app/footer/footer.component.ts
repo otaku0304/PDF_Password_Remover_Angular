@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
+import { RevealOnScrollDirective } from '../shared/reveal-on-scroll.directive';
 
 @Component({
-    selector: 'app-footer',
-    templateUrl: './footer.component.html',
-    styleUrls: ['./footer.component.scss'],
-    standalone: true,
+  selector: 'app-footer',
+  templateUrl: './footer.component.html',
+  imports: [RevealOnScrollDirective],
+  standalone: true,
 })
 export class FooterComponent {
-  title = 'pdf-removal';
-  currentYear: number = new Date().getFullYear();
+  readonly year = new Date().getFullYear();
 }
