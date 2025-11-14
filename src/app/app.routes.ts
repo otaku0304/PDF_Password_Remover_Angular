@@ -3,14 +3,22 @@ import { RemovePasswordGuard } from './core/guard/remove-password-guard/removePa
 
 export const routes: Routes = [
   {
+    path: 'docs',
+    loadComponent: () =>
+      import('./pdf-password-remover/api-docs/api-docs.component').then(
+        (m) => m.ApiDocsComponent
+      )
+  },
+  {
     path: 'privacy',
     loadComponent: () =>
-      import(
-        './pdf-password-remover/privacy/privacy.component'
-      ).then((m) => m.PrivacyComponent),
+      import('./pdf-password-remover/privacy/privacy.component').then(
+        (m) => m.PrivacyComponent
+      ),
     title: 'Privacy Policy - PDF Tools',
     data: {
-      description: 'Read our privacy policy to understand how we handle your data securely.',
+      description:
+        'Read our privacy policy to understand how we handle your data securely.',
     },
   },
   {

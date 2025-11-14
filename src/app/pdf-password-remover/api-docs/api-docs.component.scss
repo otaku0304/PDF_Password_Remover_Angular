@@ -1,0 +1,63 @@
+:host {
+    display: block;
+}
+
+.page {
+    max-width: 1080px;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+
+.lede {
+    margin-bottom: 16px;
+}
+
+.card {
+    border: 1px solid rgba(100, 116, 139, .25);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+pre {
+    background: #0b1020;
+    color: #e5e7eb;
+    border-radius: .75rem;
+    padding: 12px;
+    overflow-x: auto;
+}
+
+[data-bs-theme="dark"] pre {
+    background: #0b1020;
+    color: #e5e7eb;
+}
+
+[data-bs-theme="light"] pre {
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
+/* subtle dark panel in light mode for code */
+
+code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+.table-responsive {
+    border: 1px solid rgba(100, 116, 139, .25);
+    border-radius: .75rem;
+    overflow: hidden;
+}
+
+.badge.text-bg-secondary {
+    background: rgba(148, 163, 184, .25);
+    color: #334155;
+}
+
+[data-bs-theme="dark"] .badge.text-bg-secondary {
+    background: rgba(148, 163, 184, .2);
+    color: #e2e8f0;
+}
+
+.policy-card {
+    border-radius: 1rem;
+}

@@ -1,0 +1,134 @@
+<div class="hero-bg"></div>
+<div class="hero-ribbon"></div>
+
+<div class="page fade-in show">
+  <h1 class="gradient-text display">PDF Tools – Third-party API</h1>
+  <p class="lede text-body-secondary">
+    Server-to-server integration using HMAC. Upload a password-protected PDF and receive the unlocked PDF.
+  </p>
+
+  <!-- Admin: Generate & manage keys -->
+  <section class="card glass shadow-glow policy-card">
+    <h2 class="h4 mb-3">Admin · API Keys</h2>
+
+    <label class="form-label">Admin token</label>
+    <input class="form-control mb-2" type="password" [(ngModel)]="adminToken" placeholder="Enter X-ADMIN-TOKEN" />
+
+    <div class="d-flex gap-2 flex-wrap mb-2">
+      <input class="form-control" [(ngModel)]="partnerLabel" placeholder="Partner label (e.g. partnerA)" />
+      <button class="btn btn-primary" (click)="create()" [disabled]="busy">
+        {{ busy ? 'Creating…' : 'Generate key' }}
+      </button>
+      <button class="btn btn-outline-secondary" (click)="refresh()">Refresh list</button>
+    </div>
+
+    <p class="text-danger mb-2" *ngIf="error">{{ error }}</p>
+
+    <div class="alert alert-secondary backdrop-blur" *ngIf="lastCreated">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <strong>New API Credentials</strong>
+        <button class="btn btn-sm btn-outline-secondary" (click)="lastCreated = undefined">Dismiss</button>
+      </div>
+      <p class="mb-1">
+        <strong>API Key:</strong>
+        <code>{{ lastCreated?.api_key }}</code>
+        <button class="btn btn-sm btn-outline-secondary ms-2" (click)="copy(lastCreated?.api_key || '')">Copy</button>
+      </p>
+      <p class="mb-1">
+        <strong>API Secret:</strong>
+        <code>{{ lastCreated?.api_secret }}</code>
+        <button class="btn btn-sm btn-outline-secondary ms-2" (click)="copy(lastCreated?.api_secret || '')">Copy</button>
+      </p>
+      <p class="mb-0 text-body-secondary">The secret is shown <em>only once</em>. Store it securely.</p>
+    </div>
+
+    <h3 class="h6 mt-4">Existing keys</h3>
+    <div class="table-responsive" *ngIf="keys.length > 0">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>API Key</th>
+            <th>Label</th>
+            <th>Created</th>
+            <th class="text-end"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let k of keys">
+            <td><code>{{ k.api_key }}</code></td>
+            <td>{{ k.label }}</td>
+            <td>{{ k.created_at }}</td>
+            <td class="text-end">
+              <button class="btn btn-sm btn-danger" (click)="delete(k.api_key)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p *ngIf="keys?.length === 0" class="text-body-secondary mb-0">No keys yet.</p>
+  </section>
+
+  <!-- Third-party API -->
+  <section class="card glass policy-card mt-4">
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <span class="brand-pill">API</span>
+      <h2 class="h4 mb-0">POST /api/v1/remove_password</h2>
+    </div>
+    <p class="mb-3">Upload a password-protected PDF and receive the unlocked PDF as a download.</p>
+
+    <div class="row g-3">
+      <div class="col-12 col-lg-6">
+        <div class="example-figure mb-3">
+          <div class="figure-ph">Request</div>
+          <p class="example-caption mb-0">Endpoint &amp; headers</p>
+        </div>
+        <ul class="mb-3">
+          <li><strong>URL:</strong> <code>{{ removeHmacUrl }}</code></li>
+          <li><strong>Method:</strong> <code>POST</code></li>
+          <li><strong>Content-Type:</strong> <code>multipart/form-data</code></li>
+        </ul>
+        <h3 class="h6">Headers</h3>
+        <ul class="mb-3">
+          <li><code>X-API-KEY</code> — your issued key id</li>
+          <li><code>X-API-TIMESTAMP</code> — UNIX seconds or ISO-8601 UTC (±300s)</li>
+          <li><code>X-API-SIGNATURE</code> — hex HMAC-SHA256 of
+            <code>UPPER(method)\npath\ntimestamp\nsha256_hex(raw_body)</code>
+          </li>
+        </ul>
+        <h3 class="h6">Form fields</h3>
+        <ul class="mb-0">
+          <li><code>file</code> — PDF file (required)</li>
+          <li><code>password</code> — current PDF password (required)</li>
+        </ul>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <h3 class="h6">Example request (cURL)</h3>
+        <pre><code class="lang-bash" [textContent]="curlThirdPartySample"></code></pre>
+
+        <h3 class="h6 mt-3">Success</h3>
+        <pre><code class="lang-http" [textContent]="successNote"></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Responses & Errors -->
+  <section class="card glass policy-card mt-4">
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <span class="brand-pill">RES</span>
+      <h2 class="h4 mb-0">Responses &amp; Errors</h2>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-12 col-md-6" *ngFor="let err of errorSamples">
+        <div class="p-3 border rounded-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <strong>{{ err.title }}</strong>
+            <span class="badge text-bg-secondary">{{ err.status }}</span>
+          </div>
+          <pre class="mb-0"><code class="lang-json" [textContent]="err.body"></code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
