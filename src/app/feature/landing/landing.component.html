@@ -125,7 +125,11 @@
         </p>
         <p class="small text-warning mb-3">Note: demo only for now.</p>
         <div class="d-flex flex-wrap gap-2 mt-auto">
-          <a href="https://internationalization-d2aa6.web.app/en/" class="btn btn-dark btn-sm">View Demo</a>
+          <a
+            href="https://internationalization-d2aa6.web.app/en/"
+            class="btn btn-dark btn-sm"
+            >View Demo</a
+          >
         </div>
       </article>
     </div>
@@ -166,7 +170,7 @@
 </section>
 
 <!-- Inline Demo: PDF Password Remover -->
-<app-remove-password/>
+<app-remove-password />
 
 <!-- FAQ -->
 <section id="faq" class="container-lg py-4 py-md-5">
@@ -215,6 +219,67 @@
           </p>
         </details>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="container-lg py-5">
+  <div class="row g-4 align-items-start">
+    <div class="col-md-6" revealOnScroll>
+      <h2 class="display-6 fw-bold">Get in touch</h2>
+      <p class="text-body-secondary">
+        Have an idea or found a bug? Reach out anytime.
+      </p>
+      <div class="d-flex gap-2">
+        <a
+          href="mailto:saikrishnachaitanya61&#64;gmail.com"
+          class="btn btn-outline-secondary"
+          >saikrishnachaitanya61&#64;gmail.com</a
+        >
+        <a href="https://github.com/otaku0304" class="btn btn-dark">GitHub</a>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <form
+        action="https://formspree.io/f/YOUR-FORM-ID"
+        method="POST"
+        class="rounded-4 border glass p-4"
+      >
+        <div class="mb-3">
+          <label class="form-label small" for="name">Your Name</label>
+          <input
+            id="name"
+            type="text"
+            name="name"
+            required
+            class="form-control"
+            autocomplete="name"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label small" for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            required
+            class="form-control"
+            autocomplete="email"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label small" for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            required
+            class="form-control"
+          ></textarea>
+        </div>
+        <button class="btn btn-dark shadow-glow" type="submit">Send</button>
+      </form>
     </div>
   </div>
 </section>
