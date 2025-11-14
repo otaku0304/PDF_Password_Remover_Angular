@@ -20,8 +20,6 @@ import { CommonModule } from '@angular/common';
   imports: [RouterOutlet, HeaderComponent, FooterComponent, CommonModule],
 })
 export class AppComponent implements OnInit {
-  hideFooter = false;
-
   private readonly siteUrl = AppConfig.getSiteURL();
   constructor(
     private readonly meta: Meta,
@@ -29,12 +27,6 @@ export class AppComponent implements OnInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {
-    this.router.events
-      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
-      .subscribe((e) => {
-        const hiddenRoutes = ['/privacy'];
-        this.hideFooter = hiddenRoutes.includes(e.urlAfterRedirects);
-      });
   }
 
   ngOnInit() {
