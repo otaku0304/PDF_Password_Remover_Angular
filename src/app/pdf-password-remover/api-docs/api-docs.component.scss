@@ -49,13 +49,13 @@ code {
 }
 
 .badge.text-bg-secondary {
-    background: rgba(148, 163, 184, .25);
-    color: #334155;
+    background: rgba(148, 163, 184, 0.25);
+    color: #0f172a;
 }
 
 [data-bs-theme="dark"] .badge.text-bg-secondary {
-    background: rgba(148, 163, 184, .2);
-    color: #e2e8f0;
+    background: #64748b;
+    color: #f8fafc;
 }
 
 .policy-card {

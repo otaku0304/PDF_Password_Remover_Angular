@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // *ngIf, *ngFor
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   ApiDocsService,
   CreatedKey,
   KeyRow,
 } from 'src/app/core/service/pdf-api-docs/api-docs.service';
+import { AppConfig } from 'src/app/core/config/app.config';
 
 @Component({
   selector: 'app-api-docs',
@@ -15,6 +16,8 @@ import {
   styleUrls: ['./api-docs.component.scss'],
 })
 export class ApiDocsComponent implements OnInit {
+  private readonly api = AppConfig.getAPIURI();
+
   // Admin
   adminToken = '';
   partnerLabel = '';
@@ -24,10 +27,8 @@ export class ApiDocsComponent implements OnInit {
   error = '';
 
   // URLs
-  apiBase = '';
   removeHmacUrl = '';
 
-  // Samples (rendered with [textContent])
   curlThirdPartySample = '';
   successNote = '';
   errorSamples: Array<{ title: string; status: string; body: string }> = [];
@@ -35,14 +36,8 @@ export class ApiDocsComponent implements OnInit {
   constructor(private readonly svc: ApiDocsService) {}
 
   ngOnInit(): void {
-    this.apiBase =
-      window.location.hostname === 'localhost'
-        ? 'http://localhost:5000'
-        : (this.svc as { base?: string }).base || '';
+    this.removeHmacUrl = `${this.api}/api/v1/remove_password`;
 
-    this.removeHmacUrl = `${this.apiBase}/api/v1/remove_password`;
-
-    // --- Request sample (curl) ---
     this.curlThirdPartySample = `TS=$(date +%s)
 # BODY_HEX must be SHA-256 of the EXACT multipart bytes you will send.
 # Compute this in your server code (languages differ); shells usually can't.
@@ -114,7 +109,6 @@ Content-Disposition: attachment; filename="unlocked.pdf"
     ];
   }
 
-  // Admin actions (unchanged)
   refresh(): void {
     if (!this.adminToken) {
       this.error = 'Enter the admin token to list keys.';

@@ -14,10 +14,10 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class RevealOnScrollDirective implements AfterViewInit, OnDestroy {
   private io?: IntersectionObserver;
-  private isBrowser = false;
+  private readonly isBrowser: boolean = false;
 
   constructor(
-    private el: ElementRef<HTMLElement>,
+    private readonly el: ElementRef<HTMLElement>,
     @Inject(PLATFORM_ID) platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -27,7 +27,7 @@ export class RevealOnScrollDirective implements AfterViewInit, OnDestroy {
     const el = this.el.nativeElement;
     el.classList.add('fade-in');
 
-    if (!this.isBrowser || !('IntersectionObserver' in window)) {
+    if (!this.isBrowser || !('IntersectionObserver' in globalThis)) {
       el.classList.add('show');
       return;
     }
