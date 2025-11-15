@@ -277,3 +277,20 @@ a.btn:focus-visible {
   box-shadow: var(--ring-shadow);
   outline: 0;
 }
+
+.fade-in {
+  opacity: .001;
+  transform: translateY(10px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    transition: none;
+  }
+}
