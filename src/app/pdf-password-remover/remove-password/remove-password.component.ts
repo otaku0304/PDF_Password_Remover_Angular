@@ -1,85 +1,149 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { Router } from '@angular/router';
-import { PdfService } from '../../core/service/pdf/pdf.service';
-import { PdfBackendService } from '../../core/service/pdf_backend_service/pdfBackend.service';
-import { CommonModule } from '@angular/common';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TokenService } from '../../core/token.service';
+import { PdfBackendService } from 'src/app/core/service/pdf_backend_service/pdfBackend.service';
 
 @Component({
   selector: 'app-remove-password',
-  templateUrl: './remove-password.component.html',
-  styleUrls: ['./remove-password.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
+    MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
   ],
+  templateUrl: './remove-password.component.html',
+  styleUrls: ['./remove-password.component.scss'],
 })
 export class RemovePasswordComponent {
-  @Output() unlockSuccess = new EventEmitter<string>();
-  selectedFiles: File[] = this.pdfService.getSelectedPdfFile();
-  passwords: string[] = [];
-  currentFileIndex: number = 0;
-  isHidePassword: boolean = false;
-  isLoading: boolean = false;
-  error: string | null = null;
+  loading = false;
+  status = '';
+  password = '';
+  showPassword = false;
+  downloadHref: string | null = null;
+
+  private readonly isBrowser: boolean;
+
   constructor(
-    public pdfBackendService: PdfBackendService,
-    private readonly pdfService: PdfService,
-    private readonly router: Router
-  ) {}
+    @Inject(PLATFORM_ID) platformId: Object,
+    private readonly tokenService: TokenService,
+    private readonly pdfApi: PdfBackendService
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   toggleShowPassword() {
-    this.isHidePassword = !this.isHidePassword;
+    this.showPassword = !this.showPassword;
   }
 
-  unlockPDF() {
-    this.isLoading = true;
-  
-    const currentFile = this.selectedFiles[this.currentFileIndex];
-    const currentPassword = this.passwords[this.currentFileIndex];
-  
-    this.pdfBackendService.unlockPdf(currentPassword, currentFile).subscribe(
-      (response: Blob) => {
-        this.isLoading = false;
-  
-        const blob = new Blob([response], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `unlocked-${this.currentFileIndex + 1}.pdf`;
-        a.click();
-        window.URL.revokeObjectURL(url);
-        this.currentFileIndex++;
-        if (this.currentFileIndex < this.selectedFiles.length) {
-        } else {
-          this.router.navigate(['/pdf/download']);
-          this.unlockSuccess.emit('All PDFs unlocked successfully');
-        }
-      },
-      (error) => {
-        this.isLoading = false;
-        console.error('Error unlocking PDF:', error);
-        if (error.status === 400) {
-          this.error = 'Incorrect password. Please check and try again.';
-        } else if (error.status === 500) {
-          this.error = 'An error occurred on the server while unlocking the PDF.';
-        } else if (error.message.includes('Http failure response')) {
-          this.error = 'The server is not running. Please try again later.';
-        } else {
-          this.error = 'An error occurred while unlocking the PDF.';
-        }
-      }
-    );
+  onSubmit(fileInput: HTMLInputElement) {
+    if (!this.isBrowser) return;
+
+    const file = fileInput.files?.[0] || null;
+    const pwd = (this.password || '').trim();
+    this.downloadHref = null;
+    this.status = '';
+
+    if (!file || !pwd) {
+      this.status = 'Please choose a PDF and enter password.';
+      return;
+    }
+    if (
+      file.type !== 'application/pdf' &&
+      !file.name.toLowerCase().endsWith('.pdf')
+    ) {
+      this.status = 'Only PDF files are supported.';
+      return;
+    }
+
+    this.loading = true;
+    this.status = 'Processing…';
+    this.attempt(file, pwd, false);
   }
-  
-  
+
+  private attempt(file: File, pwd: string, isRetry: boolean) {
+    this.tokenService.getReqToken().subscribe({
+      next: ({ req_token }) => {
+        const fd = new FormData();
+        fd.append('file', file);
+        fd.append('password', pwd);
+
+        this.pdfApi.removePassword(fd, req_token).subscribe({
+          next: (blob: Blob) => {
+            this.loading = false;
+            if (!(blob instanceof Blob)) {
+              this.status = 'Unexpected response.';
+              return;
+            }
+            this.downloadHref = URL.createObjectURL(blob);
+            this.status = 'Done! Click to download.';
+          },
+          error: (err) => {
+            this.handleError(err).then((reason) => {
+              if (
+                !isRetry &&
+                ['bad_token', 'expired', 'replayed', 'ip_mismatch'].includes(
+                  reason
+                )
+              ) {
+                this.attempt(file, pwd, true);
+                return;
+              }
+              this.loading = false;
+              this.status = reason || 'Server error. Please try again.';
+            });
+          },
+        });
+      },
+      error: () => {
+        this.loading = false;
+        this.status = 'Could not prepare request.';
+      },
+    });
+  }
+
+
+  private async handleError(err: any): Promise<string> {
+    try {
+      const hdr = err?.headers?.get?.('X-Error-Reason');
+      if (hdr) return hdr;
+
+      const payload = err?.error;
+      if (payload instanceof Blob) {
+        const ct = payload.type || '';
+        if (ct.includes('application/json')) {
+          const obj = await new Response(payload)
+            .json()
+            .catch(() => ({} as any));
+          return obj && typeof obj.error === 'string'
+            ? obj.error
+            : 'Unexpected error';
+        }
+        const text = await new Response(payload).text().catch(() => '');
+        if (text) return text.slice(0, 200);
+        return 'Unexpected error';
+      }
+
+      if (
+        payload &&
+        typeof payload === 'object' &&
+        typeof payload.error === 'string'
+      ) {
+        return payload.error;
+      }
+
+      return (err?.message || '').slice(0, 200) || 'Network error';
+    } catch {
+      return 'Unexpected error';
+    }
+  }
 }

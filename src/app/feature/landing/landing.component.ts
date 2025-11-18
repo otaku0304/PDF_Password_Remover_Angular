@@ -1,17 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { AppConfig } from '../../core/config/app.config';
+import { CommonModule} from '@angular/common';
+import { RevealOnScrollDirective } from '../../shared/reveal-on-scroll.directive';
+import { RemovePasswordComponent } from "src/app/pdf-password-remover/remove-password/remove-password.component";
+
 @Component({
   selector: 'app-landing',
-  templateUrl: './landing.component.html',
-  styleUrls: [],
   standalone: true,
-  imports: [RouterLink],
+  imports: [CommonModule, RevealOnScrollDirective, RemovePasswordComponent],
+  templateUrl: './landing.component.html',
 })
-export class LandingComponent {
-  private readonly navigateToI18n = AppConfig.getI18nUrl();
-
-  navigateToi18n() {
-    window.location.href = `${this.navigateToI18n}`;
-  }
-}
+export class LandingComponent {}

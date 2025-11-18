@@ -1,0 +1,110 @@
+.api-page {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem;
+
+    --bd-muted: rgba(100, 116, 139, 0.25);
+    --code-bg: #0b1020;
+    --code-fg: #e5e7eb;
+
+    .panel .card-body {
+        padding: 1.25rem;
+    }
+
+    .method {
+        display: inline-grid;
+        place-items: center;
+        min-width: 56px;
+        height: 24px;
+        padding: 0 .5rem;
+        border-radius: .5rem;
+        font-weight: 700;
+        font-size: .75rem;
+        color: #fff;
+
+        &[data-method='GET'] {
+            background: #0ea5e9;
+        }
+
+        &[data-method='POST'] {
+            background: #10b981;
+        }
+
+        &[data-method='PUT'] {
+            background: #f59e0b;
+        }
+
+        &[data-method='DELETE'] {
+            background: #ef4444;
+        }
+    }
+
+    .quick-spec .badge {
+        border: 1px solid var(--bd-muted);
+        background: var(--bs-body-bg);
+    }
+
+    .code-block pre {
+        background: var(--code-bg);
+        color: var(--code-fg);
+        border-radius: .5rem;
+        padding: .75rem;
+        margin: 0;
+        overflow: auto;
+        font-size: .875rem;
+    }
+
+    .code-block.compact pre {
+        padding: .5rem;
+        font-size: .82rem;
+    }
+
+    .error-card {
+        border: 1px solid var(--bd-muted);
+        border-radius: .75rem;
+        background: var(--bs-body-bg);
+    }
+
+    .text-monospace {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .keys-table th,
+    .keys-table td {
+        vertical-align: middle;
+    }
+
+    .keys-table td .input-group-sm .form-control {
+        font-family: inherit;
+    }
+
+    .toast {
+        transition: opacity .15s ease-in-out;
+    }
+
+    table.table-sm th,
+    table.table-sm td {
+        padding-top: .4rem;
+        padding-bottom: .4rem;
+    }
+}
+
+[data-bs-theme='dark'] .api-page {
+    --bd-muted: rgba(148, 163, 184, 0.25);
+    --code-bg: #0b0f1a;
+    --code-fg: #e5e7eb;
+
+    .quick-spec .badge,
+    .error-card {
+        background: rgba(15, 23, 42, .5);
+    }
+}
+
+.keys-table .masked {
+    letter-spacing: .04em;
+}
+
+.blurred {
+    filter: blur(5px);
+    user-select: none;
+}

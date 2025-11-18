@@ -1,22 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppConfig } from '../../config/app.config';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class PdfBackendService {
   private readonly api = AppConfig.getAPIURI();
 
   constructor(private readonly http: HttpClient) {}
 
-  unlockPdf(password: string, pdfFile: File) {
-    const formData = new FormData();
-    formData.append('password', password);
-    formData.append('pdfFile', pdfFile);
-    const observable = this.http.post(`${this.api}/remove_password`, formData, {
+  removePassword(form: FormData, reqToken: string) {
+    const headers = new HttpHeaders({ 'X-REQ-TOKEN': reqToken });
+    return this.http.post(`${this.api}/api/remove_password`, form, {
+      headers,
       responseType: 'blob',
     });
-    return observable;
   }
 }

@@ -1,75 +1,296 @@
-.button-color {
-  background-color: #252627;
-  color: #fff;
+/* =========================
+   Global theme & typography
+   ========================= */
+:root {
+  --brand-500: #6366f1;
+  --brand-600: #4f46e5;
+  --brand-700: #4338ca;
+  --ring-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.35);
 }
 
-.text-color {
-  color: rgb(255, 255, 255);
+body {
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    sans-serif !important;
 }
 
 h1,
 h2,
 h3,
-h4,
-p,
-footer,
-.btn {
-  font-family: "Titillium Web", sans-serif !important;
+.display {
+  font-family: Sora, Inter, system-ui, Arial, sans-serif;
 }
 
-h1 {
-  font-size: 46px !important;
+/* =========================
+   Decorative background
+   ========================= */
+.hero-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background: radial-gradient(
+      700px 350px at 15% 0%,
+      rgba(99, 102, 241, 0.22),
+      transparent 60%
+    ),
+    radial-gradient(
+      600px 300px at 85% 0%,
+      rgba(56, 189, 248, 0.18),
+      transparent 60%
+    );
 }
 
-h3 {
-  font-size: 20px !important;
+.hero-ribbon {
+  position: fixed;
+  inset-inline: 0;
+  top: -240px;
+  height: 420px;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--brand-500), #22d3ee, #d946ef);
+  background-size: 200% 200%;
+  filter: blur(50px);
+  opacity: 0.1;
+  animation: gradient 10s ease infinite;
 }
 
-.smaller-image {
-  max-width: 80px;
-  height: auto;
-  margin: 0 auto;
+[data-bs-theme="dark"] .hero-ribbon {
+  opacity: 0.2;
 }
 
-.btn {
-  margin-top: 10px;
-  font-size: 20px;
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-.success-button-color {
-  background-color: #42aa5c;
+/* =========================
+   Cards, effects & utilities
+   ========================= */
+.glass {
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.65),
+    rgba(255, 255, 255, 0.35)
+  );
+  backdrop-filter: blur(12px);
+}
+
+[data-bs-theme="dark"] .glass {
+  background: linear-gradient(
+    to bottom right,
+    rgba(2, 6, 23, 0.65),
+    rgba(2, 6, 23, 0.35)
+  );
+}
+
+.shadow-glow {
+  box-shadow: 0 18px 60px rgba(79, 70, 229, 0.25);
+}
+
+.brand-pill {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--brand-700), #a21caf);
   color: #fff;
+  font-weight: 700;
 }
 
-.mat-mdc-snack-bar-container {
-  &.success-snackbar {
-    --mdc-snackbar-container-color: #2b60af;
-    --mat-mdc-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
-    margin: 8px;
-    text-align: center;
+.backdrop-blur {
+  backdrop-filter: blur(10px);
+}
+
+/* =========================
+   Navbar polish (dark mode)
+   ========================= */
+[data-bs-theme="dark"] .navbar.bg-body {
+  background-color: rgba(2, 6, 23, 0.85) !important;
+  backdrop-filter: blur(10px);
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+/* =========================
+   Buttons: accessible dark theme
+   ========================= */
+/* Better focus visibility everywhere */
+.btn:focus-visible,
+a.btn:focus-visible {
+  box-shadow: var(--ring-shadow);
+  outline: 0;
+}
+
+/* Your main CTAs used .btn-dark → make them brand in dark mode */
+[data-bs-theme="dark"] .btn-dark {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--brand-600);
+  --bs-btn-border-color: var(--brand-600);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--brand-700);
+  --bs-btn-hover-border-color: var(--brand-700);
+  --bs-btn-active-bg: var(--brand-700);
+  --bs-btn-active-border-color: var(--brand-700);
+  --bs-btn-focus-shadow-rgb: 99, 102, 241;
+  /* brand-500 */
+}
+
+/* Outline secondary: clearer borders/hover on dark backgrounds */
+[data-bs-theme="dark"] .btn-outline-secondary {
+  --bs-btn-color: #cbd5e1;
+  /* slate-300 */
+  --bs-btn-border-color: #64748b;
+  /* slate-500 */
+  --bs-btn-hover-color: #e2e8f0;
+  /* slate-200 */
+  --bs-btn-hover-bg: #1f2937;
+  /* slate-800 */
+  --bs-btn-hover-border-color: #94a3b8;
+  /* slate-400 */
+  --bs-btn-active-bg: #334155;
+  /* slate-700 */
+  --bs-btn-active-border-color: #94a3b8;
+  --bs-btn-focus-shadow-rgb: 148, 163, 184;
+}
+
+/* Primary (e.g., StartMyDev): bright brand with strong contrast */
+[data-bs-theme="dark"] .btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--brand-500);
+  --bs-btn-border-color: var(--brand-500);
+  --bs-btn-hover-bg: var(--brand-600);
+  --bs-btn-hover-border-color: var(--brand-600);
+  --bs-btn-active-bg: var(--brand-700);
+  --bs-btn-active-border-color: var(--brand-700);
+  --bs-btn-focus-shadow-rgb: 99, 102, 241;
+}
+
+/* Disabled secondary (your “Open Tool” placeholder) */
+[data-bs-theme="dark"] .btn-secondary {
+  --bs-btn-color: #e2e8f0;
+  --bs-btn-bg: #334155;
+  /* slate-700 */
+  --bs-btn-border-color: #475569;
+  /* slate-600 */
+  --bs-btn-disabled-color: #94a3b8;
+  /* slate-400 */
+  --bs-btn-disabled-bg: #1f2937;
+  /* slate-800 */
+  --bs-btn-disabled-border-color: #334155;
+}
+
+/* =========================
+   Links in dark (subtle lift)
+   ========================= */
+[data-bs-theme="dark"] a.link-secondary,
+[data-bs-theme="dark"] .text-body-secondary a {
+  color: #a5b4fc;
+  /* soft indigo */
+}
+
+[data-bs-theme="dark"] a.link-secondary:hover {
+  color: #c7d2fe;
+}
+
+:host {
+  display: block;
+}
+
+.policy-card {
+  border-radius: 1rem;
+}
+
+@keyframes ribbon {
+  0% {
+    background-position: 0% 50%;
   }
 
-  &.error-snackbar {
-    --mdc-snackbar-container-color: #de0202;
-    --mat-mdc-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
-    margin: 8px;
-    text-align: center;
+  50% {
+    background-position: 100% 50%;
   }
-  &.view-snackbar {
-    --mdc-snackbar-container-color: #2b60af;
-    --mat-mdc-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
-    --mat-snack-bar-button-color: #fff;
+
+  100% {
+    background-position: 0% 50%;
   }
 }
 
-.text-error {
-  color: #f44336;
-  font-weight: 500;
+/* Animated gradient headline */
+.gradient-text {
+  background: linear-gradient(90deg, var(--brand-500), #22d3ee, #d946ef);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: hue 8s linear infinite;
 }
 
-.fs-20 {
-  font-size: 20px;
+@keyframes hue {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* example-figure base styles you already have */
+.example-figure {
+  border: 1px solid rgba(100, 116, 139, 0.35);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin: 0;
+}
+
+.figure-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  overflow: hidden;
+}
+
+.figure-media picture,
+.figure-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.figure-media img {
+  object-fit: cover;
+}
+
+.example-caption {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  background: rgba(148, 163, 184, 0.12);
+  font-size: 0.875rem;
+}
+
+/* Better focus visibility on buttons (optional) */
+.btn:focus-visible {
+  box-shadow: var(--ring-shadow);
+  outline: 0;
+}
+
+.fade-in {
+  opacity: .001;
+  transform: translateY(10px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    transition: none;
+  }
 }

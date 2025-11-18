@@ -1,0 +1,378 @@
+<section class="api-page">
+  <div class="container-xxl">
+    <div class="text-center mb-4">
+      <h1 class="h3 fw-bold mb-1">API Reference</h1>
+      <p class="text-body-secondary mb-0">
+        HMAC-authenticated endpoints with robust error semantics.
+      </p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+      <main class="col-12 col-lg-10 mx-auto">
+        <!-- Overview -->
+        <article id="api-overview" class="panel card shadow-sm mb-4" tabindex="-1" aria-labelledby="apiOverviewTitle">
+          <div class="card-body">
+            <h2 id="apiOverviewTitle" class="h5 mb-2">Overview</h2>
+            <p class="mb-3 text-body-secondary">
+              HMAC-authenticated endpoint to remove a PDF password and return the unlocked file.
+            </p>
+
+            <ul class="stats list-unstyled small mt-0 mb-3">
+              <li class="mb-1"><span class="badge text-bg-secondary">Auth</span> HMAC-SHA256 (key + secret)</li>
+              <li class="mb-1"><span class="badge text-bg-secondary">Content</span> multipart/form-data</li>
+              <li><span class="badge text-bg-secondary">Rate-limit</span> Per API key</li>
+            </ul>
+
+            <div class="rounded-3 border p-3 mb-3">
+              <h3 class="h6 mb-2 d-flex align-items-center gap-2">
+                <i class="bi bi-speedometer2"></i> Rate limits
+              </h3>
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <ul class="list-unstyled small mb-0">
+                    <li class="mb-1"><strong>Quota:</strong> 5 calls / day per API key</li>
+                    <li class="mb-1"><strong>Window:</strong> UTC day (resets at 00:00 UTC)</li>
+                    <li class="mb-1"><strong>Exceeding:</strong> HTTP 429 with JSON error</li>
+                  </ul>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="table-responsive">
+                    <table class="table table-sm align-middle mb-0">
+                      <thead><tr><th>Header</th><th>Meaning</th></tr></thead>
+                      <tbody>
+                        <tr>
+                          <td><code>X-RateLimit-Limit</code></td>
+                          <td class="text-body-secondary">Daily quota (always 5 by default)</td>
+                        </tr>
+                        <tr>
+                          <td><code>X-RateLimit-Remaining</code></td>
+                          <td class="text-body-secondary">Calls left today <em>after</em> this request</td>
+                        </tr>
+                        <tr>
+                          <td><code>X-RateLimit-Reset</code></td>
+                          <td class="text-body-secondary">Unix epoch seconds of next UTC reset</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- IMPORTANT NOTICE -->
+            <div class="alert alert-info mb-0">
+              <strong>Note:</strong> This API is for developers and public use with limits. Postman
+              <em>does not work for file uploads</em> with this HMAC scheme, because it re-encodes
+              <code>multipart/form-data</code> and the raw bytes you sign won’t match the bytes sent.
+              Use the code samples below (Python / Node.js / Go) in your application.
+            </div>
+          </div>
+        </article>
+
+        <!-- API keys (create / copy section / stored table) -->
+        <article class="panel card shadow-sm mb-4" aria-labelledby="adminKeysTitle">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+              <h2 id="adminKeysTitle" class="h5 mb-0">API keys</h2>
+            </div>
+
+            <!-- Admin form: side-by-side at all widths (wraps if tight) -->
+            <div class="d-flex align-items-start gap-2 flex-wrap">
+              <!-- input column -->
+              <div class="flex-grow-1 min-w-0" style="min-width: 260px;">
+                <label class="form-label small fw-semibold">Partner label</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="e.g. acme-inc"
+                  [(ngModel)]="partnerLabel"
+                  autocomplete="off"
+                  [class.is-invalid]="(partnerLabelTouched || submitted) && partnerLabelError"
+                  (blur)="partnerLabelTouched = true"
+                />
+                <div class="invalid-feedback d-block" *ngIf="(partnerLabelTouched || submitted) && partnerLabelError">
+                  {{ partnerLabelError }}
+                </div>
+                <div class="form-text">
+                  Allowed: <code>a-z</code>, <code>0-9</code>, <code>-</code>. Max 16 chars. Must be unique.
+                </div>
+              </div>
+
+              <!-- button -->
+              <div>
+                <label class="form-label small fw-semibold d-none d-md-block">&nbsp;</label>
+                <button class="btn btn-primary" (click)="create()" [disabled]="!canCreate">
+                  <i class="bi bi-plus-circle"></i> Create key
+                </button>
+              </div>
+            </div>
+
+            <!-- Inline status -->
+            <div class="mt-3" *ngIf="error">
+              <div class="alert alert-danger py-2 px-3 mb-0">
+                <i class="bi bi-exclamation-triangle"></i> {{ error }}
+              </div>
+            </div>
+
+            <!-- Recently issued COPY SECTION (stays until BOTH copied) -->
+            <div class="mt-3" *ngIf="lastCreatedCopySection">
+              <div class="alert alert-warning d-flex flex-column flex-md-row justify-content-between align-items-start gap-3">
+                <div>
+                  <strong>Copy these credentials now.</strong>
+                  This section will hide after you copy both the API key and the Secret. Masked values remain in the table below.
+                </div>
+                <div class="d-flex flex-column flex-sm-row gap-2">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-text">API Key</span>
+                    <input class="form-control" [value]="lastCreatedCopySection.api_key" readonly />
+                    <button
+                      class="btn btn-outline-secondary"
+                      (click)="copyFromCopySection('api_key')"
+                      [disabled]="copied.api_key"
+                      [attr.aria-pressed]="copied.api_key"
+                    >
+                      <i class="bi" [ngClass]="copied.api_key ? 'bi-check2' : 'bi-clipboard'"></i>
+                      {{ copied.api_key ? 'Copied' : 'Copy' }}
+                    </button>
+                  </div>
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-text">Secret</span>
+                    <input class="form-control" [value]="lastCreatedCopySection.api_secret" readonly />
+                    <button
+                      class="btn btn-outline-secondary"
+                      (click)="copyFromCopySection('api_secret')"
+                      [disabled]="copied.api_secret"
+                      [attr.aria-pressed]="copied.api_secret"
+                    >
+                      <i class="bi" [ngClass]="copied.api_secret ? 'bi-check2' : 'bi-clipboard'"></i>
+                      {{ copied.api_secret ? 'Copied' : 'Copy' }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stored keys table (masked & blurred) -->
+            <div class="table-responsive mt-3">
+              <table class="table table-sm align-middle keys-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Created</th>
+                    <th scope="col">Label</th>
+                    <th scope="col">API Key</th>
+                    <th scope="col">Secret</th>
+                    <th scope="col" class="text-end">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let k of storedKeys; trackBy: trackByKey">
+                    <td class="text-body-secondary small">{{ k.created_at || '-' }}</td>
+                    <td>{{ k.name || '-' }}</td>
+                    <td class="text-monospace"><span class="masked blurred">{{ mask(k.api_key) }}</span></td>
+                    <td class="text-monospace"><span class="masked blurred">{{ mask(k.api_secret) }}</span></td>
+                    <td class="text-end">
+                      <button class="btn btn-outline-danger btn-sm" (click)="confirmDelete(k)" [disabled]="busy">
+                        <i class="bi bi-trash"></i> Delete
+                      </button>
+                    </td>
+                  </tr>
+                  <tr *ngIf="!storedKeys.length">
+                    <td colspan="5" class="text-center text-body-secondary small py-3">
+                      No keys yet. Create one above to get started.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p class="small text-body-secondary mb-0">
+              Keys authenticate calls to <code>/api/v1/remove_password</code> using HMAC headers.<br />
+              Successful unlocks decrement the daily quota. See <code>X-RateLimit-*</code> response headers.
+            </p>
+          </div>
+        </article>
+
+        <!-- Endpoint (with language tabs instead of cURL) -->
+        <article
+          *ngFor="let ep of endpoints; trackBy: trackByPath"
+          class="panel card shadow-sm mb-4"
+          [id]="ep.id"
+          [attr.aria-labelledby]="ep.id + '-title'"
+          tabindex="-1"
+        >
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <span class="method" [attr.data-method]="ep.method">{{ ep.method }}</span>
+                <h3 class="h5 mb-0" [id]="ep.id + '-title'">{{ ep.title }}</h3>
+              </div>
+              <button class="btn btn-outline-secondary btn-sm" type="button" (click)="copy(ep.path)">
+                <i class="bi bi-clipboard"></i> Copy path
+              </button>
+            </div>
+
+            <p class="mb-2"><code class="fw-semibold">{{ ep.path }}</code></p>
+            <p class="mb-3 text-body-secondary">{{ ep.description }}</p>
+
+            <div class="quick-spec d-flex flex-wrap gap-2 mb-3">
+              <span class="badge rounded-pill text-bg-light"><i class="bi bi-key"></i> HMAC headers</span>
+              <span class="badge rounded-pill text-bg-light" *ngIf="ep.form?.length"><i class="bi bi-ui-checks"></i> Form data</span>
+              <span class="badge rounded-pill text-bg-light"><i class="bi bi-filetype-json"></i> JSON errors</span>
+              <span class="badge rounded-pill text-bg-light"><i class="bi bi-speedometer2"></i> 5 calls/day</span>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                <button class="nav-link" [class.active]="isActive(ep.id, 'req')" (click)="setTab(ep.id, 'req')">
+                  Request
+                </button>
+              </li>
+              <li class="nav-item" *ngIf="ep.success">
+                <button class="nav-link" [class.active]="isActive(ep.id, 'res')" (click)="setTab(ep.id, 'res')">
+                  Success
+                </button>
+              </li>
+              <li class="nav-item" *ngIf="ep.errors?.length">
+                <button class="nav-link" [class.active]="isActive(ep.id, 'err')" (click)="setTab(ep.id, 'err')">
+                  Errors
+                </button>
+              </li>
+            </ul>
+
+            <div class="tab-content pt-3">
+              <!-- Request -->
+              <div class="tab-pane fade" [class.show]="isActive(ep.id, 'req')" [class.active]="isActive(ep.id, 'req')">
+                <div class="row g-3">
+                  <div class="col-12 col-lg-6">
+                    <h4 class="h6">Headers</h4>
+                    <div class="table-responsive">
+                      <table class="table table-sm align-middle mb-0">
+                        <thead><tr><th>Name</th><th>Description</th></tr></thead>
+                        <tbody>
+                          <tr *ngFor="let h of ep.headers">
+                            <td><code>{{ h.name }}</code></td>
+                            <td class="text-body-secondary">{{ h.desc }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-lg-6" *ngIf="ep.form?.length">
+                    <h4 class="h6">Form fields</h4>
+                    <div class="table-responsive">
+                      <table class="table table-sm align-middle mb-0">
+                        <thead><tr><th>Field</th><th>Description</th></tr></thead>
+                        <tbody>
+                          <tr *ngFor="let f of ep.form">
+                            <td><code>{{ f.name }}</code></td>
+                            <td class="text-body-secondary">{{ f.desc }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Language tabs -->
+                <div class="code-tabs mt-3">
+                  <ul class="nav nav-pills mb-2">
+                    <li class="nav-item" *ngFor="let lang of ep.sampleLangs">
+                      <button class="nav-link"
+                        [class.active]="isCodeTab(ep.id, lang)"
+                        (click)="setCodeTab(ep.id, lang)">{{ lang }}</button>
+                    </li>
+                  </ul>
+                  <div class="code-block">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="small text-body-secondary">{{ activeCodeTabLabel(ep.id) }}</span>
+                      <button class="btn btn-dark btn-sm" (click)="copy(activeSample(ep))">
+                        <i class="bi bi-clipboard-check"></i> Copy
+                      </button>
+                    </div>
+                    <pre><code class="lang-plaintext">{{ activeSample(ep) }}</code></pre>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Success -->
+              <div class="tab-pane fade" *ngIf="ep.success" [class.show]="isActive(ep.id, 'res')" [class.active]="isActive(ep.id, 'res')">
+                <div class="code-block">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="small text-body-secondary">HTTP</span>
+                    <button class="btn btn-dark btn-sm" (click)="copy(ep.success!)">
+                      <i class="bi bi-clipboard-check"></i> Copy
+                    </button>
+                  </div>
+                  <pre><code class="lang-http">{{ ep.success }}</code></pre>
+                </div>
+              </div>
+
+              <!-- Errors -->
+              <div class="tab-pane fade" *ngIf="ep.errors?.length" [class.show]="isActive(ep.id, 'err')" [class.active]="isActive(ep.id, 'err')">
+                <div class="row g-3">
+                  <div class="col-12 col-md-6" *ngFor="let er of ep.errors; trackBy: trackByTitle">
+                    <div class="error-card p-3 rounded-3 border h-100">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <strong>{{ er.title }}</strong>
+                        <span class="badge text-bg-secondary">{{ er.status }}</span>
+                      </div>
+                      <div class="code-block compact">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                          <span class="small text-body-secondary">HTTP</span>
+                          <button class="btn btn-dark btn-sm" (click)="copy(er.body)">
+                            <i class="bi bi-clipboard-check"></i> Copy
+                          </button>
+                        </div>
+                        <pre class="mb-0"><code class="lang-http">{{ er.body }}</code></pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Error meanings -->
+                <div class="mt-3">
+                  <h4 class="h6">Error meanings</h4>
+                  <ul class="small mb-0">
+                    <li><code>skew</code>: Timestamp is outside the allowed ±300s window. Client clock out of sync or stale signature.</li>
+                    <li><code>bad_signature</code>: HMAC does not match. Compute using <code>UPPER(method)\npath\ntimestamp\nsha256_hex(raw_body)</code> and the plaintext <code>api_secret</code>.</li>
+                  </ul>
+                </div>
+              </div>
+              <!-- /Errors -->
+            </div>
+          </div>
+        </article>
+
+        <!-- Back to top -->
+        <div class="text-end mb-4">
+          <button class="btn btn-primary" (click)="scrollTo('top')">
+            <i class="bi bi-arrow-up"></i> Back to top
+          </button>
+        </div>
+
+        <!-- Copy toast -->
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+          <div
+            class="toast align-items-center text-bg-dark border-0"
+            role="status"
+            [class.show]="toastVisible"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <div class="d-flex">
+              <div class="toast-body">Copied to clipboard.</div>
+              <button
+                type="button"
+                class="btn-close btn-close-white me-2 m-auto"
+                (click)="toastVisible = false"
+                aria-label="Close"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</section>

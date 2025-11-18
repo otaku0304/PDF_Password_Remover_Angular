@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'app-footer',
-    templateUrl: './footer.component.html',
-    styleUrls: ['./footer.component.scss'],
-    standalone: true,
+  selector: 'app-footer',
+  templateUrl: './footer.component.html',
+  standalone: true,
 })
 export class FooterComponent {
-  title = 'pdf-removal';
-  currentYear: number = new Date().getFullYear();
+  readonly year = new Date().getFullYear();
 }

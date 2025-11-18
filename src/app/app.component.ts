@@ -9,15 +9,14 @@ import {
 import { filter, map } from 'rxjs/operators';
 import { AppConfig } from './core/config/app.config';
 import { HeaderComponent } from './header/header.component';
-import { CursorComponent } from './cursor/cursor.component';
 import { FooterComponent } from './footer/footer.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, CursorComponent, FooterComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, CommonModule],
 })
 export class AppComponent implements OnInit {
   private readonly siteUrl = AppConfig.getSiteURL();
@@ -26,7 +25,8 @@ export class AppComponent implements OnInit {
     private readonly title: Title,
     private readonly router: Router,
     private readonly route: ActivatedRoute
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.router.events
