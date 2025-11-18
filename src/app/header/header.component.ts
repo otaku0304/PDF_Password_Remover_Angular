@@ -1,5 +1,6 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 type ThemePref = 'system' | 'dark' | 'light';
 
@@ -7,6 +8,7 @@ type ThemePref = 'system' | 'dark' | 'light';
   selector: 'app-header',
   templateUrl: './header.component.html',
   standalone: true,
+  imports:[RouterLink]
 })
 export class HeaderComponent {
   private readonly KEY = 'theme-pref';

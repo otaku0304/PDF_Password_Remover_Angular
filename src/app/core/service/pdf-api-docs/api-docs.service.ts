@@ -1,12 +1,14 @@
+// src/app/core/service/pdf-api-docs/api-docs.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { AppConfig } from '../../config/app.config';
 
 export interface CreatedKey {
   api_key: string;
-  api_secret: string; 
+  api_secret: string;
   label: string;
   created_at: string;
+  name: string;
 }
 
 export interface KeyRow {
@@ -22,27 +24,13 @@ export class ApiDocsService {
 
   constructor(private readonly http: HttpClient) {}
 
-  createKey(label: string, adminToken: string) {
-    const headers = new HttpHeaders({ 'X-ADMIN-TOKEN': adminToken });
-    return this.http.post<CreatedKey>(
-      `${this.api}/api/admin/keys`,
-      { label },
-      { headers }
-    );
+  createKey(name: string) {
+    return this.http.post<CreatedKey>(`${this.api}/api/key/generate`, { name });
   }
 
-  listKeys(adminToken: string) {
-    const headers = new HttpHeaders({ 'X-ADMIN-TOKEN': adminToken });
-    return this.http.get<{ keys: KeyRow[] }>(`${this.api}/api/admin/keys`, {
-      headers,
-    });
-  }
-
-  deleteKey(keyId: string, adminToken: string) {
-    const headers = new HttpHeaders({ 'X-ADMIN-TOKEN': adminToken });
+  deleteKey(keyId: string) {
     return this.http.delete<{ ok: boolean }>(
-      `${this.api}/api/admin/keys/${encodeURIComponent(keyId)}`,
-      { headers }
+      `${this.api}/api/keys/${encodeURIComponent(keyId)}`
     );
   }
 }
