@@ -260,7 +260,7 @@ X-RateLimit-Reset: <epoch>
           'Content-Type: application/json',
           '',
           '{',
-          '  "error": "bad_signature: HMAC does not match. Recompute using UPPER(method)\\npath\\ntimestamp\\nsha256_hex(raw_body) with your plaintext api_secret."",',
+          '  "error": "bad_signature: HMAC does not match. Recompute using UPPER(method)\\npath\\ntimestamp\\nsha256_hex(raw_body) with your plaintext api_secret.",',
           '}',
         ].join('\n'),
       },

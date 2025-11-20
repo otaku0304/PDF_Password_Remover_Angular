@@ -6,14 +6,14 @@
         Fast • Private • Free
       </p>
       <h1 class="display-5 fw-bold lh-tight">
-        Handy tools for everyday files.
+        Handy tools I built for everyday files.
       </h1>
       <p class="mt-3 fs-5 text-body-secondary">
         Remove PDF passwords, compress images without losing quality, and speed
         up Angular localization — all right in your browser.
       </p>
       <div class="mt-4 d-flex flex-wrap gap-2">
-        <a href="#tools" class="btn btn-dark shadow-glow">Explore Tools</a>
+        <a href="#tools" class="btn btn-dark shadow-glow">Explore My Tools</a>
         <a href="https://github.com/otaku0304" class="btn btn-outline-secondary"
           >GitHub</a
         >
@@ -43,13 +43,41 @@
   </div>
 </section>
 
+<!-- About Me (placed under hero for context) -->
+<section id="about" class="container-lg py-4 py-md-5">
+  <div class="row g-4 align-items-center">
+    <div class="col-md-4" revealOnScroll>
+      <img
+        src="../../../assets/images/me.webp"
+        alt="Portrait of Sai Krishna Chaitanya"
+        class="img-fluid rounded-4 border"
+        style="object-fit: cover"
+      />
+    </div>
+    <div class="col-md-8" revealOnScroll>
+      <h2 class="display-6 fw-bold">About Me</h2>
+      <p class="text-body-secondary mt-2">
+        Hi, I’m <strong>Sai Krishna Chaitanya</strong> — a developer who enjoys
+        building privacy‑first, browser‑based utilities and workflow tools. I
+        made the <em>PDF Password Remover</em>, a production
+        <em>Angular i18n Helper</em> demo, and <em>StartMyDev</em>, a scripts
+        configurator that launches apps across environments.
+      </p>
+      <p class="text-body-secondary mb-0">
+        This site showcases tools I’ve built. Where possible, the tools run
+        entirely on your device.
+      </p>
+    </div>
+  </div>
+</section>
+
 <!-- Tools -->
 <section id="tools" class="container-lg py-4 py-md-5">
-  <h2 class="display-6 fw-bold">Our Tools</h2>
-  <p class="text-body-secondary mt-2">Pick a tool to get started.</p>
+  <h2 class="display-6 fw-bold">My Projects & Tools</h2>
+  <p class="text-body-secondary mt-2">Pick something to use right now.</p>
 
   <div class="row g-4 mt-1">
-    <!-- PDF Password Remover -->
+    <!-- PDF Password Remover (integrated, ready to test) -->
     <div class="col-sm-6 col-lg-3">
       <article
         class="h-100 d-flex flex-column rounded-4 border bg-body bg-opacity-75 p-4"
@@ -63,11 +91,12 @@
         />
         <h3 class="h5 fw-semibold mb-1">PDF Password Remover</h3>
         <p class="small text-body-secondary mb-3">
-          Remove passwords from PDFs you own or have the right to edit.
-          Processing happens locally when possible.
+          Remove passwords from PDFs you own or have the right to edit. This
+          tool is integrated on this page — processing happens locally when
+          possible.
         </p>
         <div class="d-flex flex-wrap gap-2 mt-auto">
-          <a href="#demo-remover" class="btn btn-dark btn-sm">Try Demo</a>
+          <a href="#demo-remover" class="btn btn-dark btn-sm">Test it</a>
           <a href="/privacy" class="btn btn-outline-secondary btn-sm"
             >Privacy</a
           >
@@ -93,10 +122,10 @@
         </div>
         <p class="small text-body-secondary mt-2 mb-3">
           Shrink PNG/JPG/WebP while keeping crisp quality. Drag & drop and
-          you're done.
+          you’re done.
         </p>
         <div class="d-flex flex-wrap gap-2 mt-auto">
-          <button class="btn btn-secondary btn-sm" disabled>Open Tool</button>
+          <button class="btn btn-secondary btn-sm" disabled>Opens soon</button>
           <a
             href="/help/image-compressor"
             class="btn btn-outline-secondary btn-sm"
@@ -106,7 +135,7 @@
       </article>
     </div>
 
-    <!-- Angular i18n Helper (Demo) -->
+    <!-- Angular i18n Helper (Production demo) -->
     <div class="col-sm-6 col-lg-3">
       <article
         class="h-100 d-flex flex-column rounded-4 border bg-body bg-opacity-75 p-4"
@@ -118,23 +147,26 @@
           class="rounded-3 mb-3"
           style="width: 64px; height: 64px; object-fit: contain"
         />
-        <h3 class="h5 fw-semibold mb-1">Angular i18n Helper</h3>
-        <p class="small text-body-secondary mb-1">
-          Personal demo exploring Angular localization workflows: extract,
-          manage, and preview translations.
+        <div class="d-flex align-items-center justify-content-between">
+          <h3 class="h5 fw-semibold mb-0">Angular i18n Helper</h3>
+          <span class="badge text-bg-info">Live</span>
+        </div>
+        <p class="small text-body-secondary mt-2 mb-3">
+          A showcasing project I built to explore Angular localization workflows
+          — extract, manage, and preview translations. It’s deployed to
+          production for you to try.
         </p>
-        <p class="small text-warning mb-3">Note: demo only for now.</p>
         <div class="d-flex flex-wrap gap-2 mt-auto">
           <a
             href="https://internationalization-d2aa6.web.app/en/"
             class="btn btn-dark btn-sm"
-            >View Demo</a
+            >Open Live Demo</a
           >
         </div>
       </article>
     </div>
 
-    <!-- StartMyDev -->
+    <!-- StartMyDev (New) -->
     <div class="col-sm-6 col-lg-3">
       <article
         class="h-100 d-flex flex-column rounded-4 border bg-body bg-opacity-75 p-4"
@@ -146,10 +178,13 @@
           class="rounded-3 mb-3"
           style="width: 64px; height: 64px; object-fit: contain"
         />
-        <h3 class="h5 fw-semibold mb-1">StartMyDev</h3>
+        <div class="d-flex align-items-center justify-content-between">
+          <h3 class="h5 fw-semibold mb-0">StartMyDev</h3>
+          <span class="badge text-bg-primary">New</span>
+        </div>
         <p class="small text-body-secondary mb-3">
           Configure and download tailored PowerShell scripts to launch frontend,
-          backend, or full-stack apps across environments — no manual command
+          backend, or full‑stack apps across environments — no manual command
           wrangling.
         </p>
         <div class="d-flex flex-wrap gap-2 mt-auto">
@@ -204,7 +239,7 @@
         <details>
           <summary class="fw-semibold">Mobile support?</summary>
           <p class="small text-body-secondary mt-2 mb-0">
-            Fully responsive and touch-friendly.
+            Fully responsive and touch‑friendly.
           </p>
         </details>
       </div>
@@ -223,14 +258,15 @@
   </div>
 </section>
 
+<!-- Contact -->
 <section id="contact" class="container-lg py-5">
   <div class="row g-4 align-items-start">
-    <div class="col-md-6" revealOnScroll>
+    <div class="col-md-12" revealOnScroll>
       <h2 class="display-6 fw-bold">Get in touch</h2>
       <p class="text-body-secondary">
         Have an idea or found a bug? Reach out anytime.
       </p>
-      <div class="d-flex gap-2">
+      <div class="d-flex flex-wrap gap-2">
         <a
           href="mailto:saikrishnachaitanya61&#64;gmail.com"
           class="btn btn-outline-secondary"
@@ -238,48 +274,6 @@
         >
         <a href="https://github.com/otaku0304" class="btn btn-dark">GitHub</a>
       </div>
-    </div>
-
-    <div class="col-md-6">
-      <form
-        action="https://formspree.io/f/YOUR-FORM-ID"
-        method="POST"
-        class="rounded-4 border glass p-4"
-      >
-        <div class="mb-3">
-          <label class="form-label small" for="name">Your Name</label>
-          <input
-            id="name"
-            type="text"
-            name="name"
-            required
-            class="form-control"
-            autocomplete="name"
-          />
-        </div>
-        <div class="mb-3">
-          <label class="form-label small" for="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            required
-            class="form-control"
-            autocomplete="email"
-          />
-        </div>
-        <div class="mb-3">
-          <label class="form-label small" for="message">Message</label>
-          <textarea
-            id="message"
-            name="message"
-            rows="5"
-            required
-            class="form-control"
-          ></textarea>
-        </div>
-        <button class="btn btn-dark shadow-glow" type="submit">Send</button>
-      </form>
     </div>
   </div>
 </section>
