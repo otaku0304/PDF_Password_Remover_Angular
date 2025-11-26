@@ -15,12 +15,12 @@ describe('FooterComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create the component', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set currentYear to the current year', () => {
+  it('should have current year', () => {
     const currentYear = new Date().getFullYear();
-    expect(component.currentYear).toBe(currentYear);
+    expect(component.year).toBe(currentYear);
   });
 });
