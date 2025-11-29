@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { RemovePasswordGuard } from './core/guard/remove-password-guard/removePasswordGuard';
 
 export const routes: Routes = [
   {
