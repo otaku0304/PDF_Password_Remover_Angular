@@ -10,7 +10,7 @@ describe('RemovePasswordComponent', () => {
   let component: RemovePasswordComponent;
   let fixture: ComponentFixture<RemovePasswordComponent>;
   let tokenService: jasmine.SpyObj<TokenService>;
-  let pdfBackendService: jasmine.SpyObj<PdfBackendService>;
+
 
   beforeEach(async () => {
     const mockTokenService = jasmine.createSpyObj('TokenService', ['getReqToken']);
@@ -26,7 +26,7 @@ describe('RemovePasswordComponent', () => {
     }).compileComponents();
 
     tokenService = TestBed.inject(TokenService) as jasmine.SpyObj<TokenService>;
-    pdfBackendService = TestBed.inject(PdfBackendService) as jasmine.SpyObj<PdfBackendService>;
+
 
     fixture = TestBed.createComponent(RemovePasswordComponent);
     component = fixture.componentInstance;
