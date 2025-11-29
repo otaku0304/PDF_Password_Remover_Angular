@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { RemovePasswordGuard } from './core/guard/remove-password-guard/removePasswordGuard';
 
 export const routes: Routes = [
   {
@@ -19,29 +18,6 @@ export const routes: Routes = [
     data: {
       description:
         'Read our privacy policy to understand how we handle your data securely.',
-    },
-  },
-  {
-    path: 'pdf/remove-password',
-    canActivate: [RemovePasswordGuard],
-    loadComponent: () =>
-      import(
-        './pdf-password-remover/remove-password/remove-password.component'
-      ).then((m) => m.RemovePasswordComponent),
-    title: 'Remove PDF Password - PDF Tools',
-    data: {
-      description: 'Easily remove passwords from your PDF documents.',
-    },
-  },
-  {
-    path: 'pdf/download',
-    loadComponent: () =>
-      import('./pdf-password-remover/download/download.component').then(
-        (m) => m.DownloadComponent
-      ),
-    title: 'Remove PDF Password - PDF Tools',
-    data: {
-      description: 'Download your PDF files after removing passwords.',
     },
   },
   {
