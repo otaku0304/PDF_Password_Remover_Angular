@@ -7,7 +7,7 @@ import { PLATFORM_ID } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('RemovePasswordComponent', () => {
-  const TEST_PASSWORD_FIXTURE = 'test-fixture-pwd-123'; // Test fixture, not a real password
+  const TEST_PASSWORD_FIXTURE = 'test-fixture-pwd-123';
 
   let component: RemovePasswordComponent;
   let fixture: ComponentFixture<RemovePasswordComponent>;
