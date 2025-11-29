@@ -6,7 +6,6 @@ import { AppConfig } from './core/config/app.config';
 
 describe('AppComponent', () => {
 
-
   beforeEach(async () => {
     const mockTitle = jasmine.createSpyObj('Title', ['setTitle']);
     const mockMeta = jasmine.createSpyObj('Meta', ['updateTag']);
@@ -21,8 +20,6 @@ describe('AppComponent', () => {
         provideRouter([])
       ],
     }).compileComponents();
-
-
   });
 
   it('should create the app', () => {

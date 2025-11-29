@@ -3,6 +3,7 @@ import { ApiDocsComponent } from './api-docs.component';
 import { ApiDocsService } from 'src/app/core/service/pdf-api-docs/api-docs.service';
 import { PLATFORM_ID } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of, throwError } from 'rxjs';
 
 describe('ApiDocsComponent', () => {
   let component: ApiDocsComponent;
@@ -91,5 +92,136 @@ describe('ApiDocsComponent', () => {
     expect(component.mask('1234567890', 4, 4)).toBe('1234••••••••7890');
     expect(component.mask('short', 4, 4)).toBe('short');
     expect(component.mask('', 4, 4)).toBe('');
+  });
+
+  it('should handle create key success', async () => {
+    const apiDocsService = TestBed.inject(ApiDocsService);
+    spyOn(apiDocsService, 'createKey').and.returnValue(of({
+      api_key: 'test-key-123',
+      api_secret: 'test-secret-456',
+      created_at: '2025-01-01T00:00:00Z',
+      name: 'test-label',
+      label: 'test-label'
+    }));
+
+    component.partnerLabel = 'test-label';
+    await component.create();
+
+    expect(component.storedKeys.length).toBeGreaterThan(0);
+    expect(component.lastCreatedCopySection).toBeTruthy();
+    expect(component.partnerLabel).toBe('');
+  });
+
+  it('should handle create key error', async () => {
+    const apiDocsService = TestBed.inject(ApiDocsService);
+    spyOn(apiDocsService, 'createKey').and.returnValue(throwError(() => ({ error: { error: 'Create failed' } })));
+
+    component.partnerLabel = 'test-label';
+    await component.create();
+
+    expect(component.error).toBe('Create failed');
+  });
+
+  it('should copy from copy section and hide after both copied', async () => {
+    component.lastCreatedCopySection = {
+      api_key: 'test-key',
+      api_secret: 'test-secret',
+      created_at: '2025-01-01',
+      name: 'test'
+    };
+
+    spyOn(navigator.clipboard, 'writeText').and.returnValue(Promise.resolve());
+
+    await component.copyFromCopySection('api_key');
+    expect(component.copied.api_key).toBeTrue();
+    expect(component.lastCreatedCopySection).toBeTruthy();
+
+    await component.copyFromCopySection('api_secret');
+    expect(component.copied.api_secret).toBeTrue();
+    expect(component.lastCreatedCopySection).toBeUndefined();
+  });
+
+  it('should handle delete key confirmation and success', async () => {
+    const apiDocsService = TestBed.inject(ApiDocsService);
+    spyOn(apiDocsService, 'deleteKey').and.returnValue(of({ ok: true }));
+    spyOn(window, 'confirm').and.returnValue(true);
+
+    const testKey = {
+      api_key: 'test-key',
+      api_secret: 'test-secret',
+      created_at: '2025-01-01',
+      name: 'test'
+    };
+    component.storedKeys = [testKey];
+
+    await component.confirmDelete(testKey);
+
+    expect(component.storedKeys.length).toBe(0);
+  });
+
+  it('should handle delete key cancellation', async () => {
+    spyOn(window, 'confirm').and.returnValue(false);
+
+    const testKey = {
+      api_key: 'test-key',
+      api_secret: 'test-secret',
+      created_at: '2025-01-01',
+      name: 'test'
+    };
+    component.storedKeys = [testKey];
+
+    await component.confirmDelete(testKey);
+
+    expect(component.storedKeys.length).toBe(1);
+  });
+
+  it('should handle delete key error', async () => {
+    const apiDocsService = TestBed.inject(ApiDocsService);
+    spyOn(apiDocsService, 'deleteKey').and.returnValue(throwError(() => ({ error: 'Delete failed' })));
+    spyOn(window, 'confirm').and.returnValue(true);
+
+    const testKey = {
+      api_key: 'test-key',
+      api_secret: 'test-secret',
+      created_at: '2025-01-01',
+      name: 'test'
+    };
+    component.storedKeys = [testKey];
+
+    await component.confirmDelete(testKey);
+
+    expect(component.error).toBeTruthy();
+  });
+
+  it('should scroll to element', () => {
+    const mockElement = document.createElement('div');
+    mockElement.id = 'test-id';
+    spyOn(document, 'getElementById').and.returnValue(mockElement);
+    spyOn(mockElement, 'scrollIntoView');
+
+    component.scrollTo('test-id');
+
+    expect(mockElement.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
+  });
+
+  it('should handle copy with clipboard API', async () => {
+    spyOn(navigator.clipboard, 'writeText').and.returnValue(Promise.resolve());
+
+    await component.copy('test-value');
+
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('test-value');
+  });
+
+  it('should handle copy fallback without clipboard API', async () => {
+    const originalClipboard = navigator.clipboard;
+    Object.defineProperty(navigator, 'clipboard', { value: undefined, writable: true });
+
+    spyOn(document, 'execCommand').and.returnValue(true);
+
+    await component.copy('test-value');
+
+    expect(document.execCommand).toHaveBeenCalledWith('copy');
+
+    Object.defineProperty(navigator, 'clipboard', { value: originalClipboard, writable: true });
   });
 });
