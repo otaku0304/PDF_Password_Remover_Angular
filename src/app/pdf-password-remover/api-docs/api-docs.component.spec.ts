@@ -114,7 +114,9 @@ describe('ApiDocsComponent', () => {
 
   it('should handle create key error', async () => {
     const apiDocsService = TestBed.inject(ApiDocsService);
-    spyOn(apiDocsService, 'createKey').and.returnValue(throwError(() => ({ error: { error: 'Create failed' } })));
+    spyOn(apiDocsService, 'createKey').and.returnValue(
+      throwError(() => ({ error: { error: 'Create failed' } }))
+    );
 
     component.partnerLabel = 'test-label';
     await component.create();
@@ -144,7 +146,7 @@ describe('ApiDocsComponent', () => {
   it('should handle delete key confirmation and success', async () => {
     const apiDocsService = TestBed.inject(ApiDocsService);
     spyOn(apiDocsService, 'deleteKey').and.returnValue(of({ ok: true }));
-    spyOn(window, 'confirm').and.returnValue(true);
+    spyOn(globalThis as any, 'confirm').and.returnValue(true);
 
     const testKey = {
       api_key: 'test-key',
@@ -160,7 +162,7 @@ describe('ApiDocsComponent', () => {
   });
 
   it('should handle delete key cancellation', async () => {
-    spyOn(window, 'confirm').and.returnValue(false);
+    spyOn(globalThis as any, 'confirm').and.returnValue(false);
 
     const testKey = {
       api_key: 'test-key',
@@ -177,8 +179,10 @@ describe('ApiDocsComponent', () => {
 
   it('should handle delete key error', async () => {
     const apiDocsService = TestBed.inject(ApiDocsService);
-    spyOn(apiDocsService, 'deleteKey').and.returnValue(throwError(() => ({ error: 'Delete failed' })));
-    spyOn(window, 'confirm').and.returnValue(true);
+    spyOn(apiDocsService, 'deleteKey').and.returnValue(
+      throwError(() => ({ error: 'Delete failed' }))
+    );
+    spyOn(globalThis as any, 'confirm').and.returnValue(true);
 
     const testKey = {
       api_key: 'test-key',
@@ -201,7 +205,10 @@ describe('ApiDocsComponent', () => {
 
     component.scrollTo('test-id');
 
-    expect(mockElement.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
+    expect(mockElement.scrollIntoView).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      block: 'start'
+    });
   });
 
   it('should handle copy with clipboard API', async () => {
