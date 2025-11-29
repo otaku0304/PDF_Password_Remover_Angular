@@ -5,8 +5,7 @@ import { provideRouter } from '@angular/router';
 import { AppConfig } from './core/config/app.config';
 
 describe('AppComponent', () => {
-  let titleService: jasmine.SpyObj<Title>;
-  let metaService: jasmine.SpyObj<Meta>;
+
 
   beforeEach(async () => {
     const mockTitle = jasmine.createSpyObj('Title', ['setTitle']);
@@ -23,8 +22,7 @@ describe('AppComponent', () => {
       ],
     }).compileComponents();
 
-    titleService = TestBed.inject(Title) as jasmine.SpyObj<Title>;
-    metaService = TestBed.inject(Meta) as jasmine.SpyObj<Meta>;
+
   });
 
   it('should create the app', () => {

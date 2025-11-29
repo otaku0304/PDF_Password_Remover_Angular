@@ -1,8 +1,8 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, PLATFORM_ID } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RevealOnScrollDirective } from './reveal-on-scroll.directive';
-import { PLATFORM_ID } from '@angular/core';
+
 
 @Component({
     template: `<div revealOnScroll>Test</div>`,
@@ -37,11 +37,11 @@ describe('RevealOnScrollDirective', () => {
 
     it('should use IntersectionObserver if available', () => {
         const mockIntersectionObserver = jasmine.createSpyObj('IntersectionObserver', ['observe', 'disconnect', 'unobserve']);
-        (window as any).IntersectionObserver = jasmine.createSpy('IntersectionObserver').and.returnValue(mockIntersectionObserver);
+        (globalThis as any).IntersectionObserver = jasmine.createSpy('IntersectionObserver').and.returnValue(mockIntersectionObserver);
 
         fixture.detectChanges();
 
-        expect((window as any).IntersectionObserver).toHaveBeenCalled();
+        expect((globalThis as any).IntersectionObserver).toHaveBeenCalled();
         expect(mockIntersectionObserver.observe).toHaveBeenCalled();
     });
 
@@ -60,7 +60,7 @@ describe('RevealOnScrollDirective', () => {
 
     it('should cleanup on destroy', () => {
         const mockIntersectionObserver = jasmine.createSpyObj('IntersectionObserver', ['observe', 'disconnect', 'unobserve']);
-        (window as any).IntersectionObserver = jasmine.createSpy('IntersectionObserver').and.returnValue(mockIntersectionObserver);
+        (globalThis as any).IntersectionObserver = jasmine.createSpy('IntersectionObserver').and.returnValue(mockIntersectionObserver);
 
         fixture.detectChanges();
         fixture.destroy();

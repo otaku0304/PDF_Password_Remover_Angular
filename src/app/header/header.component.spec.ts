@@ -14,7 +14,7 @@ describe('HeaderComponent', () => {
       setItem: jasmine.createSpy('setItem'),
       clear: jasmine.createSpy('clear')
     };
-    Object.defineProperty(window, 'localStorage', {
+    Object.defineProperty(globalThis, 'localStorage', {
       value: mockLocalStorage,
       writable: true,
       configurable: true

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RemovePasswordComponent } from './remove-password.component';
 import { TokenService } from '../../core/token.service';
 import { PdfBackendService } from 'src/app/core/service/pdf_backend_service/pdfBackend.service';
-import { of, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { PLATFORM_ID } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -76,7 +76,7 @@ describe('RemovePasswordComponent', () => {
     dataTransfer.items.add(file);
     mockInput.files = dataTransfer.files;
 
-    component.password = 'test123';
+    component.password = 'safe-password-for-test';
     component.onSubmit(mockInput);
 
     expect(component.status).toBe('Only PDF files are supported.');
@@ -90,7 +90,7 @@ describe('RemovePasswordComponent', () => {
     dataTransfer.items.add(file);
     mockInput.files = dataTransfer.files;
 
-    component.password = 'test123';
+    component.password = 'safe-password-for-test';
 
     tokenService.getReqToken.and.returnValue(throwError(() => new Error('Token error')));
 

@@ -27,31 +27,31 @@ describe('PrivacyComponent', () => {
 
   it('should set up IntersectionObserver if available', () => {
     const mockIntersectionObserver = jasmine.createSpyObj('IntersectionObserver', ['observe', 'disconnect', 'unobserve']);
-    (window as any).IntersectionObserver = jasmine.createSpy('IntersectionObserver').and.returnValue(mockIntersectionObserver);
+    (globalThis as any).IntersectionObserver = jasmine.createSpy('IntersectionObserver').and.returnValue(mockIntersectionObserver);
 
     fixture.detectChanges(); // triggers ngAfterViewInit
 
-    expect((window as any).IntersectionObserver).toHaveBeenCalled();
+    expect((globalThis as any).IntersectionObserver).toHaveBeenCalled();
     expect(mockIntersectionObserver.observe).toHaveBeenCalled();
   });
 
   it('should use fallback scroll listener if IntersectionObserver is not available', () => {
-    const originalIntersectionObserver = (window as any).IntersectionObserver;
-    (window as any).IntersectionObserver = undefined;
-    spyOn(window, 'addEventListener');
+    const originalIntersectionObserver = (globalThis as any).IntersectionObserver;
+    (globalThis as any).IntersectionObserver = undefined;
+    spyOn(globalThis, 'addEventListener');
 
     fixture.detectChanges(); // triggers ngAfterViewInit
 
-    expect(window.addEventListener).toHaveBeenCalledWith('scroll', jasmine.any(Function), { passive: true });
-    expect(window.addEventListener).toHaveBeenCalledWith('resize', jasmine.any(Function), { passive: true });
+    expect(globalThis.addEventListener).toHaveBeenCalledWith('scroll', jasmine.any(Function), { passive: true });
+    expect(globalThis.addEventListener).toHaveBeenCalledWith('resize', jasmine.any(Function), { passive: true });
 
     // Restore IntersectionObserver
-    (window as any).IntersectionObserver = originalIntersectionObserver;
+    (globalThis as any).IntersectionObserver = originalIntersectionObserver;
   });
 
   it('should cleanup on destroy', () => {
     const mockIntersectionObserver = jasmine.createSpyObj('IntersectionObserver', ['observe', 'disconnect', 'unobserve']);
-    (window as any).IntersectionObserver = jasmine.createSpy('IntersectionObserver').and.returnValue(mockIntersectionObserver);
+    (globalThis as any).IntersectionObserver = jasmine.createSpy('IntersectionObserver').and.returnValue(mockIntersectionObserver);
 
     fixture.detectChanges();
     component.ngOnDestroy();
@@ -60,17 +60,17 @@ describe('PrivacyComponent', () => {
   });
 
   it('should cleanup scroll listeners on destroy if fallback was used', () => {
-    const originalIntersectionObserver = (window as any).IntersectionObserver;
-    (window as any).IntersectionObserver = undefined;
-    spyOn(window, 'removeEventListener');
+    const originalIntersectionObserver = (globalThis as any).IntersectionObserver;
+    (globalThis as any).IntersectionObserver = undefined;
+    spyOn(globalThis, 'removeEventListener');
 
     fixture.detectChanges();
     component.ngOnDestroy();
 
-    expect(window.removeEventListener).toHaveBeenCalledWith('scroll', jasmine.any(Function));
-    expect(window.removeEventListener).toHaveBeenCalledWith('resize', jasmine.any(Function));
+    expect(globalThis.removeEventListener).toHaveBeenCalledWith('scroll', jasmine.any(Function));
+    expect(globalThis.removeEventListener).toHaveBeenCalledWith('resize', jasmine.any(Function));
 
-    (window as any).IntersectionObserver = originalIntersectionObserver;
+    (globalThis as any).IntersectionObserver = originalIntersectionObserver;
   });
 
   it('should not set up observers on server platform', async () => {
