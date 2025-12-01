@@ -1,0 +1,20 @@
+/* Hero section decorative gradient */
+.hero-gradient {
+    width: 140px;
+    height: 140px;
+    background: linear-gradient(135deg, var(--brand-500), #d946ef);
+    opacity: 0.35;
+    filter: blur(30px);
+}
+
+/* Portrait image styling */
+.portrait-img {
+    object-fit: cover;
+}
+
+/* Tool icon styling */
+.tool-icon {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+}

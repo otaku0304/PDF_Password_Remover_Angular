@@ -108,3 +108,11 @@
     filter: blur(5px);
     user-select: none;
 }
+
+.input-wrapper {
+    min-width: 260px;
+}
+
+.toast-container {
+    z-index: 1080;
+}
