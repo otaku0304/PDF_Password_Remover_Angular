@@ -8,7 +8,7 @@ type ThemePref = 'system' | 'dark' | 'light';
   selector: 'app-header',
   templateUrl: './header.component.html',
   standalone: true,
-  imports:[RouterLink]
+  imports: [RouterLink]
 })
 export class HeaderComponent {
   private readonly KEY = 'theme-pref';
@@ -25,7 +25,7 @@ export class HeaderComponent {
       this.setPref(saved);
       this.applyTheme();
 
-     
+
       globalThis
         .matchMedia('(prefers-color-scheme: dark)')
         .addEventListener('change', () => {
@@ -53,7 +53,7 @@ export class HeaderComponent {
   private setPref(pref: ThemePref): void {
     this.currentPref = pref;
     if (this.isBrowser) globalThis.localStorage.setItem(this.KEY, pref);
-    
+
     if (pref === 'system') {
       this.label = 'System';
     } else if (pref === 'dark') {
@@ -71,10 +71,9 @@ export class HeaderComponent {
     ).matches;
     const theme =
       this.currentPref === 'dark' ||
-      (this.currentPref === 'system' && systemDark)
+        (this.currentPref === 'system' && systemDark)
         ? 'dark'
         : 'light';
     document.documentElement.dataset['bsTheme'] = theme;
-    document.documentElement.style.colorScheme = theme;
   }
 }

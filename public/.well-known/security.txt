@@ -1,0 +1,33 @@
+Contact: mailto:saikrishnachaitanya61@gmail.com.com
+Expires: 2026-11-26T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://pdf-fe-kappa.vercel.app/.well-known/security.txt
+
+# Security Policy
+
+We take security seriously. If you discover a security vulnerability, please report it responsibly.
+
+## Reporting a Vulnerability
+
+Please report security vulnerabilities to: saikrishnachaitanya61@gmail.com.com
+
+Include:
+- Description of the vulnerability
+- Steps to reproduce
+- Potential impact
+- Suggested fix (if any)
+
+## Response Timeline
+
+- Acknowledgment: Within 24 hours
+- Initial assessment: Within 48 hours
+- Fix deployment: Based on severity (Critical: 24-48h, High: 1 week, Medium: 2 weeks)
+
+## Safe Harbor
+
+We support responsible disclosure and will not pursue legal action against security researchers who:
+- Make a good faith effort to avoid privacy violations and data destruction
+- Report vulnerabilities promptly
+- Do not exploit vulnerabilities beyond what is necessary to demonstrate the issue
+
+Thank you for helping keep our users safe!

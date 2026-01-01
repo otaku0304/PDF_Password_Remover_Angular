@@ -29,16 +29,12 @@ h3,
   inset: 0;
   z-index: -2;
   pointer-events: none;
-  background: radial-gradient(
-      700px 350px at 15% 0%,
+  background: radial-gradient(700px 350px at 15% 0%,
       rgba(99, 102, 241, 0.22),
-      transparent 60%
-    ),
-    radial-gradient(
-      600px 300px at 85% 0%,
+      transparent 60%),
+    radial-gradient(600px 300px at 85% 0%,
       rgba(56, 189, 248, 0.18),
-      transparent 60%
-    );
+      transparent 60%);
 }
 
 .hero-ribbon {
@@ -77,20 +73,16 @@ h3,
    Cards, effects & utilities
    ========================= */
 .glass {
-  background: linear-gradient(
-    to bottom right,
-    rgba(255, 255, 255, 0.65),
-    rgba(255, 255, 255, 0.35)
-  );
+  background: linear-gradient(to bottom right,
+      rgba(255, 255, 255, 0.65),
+      rgba(255, 255, 255, 0.35));
   backdrop-filter: blur(12px);
 }
 
 [data-bs-theme="dark"] .glass {
-  background: linear-gradient(
-    to bottom right,
-    rgba(2, 6, 23, 0.65),
-    rgba(2, 6, 23, 0.35)
-  );
+  background: linear-gradient(to bottom right,
+      rgba(2, 6, 23, 0.65),
+      rgba(2, 6, 23, 0.35));
 }
 
 .shadow-glow {
@@ -293,4 +285,26 @@ a.btn:focus-visible {
   .fade-in {
     transition: none;
   }
+}
+
+/* =========================
+   CSP Compliance Helpers
+   ========================= */
+
+/* Handle color-scheme via CSS instead of inline JS */
+[data-bs-theme="dark"] {
+  color-scheme: dark;
+}
+
+[data-bs-theme="light"] {
+  color-scheme: light;
+}
+
+/* Replaces inline styles for the clipboard textarea fallback */
+.clipboard-helper {
+  position: fixed !important;
+  opacity: 0 !important;
+  top: 0;
+  left: 0;
+  pointer-events: none;
 }

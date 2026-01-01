@@ -1,0 +1,15 @@
+feature:
+  - changed-files:
+    - any-glob-to-any-file: 'src/**/*'
+bug:
+  - changed-files:
+    - any-glob-to-any-file: '**/fix/**'
+documentation:
+  - changed-files:
+    - any-glob-to-any-file: '**/*.md'
+dependencies:
+  - changed-files:
+    - any-glob-to-any-file: 'package*.json'
+ci:
+  - changed-files:
+    - any-glob-to-any-file: '.github/workflows/*'

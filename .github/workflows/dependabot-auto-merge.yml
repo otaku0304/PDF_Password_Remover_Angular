@@ -1,83 +1,40 @@
-name: Auto-merge Dependabot PRs
+name: Dependabot Auto-Merge
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: write
   pull-requests: write
 
-on:
-  pull_request:
-    types:
-      - opened
-      - synchronize
-
 jobs:
-  auto-merge:
-    if: github.event.pull_request.user.login == 'dependabot[bot]'  # Run only for Dependabot PRs
+  dependabot:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Get pull request details
-        id: get_pr_details
+      - name: Approve PR for auto-merge
+        if: |
+          steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
+          steps.metadata.outputs.update-type == 'version-update:semver-minor'
         run: |
-          pr_url="https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}"
-
-          # Extract title from PR details
-          pr_title=$(curl -s "$pr_url" | jq -r '.title')
-          echo "Pull request title: $pr_title"
-          echo "PR_TITLE=$pr_title" >> $GITHUB_ENV
-
-      - name: Extract package details from PR title
-        id: extract_details
-        run: |
-          PR_TITLE="${{ env.PR_TITLE }}"
-
-          package_name=$(echo "$PR_TITLE" | awk '{print $3}')
-          package_manager=$(echo "$PR_TITLE" | grep -oP '(?<=package-manager: )\S+' || echo "npm_and_yarn")
-          previous_version=$(echo "$PR_TITLE" | grep -oP '\d+\.\d+\.\d+' | head -n 1)
-          new_version=$(echo "$PR_TITLE" | grep -oP '\d+\.\d+\.\d+' | tail -n 1)
-
-          echo "Extracted details:"
-          echo "Package Name: $package_name"
-          echo "Package Manager: $package_manager"
-          echo "Previous Version: $previous_version"
-          echo "New Version: $new_version"
-
-          echo "PACKAGE_NAME=$package_name" >> $GITHUB_ENV
-          echo "PACKAGE_MANAGER=$package_manager" >> $GITHUB_ENV
-          echo "PREVIOUS_VERSION=$previous_version" >> $GITHUB_ENV
-          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
-
-      - name: Generate compatibility score URL and request the score
-        id: request_compatibility_score
-        run: |
-          compatibility_url="https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=${{ env.PACKAGE_NAME }}&package-manager=${{ env.PACKAGE_MANAGER }}&previous-version=${{ env.PREVIOUS_VERSION }}&new-version=${{ env.NEW_VERSION }}"
-            
-          echo "Generated URL: $compatibility_url"
-        
-          # Fetch the SVG response
-          svg_response=$(curl -s "$compatibility_url")
-            
-          # Extract compatibility score from SVG response
-          compatibility_score=$(echo "$svg_response" | grep -oP '(?<=<title>compatibility: )\d+(?=%</title>)')
-        
-          if [[ -z "$compatibility_score" ]]; then
-            echo "No compatibility score found. Skipping auto-merge."
-            echo "COMPATIBILITY_SCORE=none" >> $GITHUB_ENV
-            exit 0  # Safe, early exit
-          fi
-        
-          echo "Extracted Compatibility Score: $compatibility_score"
-          echo "COMPATIBILITY_SCORE=$compatibility_score" >> $GITHUB_ENV     
-
-      - name: Check compatibility score and auto-merge
-        run: |
-          if [[ "$COMPATIBILITY_SCORE" == "100" ]]; then
-            echo "Compatibility score is 100%, auto-merging..."
-            gh pr merge ${{ github.event.pull_request.number }} --auto --squash --delete-branch
-          else
-            echo "Compatibility score is not 100%, skipping auto-merge."
-          fi
+          gh pr review --approve "$PR_URL" || echo "Note: Approval failed. This is usually because 'Allow GitHub Actions to create and approve pull requests' is not enabled in Repo Settings."
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Enable auto-merge for Dependabot PRs
+        if: |
+          steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
+          steps.metadata.outputs.update-type == 'version-update:semver-minor'
+        run: |
+          gh pr merge --auto --squash "$PR_URL" || echo "Auto-merge could not be enabled. Please check if 'Allow auto-merge' is enabled in Repo Settings -> General."
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

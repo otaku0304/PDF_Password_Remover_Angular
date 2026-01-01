@@ -1,8 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AppConfig } from '../../config/app.config';
 import { PdfBackendService } from './pdfBackend.service';
 
@@ -28,26 +25,21 @@ describe('PdfBackendService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should send a POST request to unlock PDF', () => {
-    const mockFile = new File(['dummy content'], 'test.pdf', {
-      type: 'application/pdf',
-    });
-   
-    const password = 'secret'; // NOSONAR
-    const expectedUrl = `${AppConfig.getAPIURI()}/remove_password`;
+  it('should send a POST request to remove password', () => {
+    const formData = new FormData();
+    formData.append('test', 'data');
+    const reqToken = 'token123';
+    const expectedUrl = `${AppConfig.getAPIURI()}/api/remove_password`;
 
-    service.unlockPdf(password, mockFile).subscribe((response) => {
+    service.removePassword(formData, reqToken).subscribe((response) => {
       expect(response).toBeTruthy();
     });
 
     const req = httpMock.expectOne(expectedUrl);
     expect(req.request.method).toBe('POST');
-    expect(req.request.body instanceof FormData).toBeTrue();
+    expect(req.request.body).toBe(formData);
+    expect(req.request.headers.get('X-REQ-TOKEN')).toBe(reqToken);
     expect(req.request.responseType).toBe('blob');
-
-    const body = req.request.body as FormData;
-    expect(body.has('password')).toBeTrue();
-    expect(body.has('pdfFile')).toBeTrue();
 
     req.flush(new Blob());
   });
