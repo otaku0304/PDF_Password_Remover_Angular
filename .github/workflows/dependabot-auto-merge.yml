@@ -23,7 +23,8 @@ jobs:
         if: |
           steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
           steps.metadata.outputs.update-type == 'version-update:semver-minor'
-        run: gh pr review --approve "$PR_URL"
+        run: |
+          gh pr review --approve "$PR_URL" || echo "Note: Approval failed. This is usually because 'Allow GitHub Actions to create and approve pull requests' is not enabled in Repo Settings."
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -32,7 +33,8 @@ jobs:
         if: |
           steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
           steps.metadata.outputs.update-type == 'version-update:semver-minor'
-        run: gh pr merge --auto --squash "$PR_URL" || echo "Auto-merge could not be enabled. Please check if 'Allow auto-merge' is enabled in Repo Settings -> General."
+        run: |
+          gh pr merge --auto --squash "$PR_URL" || echo "Auto-merge could not be enabled. Please check if 'Allow auto-merge' is enabled in Repo Settings -> General."
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
