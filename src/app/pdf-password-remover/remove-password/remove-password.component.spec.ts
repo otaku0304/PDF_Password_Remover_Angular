@@ -1,40 +1,36 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RemovePasswordComponent } from './remove-password.component';
-import { of, throwError } from 'rxjs';
-import { PdfService } from '../../core/service/pdf/pdf.service';
-import { PdfBackendService } from '../../core/service/pdf_backend_service/pdfBackend.service';
-import { HttpClientModule } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { TokenService } from '../../core/token.service';
+import { PdfBackendService } from 'src/app/core/service/pdf_backend_service/pdfBackend.service';
+import { throwError, of } from 'rxjs';
+import { PLATFORM_ID } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('RemovePasswordComponent', () => {
+  const TEST_PASSWORD_FIXTURE = 'test-fixture-pwd-123';
+
   let component: RemovePasswordComponent;
   let fixture: ComponentFixture<RemovePasswordComponent>;
-  let pdfService: jasmine.SpyObj<PdfService>;
+  let tokenService: jasmine.SpyObj<TokenService>;
   let pdfBackendService: jasmine.SpyObj<PdfBackendService>;
-  let router: jasmine.SpyObj<Router>;
-  let mockFile: File;
+
 
   beforeEach(async () => {
-    const mockPdfService = jasmine.createSpyObj('PdfService', ['getSelectedPdfFile']);
-    const mockPdfBackendService = jasmine.createSpyObj('PdfBackendService', ['unlockPdf']);
-    const mockRouter = jasmine.createSpyObj('Router', ['navigate']);
+    const mockTokenService = jasmine.createSpyObj('TokenService', ['getReqToken']);
+    const mockPdfBackendService = jasmine.createSpyObj('PdfBackendService', ['removePassword']);
 
     await TestBed.configureTestingModule({
-      imports: [RemovePasswordComponent, HttpClientModule],
+      imports: [RemovePasswordComponent, NoopAnimationsModule],
       providers: [
-        { provide: PdfService, useValue: mockPdfService },
+        { provide: TokenService, useValue: mockTokenService },
         { provide: PdfBackendService, useValue: mockPdfBackendService },
-        { provide: Router, useValue: mockRouter },
-      ],
+        { provide: PLATFORM_ID, useValue: 'browser' }
+      ]
     }).compileComponents();
 
-    pdfService = TestBed.inject(PdfService) as jasmine.SpyObj<PdfService>;
+    tokenService = TestBed.inject(TokenService) as jasmine.SpyObj<TokenService>;
     pdfBackendService = TestBed.inject(PdfBackendService) as jasmine.SpyObj<PdfBackendService>;
-    router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
 
-    // Create mock file once for all tests
-    mockFile = new File([''], 'test.pdf', { type: 'application/pdf' });
-    pdfService.getSelectedPdfFile.and.returnValue([mockFile]);
 
     fixture = TestBed.createComponent(RemovePasswordComponent);
     component = fixture.componentInstance;
@@ -46,71 +42,161 @@ describe('RemovePasswordComponent', () => {
   });
 
   it('should toggle password visibility', () => {
-    expect(component.isHidePassword).toBe(false);
-
+    expect(component.showPassword).toBeFalse();
     component.toggleShowPassword();
-    expect(component.isHidePassword).toBe(true);
-
+    expect(component.showPassword).toBeTrue();
     component.toggleShowPassword();
-    expect(component.isHidePassword).toBe(false);
+    expect(component.showPassword).toBeFalse();
   });
 
-  it('should unlock PDF successfully and emit event', () => {
-    const mockBlob = new Blob(['dummy content'], { type: 'application/pdf' });
+  it('should show error when no file is selected', () => {
+    const mockInput = document.createElement('input');
+    mockInput.type = 'file';
 
-    pdfBackendService.unlockPdf.and.returnValue(of(mockBlob));
+    component.onSubmit(mockInput);
 
-    spyOn(component.unlockSuccess, 'emit');
-    spyOn(document, 'createElement').and.callFake(() => ({
-      href: '',
-      download: '',
-      click: jasmine.createSpy('click'),
-    }) as any);
-
-    component.passwords = ['correct-password'];
-    component.currentFileIndex = 0;
-    component.selectedFiles = [mockFile];
-
-    component.unlockPDF();
-
-    expect(pdfBackendService.unlockPdf).toHaveBeenCalledWith('correct-password', mockFile);
-    expect(router.navigate).toHaveBeenCalledWith(['/pdf/download']);
-    expect(component.unlockSuccess.emit).toHaveBeenCalledWith('All PDFs unlocked successfully');
+    expect(component.status).toBe('Please choose a PDF and enter password.');
   });
 
-  it('should show error for 400 - incorrect password', () => {
-    pdfBackendService.unlockPdf.and.returnValue(throwError(() => ({ status: 400 })));
+  it('should show error when no password is entered', () => {
+    const mockInput = document.createElement('input');
+    mockInput.type = 'file';
+    const file = new File(['test'], 'test.pdf', { type: 'application/pdf' });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    mockInput.files = dataTransfer.files;
 
-    component.passwords = ['wrong-password'];
-    component.currentFileIndex = 0;
-    component.selectedFiles = [mockFile];
+    component.password = '';
+    component.onSubmit(mockInput);
 
-    component.unlockPDF();
-
-    expect(component.error).toBe('Incorrect password. Please check and try again.');
+    expect(component.status).toBe('Please choose a PDF and enter password.');
   });
 
-  it('should show error for 500 - server error', () => {
-    pdfBackendService.unlockPdf.and.returnValue(throwError(() => ({ status: 500 })));
+  it('should show error for non-PDF files', () => {
+    const mockInput = document.createElement('input');
+    mockInput.type = 'file';
+    const file = new File(['test'], 'test.txt', { type: 'text/plain' });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    mockInput.files = dataTransfer.files;
 
-    component.passwords = ['any-password'];
-    component.currentFileIndex = 0;
-    component.selectedFiles = [mockFile];
+    component.password = TEST_PASSWORD_FIXTURE;
+    component.onSubmit(mockInput);
 
-    component.unlockPDF();
-
-    expect(component.error).toBe('An error occurred on the server while unlocking the PDF.');
+    expect(component.status).toBe('Only PDF files are supported.');
   });
 
-  it('should show generic error for unknown error', () => {
-    pdfBackendService.unlockPdf.and.returnValue(throwError(() => ({ status: 0, message: '' })));
+  it('should handle token service error', (done) => {
+    const mockInput = document.createElement('input');
+    mockInput.type = 'file';
+    const file = new File(['test'], 'test.pdf', { type: 'application/pdf' });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    mockInput.files = dataTransfer.files;
 
-    component.passwords = ['any-password'];
-    component.currentFileIndex = 0;
-    component.selectedFiles = [mockFile];
+    component.password = TEST_PASSWORD_FIXTURE;
 
-    component.unlockPDF();
+    tokenService.getReqToken.and.returnValue(throwError(() => new Error('Token error')));
 
-    expect(component.error).toBe('An error occurred while unlocking the PDF.');
+    component.onSubmit(mockInput);
+
+    setTimeout(() => {
+      expect(component.loading).toBeFalse();
+      expect(component.status).toBe('Could not prepare request.');
+      done();
+    }, 100);
+  });
+
+  it('should handle successful PDF processing', (done) => {
+    const mockInput = document.createElement('input');
+    mockInput.type = 'file';
+    const file = new File(['test'], 'test.pdf', { type: 'application/pdf' });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    mockInput.files = dataTransfer.files;
+
+    component.password = TEST_PASSWORD_FIXTURE;
+
+    const mockBlob = new Blob(['pdf content'], { type: 'application/pdf' });
+    tokenService.getReqToken.and.returnValue(of({ req_token: 'test-token' }));
+    pdfBackendService.removePassword.and.returnValue(of(mockBlob));
+
+    component.onSubmit(mockInput);
+
+    setTimeout(() => {
+      expect(component.loading).toBeFalse();
+      expect(component.status).toBe('Done! Click to download.');
+      expect(component.downloadHref).toBeTruthy();
+      done();
+    }, 100);
+  });
+
+  it('should handle PDF processing error with retry', (done) => {
+    const mockInput = document.createElement('input');
+    mockInput.type = 'file';
+    const file = new File(['test'], 'test.pdf', { type: 'application/pdf' });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    mockInput.files = dataTransfer.files;
+
+    component.password = TEST_PASSWORD_FIXTURE;
+
+    tokenService.getReqToken.and.returnValue(of({ req_token: 'test-token' }));
+    pdfBackendService.removePassword.and.returnValue(
+      throwError(() => ({ headers: { get: () => 'bad_token' } }))
+    );
+
+    component.onSubmit(mockInput);
+
+    setTimeout(() => {
+      expect(tokenService.getReqToken).toHaveBeenCalledTimes(2); // Initial + retry
+      done();
+    }, 200);
+  });
+
+  it('should handle unexpected response type', (done) => {
+    const mockInput = document.createElement('input');
+    mockInput.type = 'file';
+    const file = new File(['test'], 'test.pdf', { type: 'application/pdf' });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    mockInput.files = dataTransfer.files;
+
+    component.password = TEST_PASSWORD_FIXTURE;
+
+    tokenService.getReqToken.and.returnValue(of({ req_token: 'test-token' }));
+    pdfBackendService.removePassword.and.returnValue(of('not a blob' as any));
+
+    component.onSubmit(mockInput);
+
+    setTimeout(() => {
+      expect(component.status).toBe('Unexpected response.');
+      done();
+    }, 100);
+  });
+
+  it('should handle error with blob payload', (done) => {
+    const mockInput = document.createElement('input');
+    mockInput.type = 'file';
+    const file = new File(['test'], 'test.pdf', { type: 'application/pdf' });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    mockInput.files = dataTransfer.files;
+
+    component.password = TEST_PASSWORD_FIXTURE;
+
+    const errorBlob = new Blob([JSON.stringify({ error: 'Test error' })], { type: 'application/json' });
+    tokenService.getReqToken.and.returnValue(of({ req_token: 'test-token' }));
+    pdfBackendService.removePassword.and.returnValue(
+      throwError(() => ({ error: errorBlob }))
+    );
+
+    component.onSubmit(mockInput);
+
+    setTimeout(() => {
+      expect(component.loading).toBeFalse();
+      expect(component.status).toContain('error');
+      done();
+    }, 200);
   });
 });
