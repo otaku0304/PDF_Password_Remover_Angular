@@ -75,7 +75,7 @@ export class ApiDocsComponent implements OnInit, OnDestroy {
     private readonly svc: ApiDocsService,
     private readonly elRef: ElementRef<HTMLElement>,
     @Inject(PLATFORM_ID) private readonly platformId: Object
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.endpoints = this.buildEndpoints();
@@ -86,7 +86,7 @@ export class ApiDocsComponent implements OnInit, OnDestroy {
     this.loadStored();
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
   /** Validation */
   get partnerLabelError(): string {
@@ -490,15 +490,14 @@ X-RateLimit-Reset: <epoch>
         const ta = document.createElement('textarea');
         ta.value = value;
         ta.setAttribute('readonly', '');
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
+        ta.className = 'clipboard-helper';
         document.body.appendChild(ta);
         ta.select();
         document.execCommand('copy');
         document.body.removeChild(ta);
       }
       this.flashToast();
-    } catch {}
+    } catch { }
   }
 
   private flashToast(): void {
@@ -511,7 +510,7 @@ X-RateLimit-Reset: <epoch>
       if (e?.error?.error) return String(e.error.error);
       if (e?.error && typeof e.error === 'string') return e.error;
       if (e?.message) return String(e.message);
-    } catch {}
+    } catch { }
     return fallback;
   }
 
@@ -532,7 +531,7 @@ X-RateLimit-Reset: <epoch>
         this.STORAGE_LIST_KEY,
         JSON.stringify(this.storedKeys)
       );
-    } catch {}
+    } catch { }
   }
 
   /** mask helper for table display */

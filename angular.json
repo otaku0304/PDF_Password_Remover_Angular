@@ -60,6 +60,14 @@
               ]
             },
             "production": {
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
               "budgets": [
                 {
                   "type": "initial",
@@ -135,7 +143,8 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "codeCoverage": true
+            "codeCoverage": true,
+            "karmaConfig": "karma.conf.js"
           }
         }
       }

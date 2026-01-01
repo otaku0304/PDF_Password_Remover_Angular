@@ -8,5 +8,6 @@ import { RemovePasswordComponent } from "src/app/pdf-password-remover/remove-pas
   standalone: true,
   imports: [CommonModule, RevealOnScrollDirective, RemovePasswordComponent],
   templateUrl: './landing.component.html',
+  styleUrls: ['./landing.component.css']
 })
 export class LandingComponent {}
