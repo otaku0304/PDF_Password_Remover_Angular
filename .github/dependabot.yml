@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
     versioning-strategy: increase
     target-branch: "dev"
     groups:
@@ -17,4 +17,3 @@ updates:
       - dependency-name: "@angular*"
         update-types:
           - "version-update:semver-major"
-

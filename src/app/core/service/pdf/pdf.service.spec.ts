@@ -32,7 +32,7 @@ describe('PdfService', () => {
   });
 
   describe('Selected PDF File', () => {
-    it('should initially return undefined', () => {
+    it('should initially return empty array', () => {
       expect(service.getSelectedPdfFile()).toEqual([]);
     });
 

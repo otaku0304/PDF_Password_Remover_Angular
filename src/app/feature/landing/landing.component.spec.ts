@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LandingComponent } from './landing.component';
 import { AppConfig } from '../../core/config/app.config';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('LandingComponent', () => {
   let component: LandingComponent;
@@ -22,7 +23,7 @@ describe('LandingComponent', () => {
     spyOn(AppConfig, 'getI18nUrl').and.returnValue(mockI18nUrl);
 
     await TestBed.configureTestingModule({
-      imports: [LandingComponent],
+      imports: [LandingComponent, HttpClientTestingModule],
       providers: [{ provide: ActivatedRoute, useValue: fakeActivatedRoute }],
     }).compileComponents();
 
@@ -34,5 +35,5 @@ describe('LandingComponent', () => {
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
-  
+
 });
